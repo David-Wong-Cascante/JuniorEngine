@@ -4,10 +4,10 @@
  * File Name: Texture.cpp
  * Description: Code that helps the game engine with textures
  * Created: 18-Aug-2018
- * Last Modified: 7-Nov-2018
+ * Last Modified: 19-Jan-2019
 */
 
-// Includes //
+// Includes
 #include "Texture.h"
 
 #include <iostream>				// IO stream
@@ -17,7 +17,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-// Public Member Functions  //
+// Public Member Functions
 
 Junior::Texture::Texture(unsigned int textureFormat, unsigned int textureType, bool generateMipMaps, int textureWidth, int textureHeight, int textureDepth = 0)
 {
@@ -78,10 +78,8 @@ void Junior::Texture::LoadFromDisk(std::string resourceDir)
 		glGenTextures(1, &textureID_);
 		glBindTexture(GL_TEXTURE_2D, textureID_);
 		// Set the filtering parameters
-		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 		// Decide the texture's file format and set the mip maps
 		GLenum inTextureType = textureChannels == 4 ? GL_RGBA : GL_RGB;
@@ -98,9 +96,7 @@ void Junior::Texture::LoadFromDisk(std::string resourceDir)
 	}
 	else
 	{
-		std::cout << "[ERROR]: Failed to load the default image\n";
-		// Clean up the pixels
-		stbi_image_free(pixels_);
+		std::cout << "[ERROR]: Failed to load the image: " << resourceDir << std::endl;
 	}
 
 	// Clean up the pixels
@@ -123,7 +119,70 @@ void Junior::Texture::BindTexture() const
 	glBindTexture(typeOfTexture_, textureID_);
 }
 
+void Junior::Texture::AppendedLoadToTextureArray2D(std::string resourceDir)
+{
+	// If the texture is a 2D or 1D texture then ignore the function call as it only works for 3D texture arrays
+	if (typeOfTexture_ != GL_TEXTURE_2D_ARRAY)
+	{
+		std::cout << "[ERROR]: Attempted to append texture " << resourceDir << "into a texture that is not a 2D array" << std::endl;
+		return;
+	}
+	// Then check whether the texture count is not greater or equal to the texture depth
+	if (arrayCount_ >= dimensions_[2])
+	{
+		std::cout << "[ERROR]: Attempted to add more textures than the capacity could handle" << std::endl;
+		return;
+	}
+	
+	int width = 0;
+	int height = 0;
+	int channels = 0;
+	unsigned char* pixels = nullptr;
+	// Attempt to load the texture first
+	pixels = Texture::GetPixelsFromFile(resourceDir, &width, &height, &channels);
+	// Append the texture
+	// -> Bind the texture first
+	BindTexture();
+	// Set the texture to the correct place, and then increment the number of textures we are holding right now
+	glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, arrayCount_++, width, height, 1, channels, GL_UNSIGNED_BYTE, pixels);
+	glTextureParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTextureParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	UnbindTexture();
+	// Free the pixels
+	stbi_image_free(pixels);
+}
+
 void Junior::Texture::UnbindTexture() const
 {
 	glBindTexture(typeOfTexture_, 0);
+}
+
+// Static Helper Functions
+unsigned char* Junior::Texture::GetPixelsFromFile(std::string resourceDir, int* width, int* height, int* channels)
+{
+	int textureWidth, textureHeight, textureChannels;
+	unsigned char* pixels = stbi_load(resourceDir.c_str(), &textureWidth, &textureHeight, &textureChannels, 0);
+	if (pixels)
+	{
+		stbi__vertical_flip(pixels, textureWidth, textureHeight, textureChannels);
+	}
+	else
+	{
+		std::cout << "[ERROR]: Failed to load the image: " << resourceDir << std::endl;
+		// Clean up the pixels
+		stbi_image_free(pixels);
+		pixels = nullptr;
+	}
+
+	// Set the extra parameters if they exist
+	if(width)
+		*width = textureWidth;
+
+	if (height)
+		*height = textureHeight;
+
+	if (*channels)
+		*channels = textureChannels;
+
+	return pixels;
 }

@@ -43,8 +43,6 @@ void Junior::GameObject::Update(double ms)
 			}
 		}
 	}
-
-	// TODO: Look for any children that are marked for destruction and get rid of the objects
 }
 
 void Junior::GameObject::AddChild(GameObject* child)
@@ -90,8 +88,23 @@ void Junior::GameObject::AddComponent(Component* component)
 	components_.push_back(component);
 }
 
+// Removes the component from the game object
+void Junior::GameObject::RemoveComponent(ComponentType type)
+{
+	// Iterate through the list of components until we find the component we are looking for
+	for (unsigned i = 0; i < components_.size(); ++i)
+	{
+		if (components_[i]->GetType() == type)
+		{	
+			// Remove the first component with the type
+			components_.erase(components_.begin() + i);
+			return;
+		}
+	}
+}
+
 // Get the first component it finds based on on the component's id
-Junior::Component * Junior::GameObject::GetComponent(ComponentType type)
+Junior::Component * Junior::GameObject::GetComponent(ComponentType type) const
 {
 	for (Component* component : components_)
 	{
@@ -106,6 +119,12 @@ Junior::Component * Junior::GameObject::GetComponent(ComponentType type)
 void Junior::GameObject::Destroy()
 {
 	destroyed = true;
+
+	// Destroy all the children objects as well
+	for (GameObject* child : children_)
+	{
+		child->Destroy();
+	}
 }
 
 bool Junior::GameObject::IsDestroyed()

@@ -9,17 +9,18 @@
 
 // Includes //
 #include "Graphics.h"
+#include "MemoryLeakGuard.h"		// Memory Leak Guard
 
-#include <iostream>			// IO streams
+#include <iostream>					// IO streams
 
-#include "OpenGLBundle.h"	// OpenGL operations
-#include "DrawProgram.h"	// Draw Program
-#include "RenderJob.h"		// Render Jobs
-#include "LinearMath.h"		// Linear Math Helper Functions
-#include "Input.h"			// Class Input
-#include "Texture.h"		// Texture
-#include "Vec3.h"			// Vec3
-#include "Mat3.h"			// Mat3
+#include "OpenGLBundle.h"			// OpenGL operations
+#include "DrawProgram.h"			// Draw Program
+#include "RenderJob.h"				// Render Jobs
+#include "LinearMath.h"				// Linear Math Helper Functions
+#include "Input.h"					// Class Input
+#include "Texture.h"				// Texture
+#include "Vec3.h"					// Vec3
+#include "Mat3.h"					// Mat3
 
 // Public Member Functions //
 
@@ -84,12 +85,12 @@ bool Junior::Graphics::Load()
 
 	// defaultProgram_ = 0;
 	// Set up the draw program used to draw the triangle
-	defaultProgram_ = new /*(manager_->Allocate(sizeof(Junior::DrawProgram)))*/ Junior::DrawProgram;
-	defaultProgram_->LoadFromDisk("..//..//Junior_Core//Src//Shaders//starter");
+	defaultProgram_ = new Junior::DrawProgram;
+	defaultProgram_->LoadFromDisk("..//Assets//Shaders//starter");
 	// Generate the texture atlas
 	//textureAtlas_ = new /*(manager_->Allocate(sizeof(Junior::Texture)))*/ Junior::Texture;
-	textureAtlas_ = new Texture;
-	textureAtlas_->LoadFromDisk("..//..//Junior_Core//Src//Private_Images//Logo.png");
+	textureBank_ = new Texture;
+	textureBank_->LoadFromDisk("..//Assets//Private_Images//Logo.png");
 
 	return true;
 }
@@ -157,7 +158,7 @@ void Junior::Graphics::SetDimensions(int width, int height)
 {
 	this->windowWidth_ = width;
 	this->windowHeight_ = height;
-	float aspectRatio = (float)windowHeight_ / (float)windowWidth_;
+	//float aspectRatio = (float)windowHeight_ / (float)windowWidth_;
 	orthographicMatrix_ = Orthographic(-windowWidth_ / 2.0f, windowWidth_ / 2.0f, windowHeight_ / 2.0f, -windowHeight_ / 2.0f, -5.0f, 5.0f);
 	//orthographicMatrix_ = Perspective(90.0f, static_cast<float>(width), static_cast<float>(height), 0.01f, 1000.f);
 	glViewport(0, 0, width, height);
@@ -247,7 +248,7 @@ void Junior::Graphics::Render()
 		GLuint textureLoc = glGetUniformLocation(defaultProgram_->programID_, "diffuse");
 		glUniform1i(textureLoc, 0);
 		glActiveTexture(GL_TEXTURE0);
-		textureAtlas_->BindTexture();
+		textureBank_->BindTexture();
 		
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
@@ -265,7 +266,7 @@ void Junior::Graphics::Render()
 		glDisableVertexAttribArray(4);
 		glDisableVertexAttribArray(5);
 
-		textureAtlas_->UnbindTexture();
+		textureBank_->UnbindTexture();
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 #endif
@@ -295,8 +296,8 @@ void Junior::Graphics::Unload()
 	delete defaultProgram_;
 	//manager_->DeAllocate(defaultProgram_);
 	// Delete the texture
-	textureAtlas_->CleanUp();
-	delete textureAtlas_;
+	textureBank_->CleanUp();
+	delete textureBank_;
 	//manager_->DeAllocate(textureAtlas_);
 	// Terminate all the GLFW stuff
 	glfwWindowShouldClose(windowHandle_);
@@ -311,7 +312,18 @@ Junior::RenderJob * Junior::Graphics::GetNewRenderJob()
 	return newJob;
 }
 
-Junior::GameSystem& Junior::Graphics::GetInstance()
+void Junior::Graphics::RemoveRenderJob(RenderJob* renderJob)
+{
+	for (unsigned i = 0; i < renderJobs_.size(); ++i)
+	{
+		if (renderJobs_[i] == renderJob)
+		{
+			renderJobs_.erase(renderJobs_.begin() + i);
+		}
+	}
+}
+
+Junior::Graphics& Junior::Graphics::GetInstance()
 {
 	static Graphics graphics;
 	return graphics;

@@ -10,6 +10,6 @@
 #ifndef GLEW_STATIC
 #define GLEW_STATIC
 #endif
-#include <glew.h>
+#include <GL/glew.h>
 // Use the GLFW functionality
-#include <glfw3.h>
+#include <GLFW/glfw3.h>

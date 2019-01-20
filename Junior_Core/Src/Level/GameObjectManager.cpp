@@ -7,7 +7,7 @@
 * Last Modified: 11-Dec-2018
 */
 
-// Includes //
+// Includes
 #include "GameObjectManager.h"			// Game Object Manager
 #include "GameObject.h"					// Game Object
 #include "MemoryManager.h"				// Memory Manager
@@ -36,7 +36,7 @@ namespace Junior
 				destroyedObjects_.push_back(gameObject);
 				continue;
 			}
-			gameObject->Update(Time::deltaTime);
+			gameObject->Update(Time::GetInstance().GetDeltaTime());
 		}
 
 		// Check if there are any objects that are destroyed
@@ -55,6 +55,7 @@ namespace Junior
 
 				// Clean up the destroyed object
 				object->Clean(manager);
+				delete object;
 			}
 			destroyedObjects_.clear();
 		}
@@ -65,6 +66,7 @@ namespace Junior
 		for (GameObject* gameObject : gameObjects_)
 		{
 			gameObject->Clean(manager);
+			delete gameObject;
 		}
 	}
 

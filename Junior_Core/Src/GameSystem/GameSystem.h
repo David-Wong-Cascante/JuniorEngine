@@ -1,3 +1,4 @@
+#pragma once
 /*
 * Author: David Wong
 * Email: david.wongcascante@digipen.edu
@@ -38,6 +39,12 @@ namespace Junior
 		// Unloads the assets in the system
 		void virtual Unload() = 0;
 		// Returns: The name of the system
-		const char* const GetName() const;
+		const char* GetName() const;
 	};
+
+	// Global function that tests for GameSystem function results, and gives an error when the function failed
+	// Params:
+	//	result: Whether the function succeded or not
+	//	errorMessage: The error message when the function didn't succeed
+	void GameSystemAssert(bool result, const char* errorMessage);
 }

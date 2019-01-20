@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{F79D3F4B-BCE4-4624-9887-CABB7E48E60B}</ProjectGuid>
+    <RootNamespace>JuniorEngineProject</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)\Build\</OutDir>
+    <TargetName>JuniorEngine</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)\JuniorEngine\Build\</OutDir>
+    <TargetName>JuniorEngine</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\GameSystem;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Level;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Graphics;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Logic;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Math;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>glew32s.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Junior_Core\Src\Level;$(SolutionDir)\Junior_Core\Src\GameSystem;$(SolutionDir)\Junior_Core\Src\Entry;$(SolutionDir)\Junior_Core\Src\Math;$(SolutionDir)\Junior_Core\Src\Logic;$(SolutionDir)\Junior_Core\Src\Graphics;$(SolutionDir)\Junior_Core\Vendor;$(SolutionDir)\Junior_Core\Src\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\GameSystem;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Level;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Graphics;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Logic;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Math;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Junior_Core\Src\Level;$(SolutionDir)\Junior_Core\Src\GameSystem;$(SolutionDir)\Junior_Core\Src\Entry;$(SolutionDir)\Junior_Core\Src\Math;$(SolutionDir)\Junior_Core\Src\Logic;$(SolutionDir)\Junior_Core\Src\Graphics;$(SolutionDir)\Junior_Core\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Entry\main.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\GameSystem.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\Graphics.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\MemoryManager.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\DrawProgram.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\ResourceManager.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\Texture.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\Component.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObject.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObjectManager.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\Space.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\Transform.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Logic\Input.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Logic\Time.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\Mat3.cpp" />
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\Vec3.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\Level\Level.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\Math\TestLevel.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\GameSystem.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\Graphics.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\MemoryManager.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\DrawProgram.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\OpenGLBundle.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\RenderJob.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\Resource.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\ResourceManager.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\Texture.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Component.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObject.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObjectManager.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Level.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Space.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Transform.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Logic\Input.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Logic\Serialize.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Logic\Time.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\Mat3.h" />
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\Vec3.h" />
+    <ClInclude Include="..\Junior_Core\Src\Math\TestLevel.h" />
+    <ClInclude Include="..\Junior_Core\Src\Util\MemoryLeakGuard.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

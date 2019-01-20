@@ -16,14 +16,14 @@
 #include "OpenGLBundle.h"
 
 // Public Static Class Definitions //
-std::map<int, int> Junior::Input::keys;
-std::map<int, int> Junior::Input::mouseButtons;
+std::map<int, int> Junior::Input::keys = std::map<int, int>();
+std::map<int, int> Junior::Input::mouseButtons = std::map<int, int>();
 
-double Junior::Input::cursorXPos;
-double Junior::Input::cursorYPos;
+double Junior::Input::cursorXPos = 0.0;
+double Junior::Input::cursorYPos = 0.0;
 
-double Junior::Input::scrollXOffset;
-double Junior::Input::scrollYOffset;
+double Junior::Input::scrollXOffset = 0.0;
+double Junior::Input::scrollYOffset = 0.0;
 
 // Global Functions //
 

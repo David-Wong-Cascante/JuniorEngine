@@ -46,6 +46,9 @@ void Junior::Transform::Update(double ms)
 void Junior::Transform::Clean(MemoryManager* manager)
 {
 	//manager->DeAllocate(renderJob_);
+	// Remove the RenderJob from Graphics
+	Graphics& graphics = Graphics::GetInstance();
+	graphics.RemoveRenderJob(renderJob_);
 	delete renderJob_->transformation_;
 	renderJob_->transformation_ = nullptr;
 	delete renderJob_;

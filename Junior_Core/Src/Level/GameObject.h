@@ -54,6 +54,10 @@ namespace Junior
 		// Params: 
 		//	component: The component to be added
 		void AddComponent(Component* component);
+		// Removes a component from this GameObject
+		// Params:
+		//	type: The component's type
+		void RemoveComponent(ComponentType type);
 
 		// Returns: The name of the game object
 		const char* GetName() const;
@@ -64,7 +68,7 @@ namespace Junior
 		// Params:
 		//	type: The type of component we are looking for
 		// Returns: The first component in the list of components with the desired component type
-		Component* GetComponent(ComponentType type);
+		Component* GetComponent(ComponentType type) const;
 
 		// Destroys the game object
 		void Destroy();
@@ -72,6 +76,5 @@ namespace Junior
 		// Shows if the object is being destroye or not
 		// Returns: Whether the object is destroyed
 		bool IsDestroyed();
-		
 	};
 }

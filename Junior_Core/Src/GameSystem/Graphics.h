@@ -31,8 +31,8 @@ namespace Junior
 		unsigned int vao_ = 0, vbo_ = 0;
 		unsigned int transformationBuffer_ = 0;
 		
-		// The giant texture atlas
-		Texture* textureAtlas_;
+		// Texture array
+		Texture* textureBank_;
 
 		std::vector<Mat3> renderJobTransformations_;
 
@@ -40,8 +40,10 @@ namespace Junior
 		DrawProgram* defaultProgram_ = nullptr;
 		std::vector<RenderJob*> renderJobs_;
 		Mat3 orthographicMatrix_;
+		
+		// Private Member Functions
 	public:
-		// Public Member Functions //
+		// Public Member Functions
 		// The Constructor of the Game Engine
 		Graphics();
 		// Loads any assets
@@ -73,8 +75,12 @@ namespace Junior
 		// Gets a new render job from the memory manager of the graphics instance
 		// Returns: A new pointer to the render job
 		RenderJob* GetNewRenderJob();
+		// Removes a RenderJob from the list of rendering
+		// Params:
+		//	renderJob: The render job to remove
+		void RemoveRenderJob(RenderJob* renderJob);
 		// Returns: The singleton instance of this class
-		static GameSystem& GetInstance();
+		static Graphics& GetInstance();
 	};
 
 	// The function callback that changes the viewport

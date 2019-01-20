@@ -10,23 +10,79 @@
 // Includes //
 #include "Time.h"
 
-// Get GLFW time functionality
-#include "OpenGLBundle.h"
+#include "OpenGLBundle.h"				// Get GLFW time functionality
 
-// Static Public Class Variables //
-double Junior::Time::deltaTime = 0.0;
-double Junior::Time::timeRan = 0.0;
-double Junior::Time::timeScale = 1.0;
-double Junior::Time::scaledDeltaTime = 0.0;
-double Junior::Time::prevTime = 0.0;
-double Junior::Time::currTime = 0.0;
-
-// Static Public Member Functions //
-void Junior::Time::Update()
+Junior::Time::Time()
+	: GameSystem("Time"), prevTime_(0.0), currTime_(0.0), timeRan_(0.0), deltaTime_(0.0), scaledDeltaTime_(0.0), timeScale_(1.0)
 {
-	prevTime = currTime;
-	currTime = glfwGetTime();
-	timeRan = glfwGetTime();
-	deltaTime = currTime - prevTime;
-	scaledDeltaTime = deltaTime * timeScale;
+
+}
+
+// Public Member Functions //
+bool Junior::Time::Load()
+{
+	return true;
+}
+
+bool Junior::Time::Initialize()
+{
+	timeScale_ = 1.0;
+	return true;
+}
+
+void Junior::Time::Render()
+{
+
+}
+
+void Junior::Time::Update(double)
+{
+	prevTime_ = currTime_;
+	currTime_ = glfwGetTime();
+	timeRan_ = glfwGetTime();
+	deltaTime_ = currTime_ - prevTime_;
+	scaledDeltaTime_ = deltaTime_ * timeScale_;
+}
+
+void Junior::Time::Shutdown()
+{
+
+}
+
+void Junior::Time::Unload()
+{
+
+}
+
+// Mutators
+void Junior::Time::SetTimeScale(double timeScale)
+{
+	timeScale_ = timeScale;
+}
+
+// Accessors
+double Junior::Time::GetDeltaTime() const
+{
+	return deltaTime_;
+}
+
+double Junior::Time::GetScaledDeltaTime() const
+{
+	return scaledDeltaTime_;
+}
+
+double Junior::Time::GetTimeRan() const
+{
+	return timeRan_;
+}
+
+double Junior::Time::GetTimeScale() const
+{
+	return timeScale_;
+}
+
+Junior::Time& Junior::Time::GetInstance()
+{
+	static Time time;
+	return time;
 }
