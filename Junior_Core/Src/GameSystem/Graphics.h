@@ -10,6 +10,7 @@
 
 // Includes //
 #include <vector>			// Vector
+#include "OpenGLBundle.h"	// OpenGL Bundle
 #include "Mat3.h"			// Mat3
 #include "GameSystem.h"		// Game System
 
@@ -84,5 +85,27 @@ namespace Junior
 	};
 
 	// The function callback that changes the viewport
+	// Params:
+	//	window: The window that is being resized
+	//	width: The new width of the window
+	//	height: The new height of the window
 	void WindowResizeCallback(GLFWwindow* window, int width, int height);
+
+	// OpenGL error identifying function
+	// Params:
+	//	id: The error id
+	// Returns: The name of the error
+	const char* IdentifyGLError(unsigned id);
+
+	// Callbacak function when GL fires an error
+	// Params:
+	//	source: The source of the error
+	//	type: The type of error produced
+	//	severity: The severity of the error
+	//	id: The error's id
+	//	length: Length of the error message
+	//	message: The error message
+	//	userParam: Any user defined object
+	// Source: https://www.khronos.org/opengl/wiki/OpenGL_Error
+	void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char* message, const void* userParam);
 }

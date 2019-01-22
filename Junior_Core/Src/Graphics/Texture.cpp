@@ -13,13 +13,14 @@
 #include <iostream>				// IO stream
 
 #include "OpenGLBundle.h"		// OpenGL functions
+#include "Graphics.h"			// Graphics
 // STB Image, thank you for saving my butt
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 // Public Member Functions
 
-Junior::Texture::Texture(unsigned int textureFormat, unsigned int textureType, bool generateMipMaps, int textureWidth, int textureHeight, int textureDepth = 0)
+Junior::Texture::Texture(unsigned int textureType, bool generateMipMaps, unsigned int textureFormat, int textureWidth, int textureHeight, int textureDepth)
 {
 	// Make sure that the texture's depth is never zero if the rest of the texture's components are indeed set
 	if ((textureWidth || textureHeight) && !textureDepth)
@@ -36,10 +37,6 @@ Junior::Texture::Texture(unsigned int textureFormat, unsigned int textureType, b
 	// Create the texture within OpenGL and save its ID in the texture struct
 	glGenTextures(1, &textureID_);
 	glBindTexture(typeOfTexture_, textureID_);
-	//glTextureParameteri(tempTexture->typeOfTexture_, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTextureParameteri(tempTexture->typeOfTexture_, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//glTextureParameteri(tempTexture->typeOfTexture_, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	//glTextureParameteri(tempTexture->typeOfTexture_, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	switch (typeOfTexture_)
 	{
@@ -52,7 +49,16 @@ Junior::Texture::Texture(unsigned int textureFormat, unsigned int textureType, b
 	case GL_TEXTURE_3D:
 		glTexImage3D(GL_TEXTURE_3D, 0, textureFormat, textureWidth, textureHeight, textureDepth, 0, textureFormat, GL_UNSIGNED_BYTE, 0);
 		break;
+	case GL_TEXTURE_2D_ARRAY:
+		glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, textureFormat, textureWidth, textureHeight, textureDepth, 0, textureFormat, GL_UNSIGNED_BYTE, 0);
+		CHECK_GL_ERROR();
+		break;
 	}
+
+	glTextureParameteri(typeOfTexture_, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTextureParameteri(typeOfTexture_, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTextureParameteri(typeOfTexture_, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTextureParameteri(typeOfTexture_, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	glBindTexture(typeOfTexture_, 0);
 }
@@ -70,16 +76,13 @@ void Junior::Texture::CleanUp()
 void Junior::Texture::LoadFromDisk(std::string resourceDir)
 {
 	int textureWidth, textureHeight, textureChannels;
-	pixels_ = stbi_load(resourceDir.c_str(), &textureWidth, &textureHeight, &textureChannels, 0);
+	pixels_ = GetPixelsFromFile(resourceDir, &textureWidth, &textureHeight, &textureChannels);
+
 	if (pixels_)
 	{
-		stbi__vertical_flip(pixels_, textureWidth, textureHeight, textureChannels);
 		// Flip the texture to turn right side up
 		glGenTextures(1, &textureID_);
 		glBindTexture(GL_TEXTURE_2D, textureID_);
-		// Set the filtering parameters
-		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 		// Decide the texture's file format and set the mip maps
 		GLenum inTextureType = textureChannels == 4 ? GL_RGBA : GL_RGB;
@@ -119,7 +122,7 @@ void Junior::Texture::BindTexture() const
 	glBindTexture(typeOfTexture_, textureID_);
 }
 
-void Junior::Texture::AppendedLoadToTextureArray2D(std::string resourceDir)
+void Junior::Texture::AppendedLoadToTextureArray2D(std::string resourceDir, unsigned format)
 {
 	// If the texture is a 2D or 1D texture then ignore the function call as it only works for 3D texture arrays
 	if (typeOfTexture_ != GL_TEXTURE_2D_ARRAY)
@@ -141,12 +144,19 @@ void Junior::Texture::AppendedLoadToTextureArray2D(std::string resourceDir)
 	// Attempt to load the texture first
 	pixels = Texture::GetPixelsFromFile(resourceDir, &width, &height, &channels);
 	// Append the texture
+	// If it is the first texture, then set all of its data expect depth
+	if (!arrayCount_)
+	{
+		dimensions_[0] = width;
+		dimensions_[1] = height;
+		formatOfTexture_ = format;
+		pixels_ = pixels;
+	}
 	// -> Bind the texture first
 	BindTexture();
 	// Set the texture to the correct place, and then increment the number of textures we are holding right now
-	glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, arrayCount_++, width, height, 1, channels, GL_UNSIGNED_BYTE, pixels);
-	glTextureParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTextureParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, arrayCount_++, width, height, 0, format, GL_UNSIGNED_BYTE, pixels);
+	CHECK_GL_ERROR();
 	UnbindTexture();
 	// Free the pixels
 	stbi_image_free(pixels);
@@ -161,7 +171,7 @@ void Junior::Texture::UnbindTexture() const
 unsigned char* Junior::Texture::GetPixelsFromFile(std::string resourceDir, int* width, int* height, int* channels)
 {
 	int textureWidth, textureHeight, textureChannels;
-	unsigned char* pixels = stbi_load(resourceDir.c_str(), &textureWidth, &textureHeight, &textureChannels, 0);
+	unsigned char* pixels = stbi_load(resourceDir.c_str(), &textureWidth, &textureHeight, &textureChannels, 4);
 	if (pixels)
 	{
 		stbi__vertical_flip(pixels, textureWidth, textureHeight, textureChannels);
@@ -181,7 +191,7 @@ unsigned char* Junior::Texture::GetPixelsFromFile(std::string resourceDir, int* 
 	if (height)
 		*height = textureHeight;
 
-	if (*channels)
+	if (channels)
 		*channels = textureChannels;
 
 	return pixels;

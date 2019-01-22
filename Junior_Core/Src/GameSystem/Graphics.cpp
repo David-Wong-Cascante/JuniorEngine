@@ -13,7 +13,6 @@
 
 #include <iostream>					// IO streams
 
-#include "OpenGLBundle.h"			// OpenGL operations
 #include "DrawProgram.h"			// Draw Program
 #include "RenderJob.h"				// Render Jobs
 #include "LinearMath.h"				// Linear Math Helper Functions
@@ -83,14 +82,19 @@ bool Junior::Graphics::Load()
 	// Set up a pointer to make sure we can access this instance of the class whenever we need to change something graphics-wise
 	glfwSetWindowUserPointer(windowHandle_, this);
 
+	// Set up the OpenGL debug error messages
+	//glEnable(GL_DEBUG_OUTPUT);
+	//glDebugMessageCallback(MessageCallback, 0);
+
 	// defaultProgram_ = 0;
 	// Set up the draw program used to draw the triangle
 	defaultProgram_ = new Junior::DrawProgram;
 	defaultProgram_->LoadFromDisk("..//Assets//Shaders//starter");
 	// Generate the texture atlas
 	//textureAtlas_ = new /*(manager_->Allocate(sizeof(Junior::Texture)))*/ Junior::Texture;
-	textureBank_ = new Texture;
-	textureBank_->LoadFromDisk("..//Assets//Private_Images//Logo.png");
+	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, true, GL_RGBA, 1, 1, 1);
+	textureBank_->AppendedLoadToTextureArray2D("..//Assets//Private_Images//Logo.png", GL_RGBA);
+	//textureBank_->LoadFromDisk("..//Assets//Private_Images//Logo.png");
 
 	return true;
 }
@@ -246,9 +250,9 @@ void Junior::Graphics::Render()
 
 		// Set the temporal texture
 		GLuint textureLoc = glGetUniformLocation(defaultProgram_->programID_, "diffuse");
-		glUniform1i(textureLoc, 0);
 		glActiveTexture(GL_TEXTURE0);
 		textureBank_->BindTexture();
+		glUniform1i(textureLoc, 0);
 		
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
@@ -334,4 +338,41 @@ void Junior::WindowResizeCallback(GLFWwindow* window, int width, int height)
 	// Change the dimensions of the window via the pointer
 	Graphics* g = (Graphics*) glfwGetWindowUserPointer(window);
 	g->SetDimensions(width, height);
+}
+
+const char* Junior::IdentifyGLError(unsigned id)
+{
+	switch (id)
+	{
+	case GL_INVALID_ENUM:
+		return "INVALID ENUM";
+	case GL_INVALID_VALUE:
+		return "INVALID VALUE";
+	case GL_INVALID_OPERATION:
+		return "INVALID OPERATION";
+	case GL_STACK_OVERFLOW:
+		return "STACK OVERFLOW";
+	case GL_STACK_UNDERFLOW:
+		return "STACK UNDERFLOW";
+	case GL_OUT_OF_MEMORY:
+		return "OUT OF MEMORY - CONTEXTS OR OBJECT MAY BE UNDEFINED";
+	case GL_INVALID_FRAMEBUFFER_OPERATION:
+		return "INVALIED FRAMEBUFFER OPERATION";
+	case GL_CONTEXT_LOST:
+		return "CONTEXT LOST";
+	default:
+		return "UNKNOWN";
+	}
+}
+
+void GLAPIENTRY Junior::MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char * message, const void * userParam)
+{
+	// Get the correct name for the error
+	const char* errorName = IdentifyGLError(id);
+
+	// Print the error message
+	std::cout << "GL CALLBACK: " << (type == GL_DEBUG_TYPE_ERROR ? "GL ERROR -> " : "")
+		<< "type: " << errorName
+		<< ", severity: " << severity
+		<< std::endl << "\"" << message << "\"" << std::endl;
 }

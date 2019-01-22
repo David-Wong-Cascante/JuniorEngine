@@ -35,13 +35,13 @@ namespace Junior
 		// Public Member Functions ///
 		// Creates an empty texture with the size specified
 		// Params:
-		//	textureFormat: The texture's format
 		//	textureType: 1D, 2D, or 3D texture
 		//	generateMipMaps: Are we generating mipmaps for this texture
+		//	textureFormat: The texture's format
 		//	textureWidth: width
 		//	textureHeight: height
 		//	textureDepth: Usually 1 if it is not a 3D texture, otherwise it is how big the texture is on the 3rd dimension
-		Texture(unsigned int textureFormat, unsigned int textureType, bool generateMipMaps, int textureWidth, int textureHeight, int textureDepth);
+		Texture(unsigned int textureType, bool generateMipMaps = true, unsigned int textureFormat = 0, int textureWidth = 1, int textureHeight = 1, int textureDepth = 0);
 
 		// Creates a empty texture
 		Texture();
@@ -60,7 +60,8 @@ namespace Junior
 		// Adds another image from a file to this texture array
 		// Params:
 		//	resourceDir: The directory to the file we want to load
-		void AppendedLoadToTextureArray2D(std::string resourceDir);
+		//	format: The texture's format
+		void AppendedLoadToTextureArray2D(std::string resourceDir, unsigned format);
 		// Unbinds the texture from the current shader
 		void UnbindTexture() const;
 		// Returns: the pixels made by OpenGL of the texture

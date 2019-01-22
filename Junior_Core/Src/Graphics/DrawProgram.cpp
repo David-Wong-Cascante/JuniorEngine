@@ -101,9 +101,6 @@ void Junior::DrawProgram::LoadFromDisk(std::string fileDir)
 	const char* vertexSource = vectorString.c_str();
 	const char* fragmentSource = fragmentString.c_str();
 
-	printf("Vertex Source:\n%s\n", vertexSource);
-	printf("Fragment Source:\n%s\n", fragmentSource);
-
 	// Debug stuff
 	int success;
 	char errorInfoLog[256];

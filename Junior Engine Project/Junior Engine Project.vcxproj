@@ -81,6 +81,7 @@
     <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)\Build\</OutDir>
     <TargetName>JuniorEngine</TargetName>
+    <LibraryPath>$(SolutionDir)\Junior_Core\Libs;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(IncludePath)</IncludePath>
