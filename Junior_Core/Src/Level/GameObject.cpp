@@ -18,7 +18,7 @@
 // Public Member Functions //
 
 Junior::GameObject::GameObject(const char* name)
-	: name_(name), components_(), children_(), renderJobs_(), parent_(nullptr), destroyed(false)
+	: name_(name), components_(), children_(), parent_(nullptr), destroyed(false)
 {
 }
 

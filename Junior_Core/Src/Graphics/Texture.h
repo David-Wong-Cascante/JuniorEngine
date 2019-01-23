@@ -5,7 +5,7 @@
 * File name: Texture.h
 * Description: Describe and write the functionality of the Texture data used by the Junior game Engine
 * Created: 5-Aug-2018
-* Last Modified: 19-Jan-2019
+* Last Modified: 22-Jan-2019
 */
 
 // Includes //
@@ -27,6 +27,8 @@ namespace Junior
 		unsigned arrayCount_ = 0;
 		// Whether the texture is RGB, RGBA, BRG, etc. (as an OpenGL enum)
 		unsigned formatOfTexture_ = 0;
+		// Whether the textureis RGB8, etc. (as an OpenGL enum)
+		unsigned internalFormatOfTexture_ = 0;
 		// Index 0 is the width of the texture, index 1 is the height of the texture, index 2 is for the depth of the image (3D textures)
 		unsigned dimensions_[3] = { 0, 0, 0 };
 		// The pixels of the image
@@ -41,7 +43,7 @@ namespace Junior
 		//	textureWidth: width
 		//	textureHeight: height
 		//	textureDepth: Usually 1 if it is not a 3D texture, otherwise it is how big the texture is on the 3rd dimension
-		Texture(unsigned int textureType, bool generateMipMaps = true, unsigned int textureFormat = 0, int textureWidth = 1, int textureHeight = 1, int textureDepth = 0);
+		Texture(unsigned int textureType, bool generateMipMaps = true, unsigned int textureFormat = 0, unsigned int internalFormat = 0, int textureWidth = 1, int textureHeight = 1, int textureDepth = 0);
 
 		// Creates a empty texture
 		Texture();
@@ -61,7 +63,7 @@ namespace Junior
 		// Params:
 		//	resourceDir: The directory to the file we want to load
 		//	format: The texture's format
-		void AppendedLoadToTextureArray2D(std::string resourceDir, unsigned format);
+		void AppendedLoadToTextureArray2D(std::string resourceDir);
 		// Unbinds the texture from the current shader
 		void UnbindTexture() const;
 		// Returns: the pixels made by OpenGL of the texture

@@ -17,6 +17,7 @@
 #include "Input.h"					// Input
 #include "Transform.h"				// Transform
 #include "Graphics.h"				// Graphics
+#include "RenderJob.h"				// RenderJob
 
 Junior::TestLevel::TestLevel()
 	: Level("TestLevel"), cog(nullptr), cog2_(nullptr), transform_(nullptr), transform2_(nullptr), timer_(0.0), deletedObject2_(false)
@@ -49,6 +50,8 @@ bool Junior::TestLevel::Initialize()
 	transform2_->SetLocalTranslation(Junior::Vec3(300.0f, 0.0f, 0.0f));
 	transform2_->SetLocalScaling(Junior::Vec3(0.5f, 0.5f, 1));
 
+	transform_->GetRenderJob()->textureID_ = 0;
+	transform2_->GetRenderJob()->textureID_ = 1;
 	// Set the a child to the first game object
 	cog->AddChild(cog2_);
 
@@ -67,7 +70,7 @@ void Junior::TestLevel::Update(double dt)
 		Junior::Vec3(cosf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())), 0, sinf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())))
 	);
 
-	if (!deletedObject2_)
+	/*if (!deletedObject2_)
 	{
 		timer_ += dt;
 		if (timer_ >= 3.0)
@@ -75,7 +78,7 @@ void Junior::TestLevel::Update(double dt)
 			deletedObject2_ = true;
 			cog2_->Destroy();
 		}
-	}
+	}*/
 }
 
 void Junior::TestLevel::Unload()

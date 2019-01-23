@@ -31,11 +31,16 @@ namespace Junior
 		int windowWidth_ = 0, windowHeight_ = 0;
 		unsigned int vao_ = 0, vbo_ = 0;
 		unsigned int transformationBuffer_ = 0;
+		unsigned int textureIDBuffer_ = 0;
 		
 		// Texture array
 		Texture* textureBank_;
-
+		
+		// Most likely changed later
+		// The vector for transformation
 		std::vector<Mat3> renderJobTransformations_;
+		// The vector for textures
+		std::vector<float> renderJobTextureIDs_;
 
 		GLFWwindow* windowHandle_ = nullptr;
 		DrawProgram* defaultProgram_ = nullptr;

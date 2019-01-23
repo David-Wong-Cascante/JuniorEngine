@@ -27,7 +27,6 @@ namespace Junior
 		const char* name_;
 		GameObject* parent_;
 		bool destroyed;
-		std::vector<RenderJob*> renderJobs_;
 		std::vector<Component*> components_;
 		std::vector<GameObject*> children_;
 	public:

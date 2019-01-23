@@ -75,5 +75,8 @@ namespace Junior
 		const Mat3& GetLocalTransformation() const;
 		// Returns: The global transformation matrix
 		const Mat3 GetGlobalTransformation() const;
+
+		// Returns: It's render job
+		RenderJob* GetRenderJob() const;
 	};
 }

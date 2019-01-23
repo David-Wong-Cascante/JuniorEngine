@@ -4,7 +4,7 @@
  * File Name: Texture.cpp
  * Description: Code that helps the game engine with textures
  * Created: 18-Aug-2018
- * Last Modified: 19-Jan-2019
+ * Last Modified: 22-Jan-2019
 */
 
 // Includes
@@ -20,7 +20,7 @@
 
 // Public Member Functions
 
-Junior::Texture::Texture(unsigned int textureType, bool generateMipMaps, unsigned int textureFormat, int textureWidth, int textureHeight, int textureDepth)
+Junior::Texture::Texture(unsigned int textureType, bool generateMipMaps, unsigned int textureFormat, unsigned int internalFormat, int textureWidth, int textureHeight, int textureDepth)
 {
 	// Make sure that the texture's depth is never zero if the rest of the texture's components are indeed set
 	if ((textureWidth || textureHeight) && !textureDepth)
@@ -32,6 +32,7 @@ Junior::Texture::Texture(unsigned int textureType, bool generateMipMaps, unsigne
 	dimensions_[1] = textureHeight;
 	dimensions_[2] = textureDepth;
 	formatOfTexture_ = textureFormat;
+	internalFormatOfTexture_ = internalFormat;
 	typeOfTexture_ = textureType;
 
 	// Create the texture within OpenGL and save its ID in the texture struct
@@ -41,24 +42,24 @@ Junior::Texture::Texture(unsigned int textureType, bool generateMipMaps, unsigne
 	switch (typeOfTexture_)
 	{
 	case GL_TEXTURE_1D:
-		glTexImage1D(GL_TEXTURE_1D, 0, textureFormat, textureWidth, 0, textureFormat, GL_UNSIGNED_BYTE, 0);
+		glTexImage1D(GL_TEXTURE_1D, 0, internalFormat, textureWidth, 0, textureFormat, GL_UNSIGNED_BYTE, 0);
 		break;
 	case GL_TEXTURE_2D:
-		glTexImage2D(GL_TEXTURE_2D, 0, textureFormat, textureWidth, textureHeight, 0, textureFormat, GL_UNSIGNED_BYTE, 0);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, textureWidth, textureHeight, 0, textureFormat, GL_UNSIGNED_BYTE, 0);
 		break;
 	case GL_TEXTURE_3D:
-		glTexImage3D(GL_TEXTURE_3D, 0, textureFormat, textureWidth, textureHeight, textureDepth, 0, textureFormat, GL_UNSIGNED_BYTE, 0);
+		glTexImage3D(GL_TEXTURE_3D, 0, internalFormat, textureWidth, textureHeight, textureDepth, 0, textureFormat, GL_UNSIGNED_BYTE, 0);
 		break;
 	case GL_TEXTURE_2D_ARRAY:
-		glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, textureFormat, textureWidth, textureHeight, textureDepth, 0, textureFormat, GL_UNSIGNED_BYTE, 0);
+		glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, internalFormat, textureWidth, textureHeight, textureDepth);
 		CHECK_GL_ERROR();
 		break;
 	}
 
-	glTextureParameteri(typeOfTexture_, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTextureParameteri(typeOfTexture_, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTextureParameteri(typeOfTexture_, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTextureParameteri(typeOfTexture_, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//glTextureParameteri(typeOfTexture_, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTextureParameteri(typeOfTexture_, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTextureParameteri(typeOfTexture_, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//glTextureParameteri(typeOfTexture_, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	glBindTexture(typeOfTexture_, 0);
 }
@@ -85,8 +86,9 @@ void Junior::Texture::LoadFromDisk(std::string resourceDir)
 		glBindTexture(GL_TEXTURE_2D, textureID_);
 
 		// Decide the texture's file format and set the mip maps
-		GLenum inTextureType = textureChannels == 4 ? GL_RGBA : GL_RGB;
-		glTexImage2D(GL_TEXTURE_2D, 0, inTextureType, textureWidth, textureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels_);
+		GLenum textureType = textureChannels == 4 ? GL_RGBA : GL_RGB;
+		GLenum internalTextureFormat = textureChannels == 4 ? GL_RGBA8 : GL_RGB8;
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, textureWidth, textureHeight, 0, textureType, GL_UNSIGNED_BYTE, pixels_);
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -95,7 +97,8 @@ void Junior::Texture::LoadFromDisk(std::string resourceDir)
 		dimensions_[0] = textureWidth;
 		dimensions_[1] = textureHeight;
 		dimensions_[2] = 0;
-		formatOfTexture_ = inTextureType;
+		formatOfTexture_ = textureType;
+		internalFormatOfTexture_ = GL_RGB8;
 	}
 	else
 	{
@@ -122,7 +125,7 @@ void Junior::Texture::BindTexture() const
 	glBindTexture(typeOfTexture_, textureID_);
 }
 
-void Junior::Texture::AppendedLoadToTextureArray2D(std::string resourceDir, unsigned format)
+void Junior::Texture::AppendedLoadToTextureArray2D(std::string resourceDir)
 {
 	// If the texture is a 2D or 1D texture then ignore the function call as it only works for 3D texture arrays
 	if (typeOfTexture_ != GL_TEXTURE_2D_ARRAY)
@@ -149,13 +152,13 @@ void Junior::Texture::AppendedLoadToTextureArray2D(std::string resourceDir, unsi
 	{
 		dimensions_[0] = width;
 		dimensions_[1] = height;
-		formatOfTexture_ = format;
 		pixels_ = pixels;
 	}
 	// -> Bind the texture first
 	BindTexture();
 	// Set the texture to the correct place, and then increment the number of textures we are holding right now
-	glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, arrayCount_++, width, height, 0, format, GL_UNSIGNED_BYTE, pixels);
+	glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, arrayCount_, width, height, 1, formatOfTexture_, GL_UNSIGNED_BYTE, pixels);
+	++arrayCount_;
 	CHECK_GL_ERROR();
 	UnbindTexture();
 	// Free the pixels

@@ -2,7 +2,7 @@
  * Author: David Wong
  * Email: david.wongcascante@digipen.edu
  * Date CreateDd: 26-Apr-18
- * Last Modified: 6-May-2018
+ * Last Modified: 22-Jan-2019
  * File name: DrawProgram.cpp
  * Description: Write the definition for the shade functionality, especially for the functions that create and destroy said program
 */
@@ -30,7 +30,24 @@ int Junior::DrawProgram::CreateShader(int* id, int type, const char** source)
 	if (!success)
 	{
 		glGetShaderInfoLog(*id, sizeof(errorInfoLog), NULL, errorInfoLog);
-		std::cout << "Failed to compile the vertex shader:\n" << errorInfoLog << std::endl;
+		std::string shaderName;
+		switch (type)
+		{
+		case GL_VERTEX_SHADER:
+			shaderName = "VERTEX";
+			break;
+		case GL_FRAGMENT_SHADER:
+			shaderName = "FRAGMENT";
+			break;
+		case GL_GEOMETRY_SHADER:
+			shaderName = "GEOMETRY";
+			break;
+		default:
+			shaderName = "UNKNOWN";
+			break;
+		}
+		shaderName += " SHADER";
+		std::cout << "Failed to compile the " << shaderName << ":\n" << errorInfoLog << std::endl;
 	}
 
 	return success;

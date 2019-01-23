@@ -92,8 +92,9 @@ bool Junior::Graphics::Load()
 	defaultProgram_->LoadFromDisk("..//Assets//Shaders//starter");
 	// Generate the texture atlas
 	//textureAtlas_ = new /*(manager_->Allocate(sizeof(Junior::Texture)))*/ Junior::Texture;
-	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, true, GL_RGBA, 1, 1, 1);
-	textureBank_->AppendedLoadToTextureArray2D("..//Assets//Private_Images//Logo.png", GL_RGBA);
+	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, true, GL_RGBA, GL_RGB8, 128, 128, 2);
+	textureBank_->AppendedLoadToTextureArray2D("..//Assets//Private_Images//Logo.png");
+	textureBank_->AppendedLoadToTextureArray2D("..//Assets//Private_Images//SmashBall.png");
 	//textureBank_->LoadFromDisk("..//Assets//Private_Images//Logo.png");
 
 	return true;
@@ -103,9 +104,10 @@ bool Junior::Graphics::Initialize()
 {
 	// Set up the Vertex Array Object to draw a single triangle
 	glGenVertexArrays(1, &vao_);
-	glGenBuffers(1, &vbo_);
 
+	glGenBuffers(1, &vbo_);
 	glGenBuffers(1, &transformationBuffer_);
+	glGenBuffers(1, &textureIDBuffer_);
 
 	glBindVertexArray(vao_);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
@@ -142,7 +144,11 @@ bool Junior::Graphics::Initialize()
 	glVertexAttribDivisor(4, 1);
 	glVertexAttribDivisor(5, 1);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, textureIDBuffer_);
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 1, GL_FLOAT, false, sizeof(float), 0);
+	glVertexAttribDivisor(6, 1);
+
 	glBindVertexArray(0);
 
 	// Set the orthographic matrix at the start
@@ -220,6 +226,7 @@ void Junior::Graphics::Render()
 		// Do the instanced rendering
 		// Clear all of the previous instanced data
 		renderJobTransformations_.clear();
+		renderJobTextureIDs_.clear();
 
 		for (unsigned i = 0; i < renderJobs_.size(); ++i)
 		{
@@ -232,16 +239,23 @@ void Junior::Graphics::Render()
 			}
 			// Fill out per matrix
 			renderJobTransformations_.push_back(*renderJobs_[i]->transformation_);
+			// Fill per texture id's
+			renderJobTextureIDs_.push_back(renderJobs_[i]->textureID_);
 		}
 
 		// Bind the translation, scale, and rotation buffers
 		// Use glBufferData to put new info
 		glBindVertexArray(vao_);
 
-		size_t bufferSize = sizeof(Mat3) * renderJobTransformations_.size();
+		size_t transformationBufferSize = sizeof(Mat3) * renderJobTransformations_.size();
+		size_t textureIDBufferSize = sizeof(float) * renderJobTextureIDs_.size();
 		glBindBuffer(GL_ARRAY_BUFFER, transformationBuffer_);
-		glBufferData(GL_ARRAY_BUFFER, bufferSize, nullptr, GL_STREAM_DRAW);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, bufferSize, renderJobTransformations_.data());
+		glBufferData(GL_ARRAY_BUFFER, transformationBufferSize, nullptr, GL_STREAM_DRAW);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, transformationBufferSize, renderJobTransformations_.data());
+		// Fill info about texture ids
+		glBindBuffer(GL_ARRAY_BUFFER, textureIDBuffer_);
+		glBufferData(GL_ARRAY_BUFFER, textureIDBufferSize, nullptr, GL_STREAM_DRAW);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, textureIDBufferSize, renderJobTextureIDs_.data());
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		// Render the all of the render jobs (instanced)
@@ -260,6 +274,7 @@ void Junior::Graphics::Render()
 		glEnableVertexAttribArray(3);
 		glEnableVertexAttribArray(4);
 		glEnableVertexAttribArray(5);
+		glEnableVertexAttribArray(6);
 
 		glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, static_cast<GLsizei>(renderJobs_.size()));
 
@@ -269,6 +284,7 @@ void Junior::Graphics::Render()
 		glDisableVertexAttribArray(3);
 		glDisableVertexAttribArray(4);
 		glDisableVertexAttribArray(5);
+		glDisableVertexAttribArray(6);
 
 		textureBank_->UnbindTexture();
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

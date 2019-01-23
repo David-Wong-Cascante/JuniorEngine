@@ -122,6 +122,11 @@ const Junior::Mat3 Junior::Transform::GetGlobalTransformation() const
 	return globalTransformation * localTransformation_;
 }
 
+Junior::RenderJob* Junior::Transform::GetRenderJob() const
+{
+	return renderJob_;
+}
+
 // Private Member Functions //
 void Junior::Transform::ReconstructTransformation()
 {
