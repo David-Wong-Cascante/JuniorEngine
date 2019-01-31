@@ -21,7 +21,7 @@
 #include "Vec3.h"					// Vec3
 #include "Mat3.h"					// Mat3
 
-// Public Member Functions //
+// Public Member Functions
 
 Junior::Graphics::Graphics()
 	: GameSystem("Graphics")
@@ -38,14 +38,14 @@ bool Junior::Graphics::Load()
 	// Initialize GLFW so that we can use its library
 	if (!glfwInit())
 	{
-#ifdef DEBUG
+#ifdef _DEBUG
 		std::cout << "Failed to create the window" << std::endl;
 #endif
 		return 0;
 	}
 
 	// Set the window's hints
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
@@ -58,16 +58,25 @@ bool Junior::Graphics::Load()
 
 	// Make the window's context
 	glfwMakeContextCurrent(windowHandle_);
+	glfwSwapInterval(0);
 
 	// Initialize GLAD after we created the context
 	glewExperimental = true;
 	if (glewInit() != GLEW_OK)
 	{
-#ifdef DEBUG
+#ifdef _DEBUG
 		std::cout << "Failed to initialize GLEW" << std::endl;
 #endif
 		return 0;
 	}
+	
+	// Check OpenGL's version
+	char* openGLVersion = (char*)(glGetString(GL_VERSION));
+#ifdef _DEBUG
+	std::cout << "Running OpenGL Version " << openGLVersion << std::endl;
+#endif
+	glGetIntegerv(GL_MAJOR_VERSION, &openGLVersionMajor_);
+	glGetIntegerv(GL_MINOR_VERSION, &openGLVersionMinor_);
 
 	// Set up the input callbacks
 	glfwSetKeyCallback(windowHandle_, Junior::KeyCallback);
@@ -82,9 +91,12 @@ bool Junior::Graphics::Load()
 	// Set up a pointer to make sure we can access this instance of the class whenever we need to change something graphics-wise
 	glfwSetWindowUserPointer(windowHandle_, this);
 
-	// Set up the OpenGL debug error messages
-	//glEnable(GL_DEBUG_OUTPUT);
-	//glDebugMessageCallback(MessageCallback, 0);
+	// Set up the OpenGL debug error messages when the major version is >= 4
+	if (openGLVersionMajor_ >= 4)
+	{
+		glEnable(GL_DEBUG_OUTPUT);
+		glDebugMessageCallback(MessageCallback, 0);
+	}
 
 	// defaultProgram_ = 0;
 	// Set up the draw program used to draw the triangle
@@ -92,7 +104,7 @@ bool Junior::Graphics::Load()
 	defaultProgram_->LoadFromDisk("..//Assets//Shaders//starter");
 	// Generate the texture atlas
 	//textureAtlas_ = new /*(manager_->Allocate(sizeof(Junior::Texture)))*/ Junior::Texture;
-	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, true, GL_RGBA, GL_RGB8, 128, 128, 2);
+	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, false, GL_RGBA, GL_RGB8, 128, 128, 2);
 	textureBank_->AppendedLoadToTextureArray2D("..//Assets//Private_Images//Logo.png");
 	textureBank_->AppendedLoadToTextureArray2D("..//Assets//Private_Images//SmashBall.png");
 	//textureBank_->LoadFromDisk("..//Assets//Private_Images//Logo.png");
@@ -130,6 +142,7 @@ bool Junior::Graphics::Initialize()
 	glVertexAttribDivisor(1, 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, transformationBuffer_);
+	glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STREAM_DRAW);
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 4, GL_FLOAT, false, sizeof(Junior::Mat3), 0);
 	glEnableVertexAttribArray(3);
@@ -145,6 +158,7 @@ bool Junior::Graphics::Initialize()
 	glVertexAttribDivisor(5, 1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, textureIDBuffer_);
+	glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STREAM_DRAW);
 	glEnableVertexAttribArray(6);
 	glVertexAttribPointer(6, 1, GL_FLOAT, false, sizeof(float), 0);
 	glVertexAttribDivisor(6, 1);
@@ -153,7 +167,7 @@ bool Junior::Graphics::Initialize()
 
 	// Set the orthographic matrix at the start
 	orthographicMatrix_ = Orthographic(-windowWidth_/2.0f, windowWidth_/2.0f, windowHeight_/2.0f, -windowHeight_/2.0f, -5.0f, 5.0f);
-	//orthographicMatrix_ = Perspective(90.0f, static_cast<float>(windowWidth_), static_cast<float>(windowHeight_), 0.01f, 1000.f);
+	//orthographicMatrix_ = Perspective(90.0f, static_cast<float>(windowWidth_), static_cast<float>(windowHeight_), -5.0f, 100.f);
 	//orthographicMatrix_ = Identity();
 
 	return true;
@@ -174,8 +188,23 @@ void Junior::Graphics::SetDimensions(int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void Junior::Graphics::Update(double)
+void Junior::Graphics::Update(double dt)
 {
+	// Initialization of static variables
+	static double counter = 0;
+	static int ticks = 0;
+
+	// Change the window's title to include the fps
+	++ticks;
+	counter += dt;
+	if (counter >= 1)
+	{
+		std::string name = "Junior Game Engine | FPS: ";
+		name += std::to_string(ticks);
+		glfwSetWindowTitle(windowHandle_, name.c_str());
+		counter -= 1;
+		ticks = 0;
+	}
 }
 
 void Junior::Graphics::Render()
@@ -221,13 +250,17 @@ void Junior::Graphics::Render()
 		}
 #endif
 #if 1
-		// BindProgram(defaultProgram_);
 		defaultProgram_->Bind();
 		// Do the instanced rendering
 		// Clear all of the previous instanced data
 		renderJobTransformations_.clear();
 		renderJobTextureIDs_.clear();
 
+		/* 
+			* This part is most likely going to be removed in the future because it is a little unecessary
+			* It just made the buffer creation process a little easier by splitting the contents of the render job into separate buffers
+			* In reality, we should only need one buffer and offset its data the same way the RenderJob's data is split up
+		*/
 		for (unsigned i = 0; i < renderJobs_.size(); ++i)
 		{
 			if (renderJobs_[i]->transformation_ == nullptr)
@@ -381,14 +414,31 @@ const char* Junior::IdentifyGLError(unsigned id)
 	}
 }
 
+const char* Junior::IdentifyGLSeverity(unsigned severity)
+{
+	switch (severity)
+	{
+	case GL_DEBUG_SEVERITY_HIGH:
+		return "SEVERITY HIGH";
+	case GL_DEBUG_SEVERITY_MEDIUM:
+		return "SEVERITY MEDIUM";
+	case GL_DEBUG_SEVERITY_LOW:
+		return "SEVERITY LOW";
+	case GL_DEBUG_SEVERITY_NOTIFICATION:
+		return "NOTIFICATION";
+	default:
+		return "UKNOWN SEVERITY";
+	}
+}
+
 void GLAPIENTRY Junior::MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char * message, const void * userParam)
 {
 	// Get the correct name for the error
 	const char* errorName = IdentifyGLError(id);
-
+	const char* severityName = IdentifyGLSeverity(severity);
 	// Print the error message
 	std::cout << "GL CALLBACK: " << (type == GL_DEBUG_TYPE_ERROR ? "GL ERROR -> " : "")
 		<< "type: " << errorName
-		<< ", severity: " << severity
+		<< ", severity: " << severityName
 		<< std::endl << "\"" << message << "\"" << std::endl;
 }

@@ -50,8 +50,8 @@ bool Junior::TestLevel::Initialize()
 	transform2_->SetLocalTranslation(Junior::Vec3(300.0f, 0.0f, 0.0f));
 	transform2_->SetLocalScaling(Junior::Vec3(0.5f, 0.5f, 1));
 
-	transform_->GetRenderJob()->textureID_ = 0;
-	transform2_->GetRenderJob()->textureID_ = 1;
+	transform_->GetRenderJob()->textureID_ = 1;
+	transform2_->GetRenderJob()->textureID_ = 0;
 	// Set the a child to the first game object
 	cog->AddChild(cog2_);
 

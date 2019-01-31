@@ -14,6 +14,5 @@ uniform sampler2DArray diffuse;
 
 void main()
 {
-	float layer = 1;
 	color = texture(diffuse, vec3(TexCoords, TextureID));
 }

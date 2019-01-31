@@ -5,7 +5,7 @@
  * File name: Graphics.h
  * Description: Declare the functionality of the window and the renderer under the same class
  * Created: 20-Apr-2018
- * Last Modified: 29-Oct-2018
+ * Last Modified: 22-Jan-2019
 */
 
 // Includes //
@@ -29,23 +29,24 @@ namespace Junior
 	private:
 		// Private Class Variables //
 		int windowWidth_ = 0, windowHeight_ = 0;
+		int openGLVersionMajor_ = 0, openGLVersionMinor_ = 0;
 		unsigned int vao_ = 0, vbo_ = 0;
 		unsigned int transformationBuffer_ = 0;
 		unsigned int textureIDBuffer_ = 0;
 		
 		// Texture array
 		Texture* textureBank_;
-		
+
+		GLFWwindow* windowHandle_ = nullptr;
+		DrawProgram* defaultProgram_ = nullptr;
+		Mat3 orthographicMatrix_;
+
+		std::vector<RenderJob*> renderJobs_;
 		// Most likely changed later
 		// The vector for transformation
 		std::vector<Mat3> renderJobTransformations_;
 		// The vector for textures
 		std::vector<float> renderJobTextureIDs_;
-
-		GLFWwindow* windowHandle_ = nullptr;
-		DrawProgram* defaultProgram_ = nullptr;
-		std::vector<RenderJob*> renderJobs_;
-		Mat3 orthographicMatrix_;
 		
 		// Private Member Functions
 	public:
@@ -101,6 +102,12 @@ namespace Junior
 	//	id: The error id
 	// Returns: The name of the error
 	const char* IdentifyGLError(unsigned id);
+
+	// OpenGL error identifying function
+	// Params:
+	//	severity: The enum for the severity
+	//Returns: The name of the severity
+	const char* IdentifyGLSeverity(unsigned severity);
 
 	// Callbacak function when GL fires an error
 	// Params:

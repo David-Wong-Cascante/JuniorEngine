@@ -62,6 +62,7 @@ int main(void)
 
 		// Update the graphics
 		space->Update(Junior::Time::GetInstance().GetDeltaTime());
+		g.Update(Junior::Time::GetInstance().GetDeltaTime());
 		g.Render();
 		g.PollWindow();
 	}
