@@ -70,23 +70,24 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Libs;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)\Junior_Core\Libs;&lt;inherit from parent or project defaults&gt;</LibraryPath>
+    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(SolutionDir)\Junior_Core\Vendor;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Libs;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)\Junior_Core\Libs;&lt;inherit from parent or project defaults&gt;</LibraryPath>
+    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(SolutionDir)\Junior_Core\Vendor;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)\Build\</OutDir>
     <TargetName>JuniorEngine</TargetName>
-    <LibraryPath>$(SolutionDir)\Junior_Core\Libs;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <LibraryPath>$(SolutionDir)\Junior_Core\Libs;&lt;inherit from parent or project defaults&gt;</LibraryPath>
+    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(SolutionDir)\Junior_Core\Vendor;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)\JuniorEngine\Build\</OutDir>
     <TargetName>JuniorEngine</TargetName>
+    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(SolutionDir)\Junior_Core\Vendor;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)\Junior_Core\Libs;&lt;inherit from parent or project defaults&gt;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -94,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\GameSystem;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Level;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Graphics;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Logic;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Math;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Junior_Core\Src\Entry;$(SolutionDir)\Junior_Core\Src\GameSystem;$(SolutionDir)\Junior_Core\Src\Game;$(SolutionDir)\Junior_Core\Src\Graphics;$(SolutionDir)\Junior_Core\Src\Level;$(SolutionDir)\Junior_Core\Src\Logic;$(SolutionDir)\Junior_Core\Src\Math;$(SolutionDir)\Junior_Core\Src\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -108,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Junior_Core\Src\Level;$(SolutionDir)\Junior_Core\Src\GameSystem;$(SolutionDir)\Junior_Core\Src\Entry;$(SolutionDir)\Junior_Core\Src\Math;$(SolutionDir)\Junior_Core\Src\Logic;$(SolutionDir)\Junior_Core\Src\Graphics;$(SolutionDir)\Junior_Core\Vendor;$(SolutionDir)\Junior_Core\Src\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Junior_Core\Src\Entry;$(SolutionDir)\Junior_Core\Src\GameSystem;$(SolutionDir)\Junior_Core\Src\Game;$(SolutionDir)\Junior_Core\Src\Graphics;$(SolutionDir)\Junior_Core\Src\Level;$(SolutionDir)\Junior_Core\Src\Logic;$(SolutionDir)\Junior_Core\Src\Math;$(SolutionDir)\Junior_Core\Src\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -124,7 +125,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\GameSystem;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Level;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Graphics;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Logic;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Src\Math;C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Junior_Core\Src\Entry;$(SolutionDir)\Junior_Core\Src\GameSystem;$(SolutionDir)\Junior_Core\Src\Game;$(SolutionDir)\Junior_Core\Src\Graphics;$(SolutionDir)\Junior_Core\Src\Level;$(SolutionDir)\Junior_Core\Src\Logic;$(SolutionDir)\Junior_Core\Src\Math;$(SolutionDir)\Junior_Core\Src\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -142,7 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Junior_Core\Src\Level;$(SolutionDir)\Junior_Core\Src\GameSystem;$(SolutionDir)\Junior_Core\Src\Entry;$(SolutionDir)\Junior_Core\Src\Math;$(SolutionDir)\Junior_Core\Src\Logic;$(SolutionDir)\Junior_Core\Src\Graphics;$(SolutionDir)\Junior_Core\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Junior_Core\Src\Entry;$(SolutionDir)\Junior_Core\Src\GameSystem;$(SolutionDir)\Junior_Core\Src\Game;$(SolutionDir)\Junior_Core\Src\Graphics;$(SolutionDir)\Junior_Core\Src\Level;$(SolutionDir)\Junior_Core\Src\Logic;$(SolutionDir)\Junior_Core\Src\Math;$(SolutionDir)\Junior_Core\Src\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
