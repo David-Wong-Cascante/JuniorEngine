@@ -10,7 +10,9 @@
 
 // Includes //
 #include "MemoryManager.h"
+#ifdef _DEBUG
 #include "MemoryLeakGuard.h"			// Memoyr Leak Guard
+#endif
 
 // Public Member Function //
 Junior::MemoryManager::MemoryManager() 

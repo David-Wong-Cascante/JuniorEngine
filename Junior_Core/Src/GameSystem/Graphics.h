@@ -14,11 +14,13 @@
 #include "Mat3.h"			// Mat3
 #include "GameSystem.h"		// Game System
 
+// Forward Declarations
 struct GLFWwindow;
+
 namespace Junior
 {
 
-	// Foward Declarations //
+	// Foward Declarations
 	class Texture;
 	class DrawProgram;
 	class Input;
@@ -27,7 +29,7 @@ namespace Junior
 	class Graphics : public GameSystem
 	{
 	private:
-		// Private Class Variables //
+		// Private Class Variables
 		int windowWidth_ = 0, windowHeight_ = 0;
 		int openGLVersionMajor_ = 0, openGLVersionMinor_ = 0;
 		unsigned int vao_ = 0, vbo_ = 0;

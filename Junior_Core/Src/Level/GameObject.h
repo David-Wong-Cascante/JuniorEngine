@@ -5,11 +5,12 @@
 * File name: GameObject.h
 * Description: Define what a Game Object looks like
 * Created: 28-Apr-2018
-* Last Modified: 11-Dec-2018
+* Last Modified: 9-Feb-2019
 */
 
 // Includes //
 #include <vector>
+#include <typeinfo>
 
 namespace Junior
 {
@@ -68,6 +69,23 @@ namespace Junior
 		//	type: The type of component we are looking for
 		// Returns: The first component in the list of components with the desired component type
 		Component* GetComponent(ComponentType type) const;
+		
+		// Gives a pointer to a selected component
+		template <class T>
+		T* GetComponent()
+		{
+			// Search through each component to see if we found a component with the correct type
+			auto end = components_.end();
+			for (auto begin = components_.begin(); begin < end; ++begin)
+			{
+				if (typeid(**begin) == typeid(T) || dynamic_cast<T*>(*begin))
+				{
+					return static_cast<T*>(*begin);
+				}
+			}
+
+			return nullptr;
+		}
 
 		// Destroys the game object
 		void Destroy();

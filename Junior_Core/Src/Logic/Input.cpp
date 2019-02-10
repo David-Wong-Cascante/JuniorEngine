@@ -18,6 +18,7 @@
 // Public Static Class Definitions //
 std::map<int, int> Junior::Input::keys = std::map<int, int>();
 std::map<int, int> Junior::Input::mouseButtons = std::map<int, int>();
+std::vector<Junior::JoystickData*> Junior::Input::joystickData = std::vector<Junior::JoystickData*>();
 
 double Junior::Input::cursorXPos = 0.0;
 double Junior::Input::cursorYPos = 0.0;
@@ -69,8 +70,49 @@ void Junior::MouseScrollCallback(GLFWwindow* window, double xOffset, double yOff
 	Input::scrollYOffset += yOffset;
 }
 
-// Public Member Functions //
+void Junior::JoystickConnectionCallback(int joystick, int event)
+{
+	switch (event)
+	{
+	// If the joystick got connected, then we need to create a new joystick struct and fit it inside the joystick list
+	case GLFW_CONNECTED:
+	{
+		JoystickData* data = new JoystickData;
+		data->id_ = joystick;
+		data->axes_ = glfwGetJoystickAxes(joystick, &data->axesCount_);
+		data->buttons_ = glfwGetJoystickButtons(joystick, &data->buttonCount_);
+		data->name_ = glfwGetJoystickName(joystick);
+		// Assign the joystick to the joystick list
+		Junior::Input::joystickData.push_back(data);
+		// Debug print
+#ifdef _DEBUG
+		std::cout << "Connnected Joystick :" << data->name_ << std::endl;
+#endif
+		break;
+	}
+	// If the joystick got disconnected, then we need to delete it from our list
+	case GLFW_DISCONNECTED:
+		// Search for our joystick and delete it
+		auto end = Junior::Input::joystickData.end();
+		for (auto begin = Junior::Input::joystickData.begin(); begin < end; ++begin)
+		{
+			if ((*begin)->id_ == joystick)
+			{
+				// Debug print the disconnected
+#ifdef _DEBUG
+				std::cout << "Disconnected Joystick: " << (*begin)->name_ << std::endl;
+#endif
+				// Delete it
+				delete *begin;
+				Junior::Input::joystickData.erase(begin);
+				return;
+			}
+		}
+		break;
+	}
+}
 
+// Public Member Functions //
 int Junior::Input::GetKeyState(int key)
 {
 	std::map<int, int>::iterator keyFound = Input::keys.find(key);
@@ -93,4 +135,51 @@ int Junior::Input::GetMouseButtonState(int button)
 	}
 
 	return Input::mouseButtons[button];
+}
+
+const Junior::JoystickData* Junior::Input::GetJoystickState(int id)
+{
+	// Search through the entire joystick list to find the one with the correct id
+	auto end = joystickData.cend();
+	for (auto begin = joystickData.cbegin(); begin < end; ++begin)
+	{
+		// Update the joystick
+		JoystickData* data = *begin;
+		data->axes_ = glfwGetJoystickAxes(data->id_, &data->axesCount_);
+		data->buttons_ = glfwGetJoystickButtons(data->id_, &data->buttonCount_);
+		return data;
+	}
+
+	return nullptr;
+}
+
+void Junior::Input::Load()
+{
+	// TODO: Evenntually make joystick initialization more efficient
+	// Kind of slow but functional addition of joystick
+	for (unsigned joystick = GLFW_JOYSTICK_1; joystick <= GLFW_JOYSTICK_LAST; ++joystick)
+	{
+		bool present = glfwJoystickPresent(joystick);
+		if (present)
+		{
+			Junior::JoystickConnectionCallback(joystick, GLFW_CONNECTED);
+		}
+		else
+		{
+			// There are no more joysticks to look for, quit early
+			return;
+		}
+	}
+}
+
+void Junior::Input::Unload()
+{
+	// Delete the leftover joysticks
+	auto end = joystickData.end();
+	for (auto begin = joystickData.begin(); begin < end; ++begin)
+	{
+		delete *begin;
+	}
+
+	joystickData.clear();
 }

@@ -87,6 +87,7 @@
     <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)\JuniorEngine\Build\</OutDir>
     <TargetName>JuniorEngine</TargetName>
+    <LibraryPath>$(SolutionDir)\Junior_Core\Libs;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,7 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Junior_Core\Src\Level;$(SolutionDir)\Junior_Core\Src\GameSystem;$(SolutionDir)\Junior_Core\Src\Entry;$(SolutionDir)\Junior_Core\Src\Math;$(SolutionDir)\Junior_Core\Src\Logic;$(SolutionDir)\Junior_Core\Src\Graphics;$(SolutionDir)\Junior_Core\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Junior_Core\Src\Level;$(SolutionDir)\Junior_Core\Src\GameSystem;$(SolutionDir)\Junior_Core\Src\Entry;$(SolutionDir)\Junior_Core\Src\Math;$(SolutionDir)\Junior_Core\Src\Logic;$(SolutionDir)\Junior_Core\Src\Graphics;$(SolutionDir)\Junior_Core\Vendor;($SolutionDir)\Junior_Core\Src\Util\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

@@ -9,7 +9,9 @@
 
 // Includes //
 #include "Graphics.h"
+#ifdef _DEBUG
 #include "MemoryLeakGuard.h"		// Memory Leak Guard
+#endif
 
 #include <iostream>					// IO streams
 
@@ -21,8 +23,14 @@
 #include "Vec3.h"					// Vec3
 #include "Mat3.h"					// Mat3
 
-// Public Member Functions
+// Defining the Input's Friend Functions
+void Junior::JoystickConnectionCallback(int joystick, int event);
+void Junior::MouseButtonCallback(GLFWwindow* window, int button, int action, int mode);
+void Junior::MouseCursorCallback(GLFWwindow* window, double xPos, double yPos);
+void Junior::MouseScrollCallback(GLFWwindow* window, double xOffset, double yOffset);
+void Junior::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
+// Public Member Functions
 Junior::Graphics::Graphics()
 	: GameSystem("Graphics")
 {
@@ -58,7 +66,7 @@ bool Junior::Graphics::Load()
 
 	// Make the window's context
 	glfwMakeContextCurrent(windowHandle_);
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
 
 	// Initialize GLAD after we created the context
 	glewExperimental = true;
@@ -83,6 +91,7 @@ bool Junior::Graphics::Load()
 	glfwSetMouseButtonCallback(windowHandle_, Junior::MouseButtonCallback);
 	glfwSetCursorPosCallback(windowHandle_, Junior::MouseCursorCallback);
 	glfwSetScrollCallback(windowHandle_, Junior::MouseScrollCallback);
+	glfwSetJoystickCallback(Junior::JoystickConnectionCallback);
 	glfwSetWindowSizeCallback(windowHandle_, WindowResizeCallback);
 
 	// Set the back buffer's clear color

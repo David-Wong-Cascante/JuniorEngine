@@ -9,20 +9,24 @@
 
 // Includes
 #include "Level.h"
+#include "Vec3.h"
 
 namespace Junior
 {
 	// Forward Declarations
 	class Transform;
 	class GameObject;
+	struct JoystickData;
 
 	class TestLevel : public Level
 	{
 	private:
 		double timer_;
 		bool deletedObject2_;
+		Vec3 lerpJoystickPosition;
 		Transform *transform_, *transform2_;
 		GameObject *cog, *cog2_;
+		const JoystickData* playerJoystick_;
 	public:
 		// Constructor
 		TestLevel();

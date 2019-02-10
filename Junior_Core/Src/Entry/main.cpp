@@ -11,7 +11,9 @@
 #include <string>							// String
 #include <math.h>							// Math
 
+#ifdef _DEBUG
 #include "MemoryLeakGuard.h"				// Memory Leak Guard
+#endif
 #include "Graphics.h"						// Graphics
 #include "Time.h"							// Time
 #include "Input.h"							// Input
@@ -45,6 +47,9 @@ int main(void)
 		return -1;
 	}
 
+	// Initialize the Input
+	Junior::Input::Load();
+
 	// Load the space
 	Junior::Space* space = new Junior::Space("CurrentSpace");
 	space->NextLevel(new Junior::TestLevel);
@@ -72,6 +77,7 @@ int main(void)
 	//manager.DeAllocate(cog);
 	//manager.DeAllocate(cog2);
 
+	Junior::Input::Unload();
 	space->Shutdown();
 	space->Unload();
 	g.Shutdown();
