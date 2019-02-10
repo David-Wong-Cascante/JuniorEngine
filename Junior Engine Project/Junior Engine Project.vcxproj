@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F79D3F4B-BCE4-4624-9887-CABB7E48E60B}</ProjectGuid>
     <RootNamespace>JuniorEngineProject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -80,14 +80,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)\Build\</OutDir>
     <TargetName>JuniorEngine</TargetName>
-    <LibraryPath>$(SolutionDir)\Junior_Core\Libs;&lt;inherit from parent or project defaults&gt;</LibraryPath>
-    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(SolutionDir)\Junior_Core\Vendor;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)\Junior_Core\Libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(SolutionDir)\Junior_Core\Vendor;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)\JuniorEngine\Build\</OutDir>
     <TargetName>JuniorEngine</TargetName>
-    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(SolutionDir)\Junior_Core\Vendor;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)\Junior_Core\Libs;&lt;inherit from parent or project defaults&gt;</LibraryPath>
+    <IncludePath>$(SolutionDir)\Junior_Core\Inc;$(SolutionDir)\Junior_Core\Vendor;$(IncludePath);$(IncludePath);$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Junior_Core\Libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -149,7 +149,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\dwong\OneDrive\Programming\Junior Game Engine\JuniorEngine\Junior_Core\Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
