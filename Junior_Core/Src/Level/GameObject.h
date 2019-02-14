@@ -25,17 +25,26 @@ namespace Junior
 	{
 	private:
 		// Private Class Variables //
+		// The name of the object
 		const char* name_;
+		// The parent of this game bject
 		GameObject* parent_;
+		// If this game object is destroyed or not
 		bool destroyed;
+		// The components of this game object
 		std::vector<Component*> components_;
+		// The children of this game object
 		std::vector<GameObject*> children_;
+		// This game object's render job
+		RenderJob* renderJob_;
 	public:
 		// Public Member Functions //
 		// Constructor
 		// Params:
 		//	name: The name of the game object
 		GameObject(const char* name);
+		// Destructor destroys the game object
+		~GameObject();
 		// Initalizes all of the components inside of it
 		void Initialize();
 		// Updates the components of the game object
@@ -63,6 +72,8 @@ namespace Junior
 		const char* GetName() const;
 		// Returns: The parent of this game object
 		GameObject* GetParent() const;
+		// Returns: The render job of this game component
+		RenderJob* GetRenderJob() const;
 
 		// Gives a pointer to a selected component
 		// Params:

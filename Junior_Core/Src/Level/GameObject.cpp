@@ -12,14 +12,22 @@
 #include "GameObject.h"
 
 #include "RenderJob.h"			// Render Job
-#include "MemoryManager.h"		// Memory Manager
 #include "Component.h"			// Component
+#include "Graphics.h"			// Graphics
+#include "MemoryManager.h"		// Memory Manager
 
 // Public Member Functions //
 
 Junior::GameObject::GameObject(const char* name)
-	: name_(name), components_(), children_(), parent_(nullptr), destroyed(false)
+	: name_(name), components_(), children_(), parent_(nullptr), destroyed(false), renderJob_(nullptr)
 {
+	Graphics& graphics = Graphics::GetInstance();
+	renderJob_ = graphics.GetNewRenderJob();
+}
+
+Junior::GameObject::~GameObject()
+{
+	Destroy();
 }
 
 void Junior::GameObject::Initialize()
@@ -67,6 +75,14 @@ void Junior::GameObject::Clean(MemoryManager* manager)
 			}
 		}
 	}
+
+	if (renderJob_)
+	{
+		Graphics& graphics = Graphics::GetInstance();
+		graphics.RemoveRenderJob(renderJob_);
+		delete renderJob_;
+		renderJob_ = nullptr;
+	}
 }
 
 // Get the objects's name
@@ -81,10 +97,16 @@ Junior::GameObject* Junior::GameObject::GetParent() const
 	return parent_;
 }
 
+Junior::RenderJob* Junior::GameObject::GetRenderJob() const
+{
+	return renderJob_;
+}
+
 // Add the component to the game object
 void Junior::GameObject::AddComponent(Component* component)
 {
 	component->SetOwner(this);
+	component->Initialize();
 	components_.push_back(component);
 }
 

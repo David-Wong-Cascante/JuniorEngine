@@ -5,10 +5,11 @@
  * File name: Graphics.h
  * Description: Declare the functionality of the window and the renderer under the same class
  * Created: 20-Apr-2018
- * Last Modified: 22-Jan-2019
+ * Last Modified: 14-Feb-2019
 */
 
 // Includes //
+#include "RenderJob.h"		// Render Job
 #include <vector>			// Vector
 #include "OpenGLBundle.h"	// OpenGL Bundle
 #include "Mat3.h"			// Mat3
@@ -24,7 +25,7 @@ namespace Junior
 	class Texture;
 	class DrawProgram;
 	class Input;
-	struct RenderJob;
+	class TextureAtlas;
 
 	class Graphics : public GameSystem
 	{
@@ -33,28 +34,27 @@ namespace Junior
 		int windowWidth_ = 0, windowHeight_ = 0;
 		int openGLVersionMajor_ = 0, openGLVersionMinor_ = 0;
 		unsigned int vao_ = 0, vbo_ = 0;
-		unsigned int transformationBuffer_ = 0;
-		unsigned int textureIDBuffer_ = 0;
+		unsigned int renderJobBuffer_;
 		
 		// Texture array
 		Texture* textureBank_;
+		// Let the jank ensue
+		TextureAtlas* atlas_;
 
 		GLFWwindow* windowHandle_ = nullptr;
 		DrawProgram* defaultProgram_ = nullptr;
 		Mat3 orthographicMatrix_;
 
 		std::vector<RenderJob*> renderJobs_;
-		// Most likely changed later
-		// The vector for transformation
-		std::vector<Mat3> renderJobTransformations_;
-		// The vector for textures
-		std::vector<float> renderJobTextureIDs_;
+		std::vector<RenderJob> readyToRenderJobs_;
 		
 		// Private Member Functions
+		// Hidden Constructors and Assigment Operators
+		Graphics();
+		Graphics(const Graphics& graphics);
+		Graphics& operator=(const Graphics& other);
 	public:
 		// Public Member Functions
-		// The Constructor of the Game Engine
-		Graphics();
 		// Loads any assets
 		// Returns: Whether it was successful on loading said assets
 		bool Load() override;
@@ -73,6 +73,8 @@ namespace Junior
 		void Shutdown() override;
 		// Unloads any graphics
 		void Unload() override;
+		// Updates the texture for the texture atlas
+		void UpdateTextureAtlas();
 		// Sets the dimensions of the window
 		// Params:
 		//	width: the width of the screen
@@ -84,6 +86,8 @@ namespace Junior
 		// Gets a new render job from the memory manager of the graphics instance
 		// Returns: A new pointer to the render job
 		RenderJob* GetNewRenderJob();
+		// Returns: The texture atlas
+		TextureAtlas* GetTextureAtlas();
 		// Removes a RenderJob from the list of rendering
 		// Params:
 		//	renderJob: The render job to remove

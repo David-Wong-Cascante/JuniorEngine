@@ -5,7 +5,7 @@
 * File name: Texture.h
 * Description: Describe and write the functionality of the Texture data used by the Junior game Engine
 * Created: 5-Aug-2018
-* Last Modified: 22-Jan-2019
+* Last Modified: 13-Feb-2019
 */
 
 // Includes //
@@ -47,6 +47,8 @@ namespace Junior
 
 		// Creates a empty texture
 		Texture();
+		// Deletes the texture
+		~Texture();
 
 		// Creates a texture from a file on disk
 		// Params:
@@ -64,10 +66,28 @@ namespace Junior
 		//	resourceDir: The directory to the file we want to load
 		//	format: The texture's format
 		void AppendedLoadToTextureArray2D(std::string resourceDir);
+		// Adds another image with data to this texture array
+		// Params:
+		//	width: The width of the image
+		//	height: The height of the image
+		//	pixels: The data we want to send in
+		void AppendToArray2D(int width, int height, unsigned char* pixels);
+		// Modifies the texture array
+		// Params:
+		//	index: The index that we want to modify
+		//	pixels: The updated pixels
+		void ModifyTextureArray(int index, const unsigned char* pixels);
 		// Unbinds the texture from the current shader
 		void UnbindTexture() const;
 		// Returns: the pixels made by OpenGL of the texture
 		const unsigned char* GetPixels();
+		// Params:
+		//	index: The index of the dimension array
+		// Returns: The dimensions of the texture where,
+		//	[0] = width (x)
+		//	[1] = height (y)
+		//	[2] = depth (z)
+		unsigned GetDimension(unsigned index) const;
 
 		// Static Helper Functions
 		// Gets thep pixels of an image file on the disk

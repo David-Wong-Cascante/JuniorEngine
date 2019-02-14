@@ -86,7 +86,7 @@ void Junior::JoystickConnectionCallback(int joystick, int event)
 		Junior::Input::joystickData.push_back(data);
 		// Debug print
 #ifdef _DEBUG
-		std::cout << "Connnected Joystick :" << data->name_ << std::endl;
+		std::cout << "Connnected Joystick: " << data->name_ << "(" << joystick << ")" << std::endl;
 #endif
 		break;
 	}
@@ -100,7 +100,7 @@ void Junior::JoystickConnectionCallback(int joystick, int event)
 			{
 				// Debug print the disconnected
 #ifdef _DEBUG
-				std::cout << "Disconnected Joystick: " << (*begin)->name_ << std::endl;
+				std::cout << "Disconnected Joystick: " << joystick << std::endl;
 #endif
 				// Delete it
 				delete *begin;

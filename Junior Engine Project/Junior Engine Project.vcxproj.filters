@@ -84,6 +84,12 @@
     <ClCompile Include="..\Junior_Core\Src\Math\TestLevel.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Graphics\TextureAtlas.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Level\Sprite.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.h">
@@ -154,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="..\Junior_Core\Src\Util\MemoryLeakGuard.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Graphics\TextureAtlas.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Level\Sprite.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

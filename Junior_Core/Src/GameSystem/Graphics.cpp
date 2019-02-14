@@ -4,8 +4,9 @@
 * File name: Graphics.cpp
 * Description: Write the functionality of the window and the renderer under the same class
 * Created: 20-Apr-2018
-* Last Modified: 29-Oct-2018
+* Last Modified: 14-Feb-2019
 */
+
 
 // Includes //
 #include "Graphics.h"
@@ -14,6 +15,8 @@
 #endif
 
 #include <iostream>					// IO streams
+// Testing
+#include <random>
 
 #include "DrawProgram.h"			// Draw Program
 #include "RenderJob.h"				// Render Jobs
@@ -22,6 +25,11 @@
 #include "Texture.h"				// Texture
 #include "Vec3.h"					// Vec3
 #include "Mat3.h"					// Mat3
+#include "TextureAtlas.h"			// Texture Atlas Tree
+
+// Defines
+#define MAX_ATLAS_SIZE 512
+#define TEXTURE_ATLAS_POS 0
 
 // Defining the Input's Friend Functions
 void Junior::JoystickConnectionCallback(int joystick, int event);
@@ -30,12 +38,23 @@ void Junior::MouseCursorCallback(GLFWwindow* window, double xPos, double yPos);
 void Junior::MouseScrollCallback(GLFWwindow* window, double xOffset, double yOffset);
 void Junior::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-// Public Member Functions
+// Private Member Functions
 Junior::Graphics::Graphics()
 	: GameSystem("Graphics")
 {
 }
 
+Junior::Graphics::Graphics(const Graphics& graphics)
+	: GameSystem("Graphics")
+{
+}
+
+Junior::Graphics& Junior::Graphics::operator=(const Graphics& other)
+{
+	return *this;
+}
+
+// Public Member Functions
 bool Junior::Graphics::Load()
 {
 	// Load the window and the context
@@ -53,7 +72,7 @@ bool Junior::Graphics::Load()
 	}
 
 	// Set the window's hints
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
@@ -111,24 +130,46 @@ bool Junior::Graphics::Load()
 	// Set up the draw program used to draw the triangle
 	defaultProgram_ = new Junior::DrawProgram;
 	defaultProgram_->LoadFromDisk("..//Assets//Shaders//starter");
-	// Generate the texture atlas
-	//textureAtlas_ = new /*(manager_->Allocate(sizeof(Junior::Texture)))*/ Junior::Texture;
-	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, false, GL_RGBA, GL_RGB8, 128, 128, 2);
-	textureBank_->AppendedLoadToTextureArray2D("..//Assets//Private_Images//Logo.png");
-	textureBank_->AppendedLoadToTextureArray2D("..//Assets//Private_Images//SmashBall.png");
-	//textureBank_->LoadFromDisk("..//Assets//Private_Images//Logo.png");
+	// Generate the texture 
+	atlas_ = new TextureAtlas(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 4);
+	// Generate some pixels
+	unsigned char* pixels = new unsigned char[MAX_ATLAS_SIZE * MAX_ATLAS_SIZE * 4];
+	for (int y = 0; y >= MAX_ATLAS_SIZE; ++y)
+	{
+		for (int x = 0; x < MAX_ATLAS_SIZE; ++x)
+		{
+			unsigned offset = 4 * (MAX_ATLAS_SIZE * y + x);
+			pixels[offset + 0] = 255;
+			pixels[offset + 1] = 255;
+			pixels[offset + 2] = 255;
+			pixels[offset + 3] = 255;
+		}
+	}
+	
+	// Fill the pixels
+	atlas_->UpdatePixels(pixels);
+	delete[] pixels;
+	
+	// Generate the texture array
+	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, false, GL_RGBA, GL_RGB8, MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 2);
+	textureBank_->AppendToArray2D(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, atlas_->GetPixels());
+	//textureBank_->AppendedLoadToTextureArray2D("..//Assets//Private_Images//SmashBall.png");
 
 	return true;
 }
 
 bool Junior::Graphics::Initialize()
 {
+	// Delete any previous data if it existed
+	glDeleteBuffers(1, &renderJobBuffer_);
+	glDeleteBuffers(1, &vbo_);
+	glDeleteVertexArrays(1, &vao_);
+
 	// Set up the Vertex Array Object to draw a single triangle
 	glGenVertexArrays(1, &vao_);
 
 	glGenBuffers(1, &vbo_);
-	glGenBuffers(1, &transformationBuffer_);
-	glGenBuffers(1, &textureIDBuffer_);
+	glGenBuffers(1, &renderJobBuffer_);
 
 	glBindVertexArray(vao_);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
@@ -140,7 +181,8 @@ bool Junior::Graphics::Initialize()
 		0.5f, -0.5f, 0.0f,		1.0f, 0.0f,
 		0.5f, 0.5f, 0.0f,		1.0f, 1.0f,
 	};
-
+	
+	// The buffer for all vertex data
 	glBufferData(GL_ARRAY_BUFFER, sizeof(randomVertices), randomVertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
@@ -150,28 +192,38 @@ bool Junior::Graphics::Initialize()
 	glVertexAttribDivisor(0, 0);
 	glVertexAttribDivisor(1, 0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, transformationBuffer_);
+	// The buffer for all render job data
+	glBindBuffer(GL_ARRAY_BUFFER, renderJobBuffer_);
 	glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STREAM_DRAW);
+
+	// Transformation Matrix
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 4, GL_FLOAT, false, sizeof(Junior::Mat3), 0);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(RenderJob), 0);
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 4, GL_FLOAT, false, sizeof(Junior::Mat3), reinterpret_cast<void*>(sizeof(float) * 4));
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 1 * 4));
 	glEnableVertexAttribArray(4);
-	glVertexAttribPointer(4, 4, GL_FLOAT, false, sizeof(Junior::Mat3), reinterpret_cast<void*>(sizeof(float) * 2 * 4));
+	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 2 * 4));
 	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 4, GL_FLOAT, false, sizeof(Junior::Mat3), reinterpret_cast<void*>(sizeof(float) * 3 * 4));
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 3 * 4));
+
+	// UV Coordinate Modification Data
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 4 * 4));
+
+	// Texture Selection Data
+	glEnableVertexAttribArray(7);
+	glVertexAttribPointer(7, 1, GL_UNSIGNED_INT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 5 * 4));
 
 	glVertexAttribDivisor(2, 1);
 	glVertexAttribDivisor(3, 1);
 	glVertexAttribDivisor(4, 1);
 	glVertexAttribDivisor(5, 1);
-
-	glBindBuffer(GL_ARRAY_BUFFER, textureIDBuffer_);
-	glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STREAM_DRAW);
-	glEnableVertexAttribArray(6);
-	glVertexAttribPointer(6, 1, GL_FLOAT, false, sizeof(float), 0);
 	glVertexAttribDivisor(6, 1);
+	glVertexAttribDivisor(7, 1);
 
+	CHECK_GL_ERROR();
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
 	// Set the orthographic matrix at the start
@@ -226,79 +278,23 @@ void Junior::Graphics::Render()
 	
 	if (defaultProgram_)
 	{
-#if 0
-		BindProgram(defaultProgram_);
-		GLuint projLoc = glGetUniformLocation(defaultProgram_->programID_, "orthographic");
-		GLuint translationLoc = glGetUniformLocation(defaultProgram_->programID_, "translation");
-		GLuint scalingLoc = glGetUniformLocation(defaultProgram_->programID_, "scaling");
-		GLuint rotationLoc = glGetUniformLocation(defaultProgram_->programID_, "rotation");
-
-		for (RenderJob* renderJob : renderJobs_)
-		{
-			glBindVertexArray(vao_);
-			if (renderJob->translation_)
-			{
-				glUniform3fv(translationLoc, 1, renderJob->translation_->m_);
-			}
-
-			if (renderJob->scaling_)
-			{
-				glUniform3fv(scalingLoc, 1, renderJob->scaling_->m_);
-			}
-
-			if (renderJob->rot_)
-			{
-				glUniform1fv(rotationLoc, 1, renderJob->rot_);
-			}
-			//Set up the orthographic matrix
-			glUniformMatrix4fv(projLoc, 1, GL_FALSE, orthographicMatrix_.m_);
-
-			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-			glBindVertexArray(0);
-		}
-#endif
-#if 1
 		defaultProgram_->Bind();
 		// Do the instanced rendering
-		// Clear all of the previous instanced data
-		renderJobTransformations_.clear();
-		renderJobTextureIDs_.clear();
-
-		/* 
-			* This part is most likely going to be removed in the future because it is a little unecessary
-			* It just made the buffer creation process a little easier by splitting the contents of the render job into separate buffers
-			* In reality, we should only need one buffer and offset its data the same way the RenderJob's data is split up
-		*/
-		for (unsigned i = 0; i < renderJobs_.size(); ++i)
-		{
-			if (renderJobs_[i]->transformation_ == nullptr)
-			{
-				// Then subtract i by one, get rid of the render job, and move on
-				renderJobs_.erase(renderJobs_.begin() + i);
-				--i;
-				continue;
-			}
-			// Fill out per matrix
-			renderJobTransformations_.push_back(*renderJobs_[i]->transformation_);
-			// Fill per texture id's
-			renderJobTextureIDs_.push_back(renderJobs_[i]->textureID_);
-		}
-
-		// Bind the translation, scale, and rotation buffers
-		// Use glBufferData to put new info
 		glBindVertexArray(vao_);
 
-		size_t transformationBufferSize = sizeof(Mat3) * renderJobTransformations_.size();
-		size_t textureIDBufferSize = sizeof(float) * renderJobTextureIDs_.size();
-		glBindBuffer(GL_ARRAY_BUFFER, transformationBuffer_);
-		glBufferData(GL_ARRAY_BUFFER, transformationBufferSize, nullptr, GL_STREAM_DRAW);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, transformationBufferSize, renderJobTransformations_.data());
-		// Fill info about texture ids
-		glBindBuffer(GL_ARRAY_BUFFER, textureIDBuffer_);
-		glBufferData(GL_ARRAY_BUFFER, textureIDBufferSize, nullptr, GL_STREAM_DRAW);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, textureIDBufferSize, renderJobTextureIDs_.data());
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		// Fill in the render job data
+		size_t renderJobBufferSize = sizeof(RenderJob) * renderJobs_.size();
+		readyToRenderJobs_.clear();
+		readyToRenderJobs_.reserve(renderJobs_.size());
+		for (unsigned i = 0; i < renderJobs_.size(); ++i)
+		{
+			readyToRenderJobs_.push_back(*renderJobs_[i]);
+		}
+
+		glBindBuffer(GL_ARRAY_BUFFER, renderJobBuffer_);
+		glBufferData(GL_ARRAY_BUFFER, renderJobBufferSize, nullptr, GL_STREAM_DRAW);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, renderJobBufferSize, readyToRenderJobs_.data());
+		CHECK_GL_ERROR();
 
 		// Render the all of the render jobs (instanced)
 		GLuint projLoc = glGetUniformLocation(defaultProgram_->programID_, "orthographic");
@@ -317,6 +313,7 @@ void Junior::Graphics::Render()
 		glEnableVertexAttribArray(4);
 		glEnableVertexAttribArray(5);
 		glEnableVertexAttribArray(6);
+		glEnableVertexAttribArray(7);
 
 		glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, static_cast<GLsizei>(renderJobs_.size()));
 
@@ -327,11 +324,11 @@ void Junior::Graphics::Render()
 		glDisableVertexAttribArray(4);
 		glDisableVertexAttribArray(5);
 		glDisableVertexAttribArray(6);
+		glDisableVertexAttribArray(7);
 
 		textureBank_->UnbindTexture();
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
-#endif
 	}
 
 	// And swap the buffers
@@ -346,19 +343,20 @@ void Junior::Graphics::PollWindow()
 void Junior::Graphics::Shutdown()
 {
 	// Delete all the Vertex Buffer stuff
-	glDeleteBuffers(1, &transformationBuffer_);
+	glDeleteBuffers(1, &renderJobBuffer_);
 	glDeleteBuffers(1, &vbo_);
 	glDeleteVertexArrays(1, &vao_);
 }
 
 void Junior::Graphics::Unload()
 {
+	// Delete the texture atlas
+	delete atlas_;
 	// Delete the shader program
 	defaultProgram_->CleanUp();
 	delete defaultProgram_;
 	//manager_->DeAllocate(defaultProgram_);
 	// Delete the texture
-	textureBank_->CleanUp();
 	delete textureBank_;
 	//manager_->DeAllocate(textureAtlas_);
 	// Terminate all the GLFW stuff
@@ -366,12 +364,21 @@ void Junior::Graphics::Unload()
 	glfwTerminate();
 }
 
+void Junior::Graphics::UpdateTextureAtlas()
+{
+	textureBank_->ModifyTextureArray(TEXTURE_ATLAS_POS, atlas_->GetPixels());
+}
+
 Junior::RenderJob * Junior::Graphics::GetNewRenderJob()
 {
 	RenderJob* newJob = new /*(manager_->Allocate(sizeof(RenderJob)))*/ RenderJob();
-	newJob->transformation_ = new Mat3;
 	renderJobs_.push_back(newJob);
 	return newJob;
+}
+
+Junior::TextureAtlas* Junior::Graphics::GetTextureAtlas()
+{
+	return atlas_;
 }
 
 void Junior::Graphics::RemoveRenderJob(RenderJob* renderJob)
@@ -442,9 +449,13 @@ const char* Junior::IdentifyGLSeverity(unsigned severity)
 
 void GLAPIENTRY Junior::MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char * message, const void * userParam)
 {
+	// Ignore notifications
+	//if (severity == GL_DEBUG_SEVERITY_NOTIFICATION)
+	//	return;
 	// Get the correct name for the error
 	const char* errorName = IdentifyGLError(id);
 	const char* severityName = IdentifyGLSeverity(severity);
+
 	// Print the error message
 	std::cout << "GL CALLBACK: " << (type == GL_DEBUG_TYPE_ERROR ? "GL ERROR -> " : "")
 		<< "type: " << errorName

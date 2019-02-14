@@ -20,6 +20,7 @@
 #include "Transform.h"				// Transform
 #include "Graphics.h"				// Graphics
 #include "RenderJob.h"				// RenderJob
+#include "Sprite.h"					// Sprite
 
 Junior::TestLevel::TestLevel()
 	: Level("TestLevel"), cog(nullptr), cog2_(nullptr), transform_(nullptr), transform2_(nullptr), timer_(0.0), deletedObject2_(false), playerJoystick_(nullptr),
@@ -37,8 +38,11 @@ bool Junior::TestLevel::Load()
 
 bool Junior::TestLevel::Initialize()
 {
-	cog->AddComponent(new Junior::Transform(&Graphics::GetInstance()));
-	cog2_->AddComponent(new Junior::Transform(&Graphics::GetInstance()));
+	cog->AddComponent(new Junior::Transform);
+	cog2_->AddComponent(new Junior::Transform);
+
+	cog->AddComponent(new Sprite("..//Assets//Images//Logo.png"));
+	cog2_->AddComponent(new Sprite("..//Assets//Images//WideTestImage1.png"));
 
 	transform_ = (Junior::Transform*)cog->GetComponent<Junior::Transform>();
 	transform2_ = (Junior::Transform*)cog2_->GetComponent<Junior::Transform>();
@@ -51,10 +55,10 @@ bool Junior::TestLevel::Initialize()
 	transform_->SetLocalTranslation(Junior::Vec3(-.25f, 0.f, 0.f));
 	transform_->SetLocalScaling({ 300, 300, 1 });
 	transform2_->SetLocalTranslation(Junior::Vec3(300.0f, 0.0f, 0.0f));
-	transform2_->SetLocalScaling(Junior::Vec3(0.5f, 0.5f, 1));
+	transform2_->SetLocalScaling(Junior::Vec3(1, 0.5f, 1));
 
-	transform_->GetRenderJob()->textureID_ = 0;
-	transform2_->GetRenderJob()->textureID_ = 1;
+	cog->GetRenderJob()->textureID_ = 0;
+	cog2_->GetRenderJob()->textureID_ = 0;
 	// Set the a child to the first game object
 	cog->AddChild(cog2_);
 
@@ -70,13 +74,14 @@ void Junior::TestLevel::Update(double dt)
 	playerJoystick_ = Input::GetJoystickState(GLFW_JOYSTICK_1);
 	if (playerJoystick_)
 	{
-		lerpJoystickPosition = lerpJoystickPosition + (Vec3(playerJoystick_->axes_[0], playerJoystick_->axes_[1], 0)-lerpJoystickPosition) * 0.75f;
-		transform_->SetLocalRotation(transform_->GetLocalRotation() + static_cast<float>(dt));
+		lerpJoystickPosition = lerpJoystickPosition + (Vec3(playerJoystick_->axes_[0], playerJoystick_->axes_[1], 0)-lerpJoystickPosition) * 0.5f;
 		transform_->SetLocalTranslation(300.0f * lerpJoystickPosition);
-		transform2_->SetLocalTranslation(
-			Junior::Vec3(cosf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())), 0, sinf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())))
-		);
 	}
+
+	//transform_->SetLocalRotation(transform_->GetLocalRotation() + static_cast<float>(dt));
+	transform2_->SetLocalTranslation(
+		Junior::Vec3(cosf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())), 0, sinf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())))
+	);
 
 	/*if (!deletedObject2_)
 	{

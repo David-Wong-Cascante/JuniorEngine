@@ -19,16 +19,16 @@
 
 // Public Member Functions //
 
-Junior::Transform::Transform(Graphics* currGraphics) 
-	: Component(currGraphics), localRot_(0.0f), localTranslation_({0, 0, 0, 1}), localScaling_({1, 1, 1, 0})
+Junior::Transform::Transform() 
+	: localRot_(0.0f), localTranslation_({0, 0, 0, 1}), localScaling_({1, 1, 1, 0})
 {
 	this->type_ = ComponentType::TRANSFORM;
-	this->renderJob_ = currGraphics_->GetNewRenderJob();
 };
 
 void Junior::Transform::Initialize()
 {
 	this->updateable_ = true;
+	job_ = owner_->GetRenderJob();
 	ReconstructTransformation();
 }
 
@@ -36,23 +36,15 @@ void Junior::Transform::Update(double ms)
 {
 	// Reconstruct the matrix if necessary
 	ReconstructTransformation();
-	if (renderJob_)
+	if (job_)
 	{
 		// Set the render jobs matrix pointer
-		*renderJob_->transformation_ = GetGlobalTransformation();
+		job_->transformation_ = GetGlobalTransformation();
 	}
 }
 
 void Junior::Transform::Clean(MemoryManager* manager)
 {
-	//manager->DeAllocate(renderJob_);
-	// Remove the RenderJob from Graphics
-	Graphics& graphics = Graphics::GetInstance();
-	graphics.RemoveRenderJob(renderJob_);
-	delete renderJob_->transformation_;
-	renderJob_->transformation_ = nullptr;
-	delete renderJob_;
-	renderJob_ = nullptr;
 }
 
 void Junior::Transform::SetLocalTranslation(const Vec3& other)
@@ -120,11 +112,6 @@ const Junior::Mat3 Junior::Transform::GetGlobalTransformation() const
 		}
 	}
 	return globalTransformation * localTransformation_;
-}
-
-Junior::RenderJob* Junior::Transform::GetRenderJob() const
-{
-	return renderJob_;
 }
 
 // Private Member Functions //

@@ -16,7 +16,7 @@
 namespace Junior
 {
 	// Forward Declarations //
-	//union Mat3;
+	struct RenderJob;
 
 	class Transform : public Component
 	{
@@ -34,12 +34,10 @@ namespace Junior
 		void ReconstructTransformation();
 	public:
 		// Public Class Variables //
-		RenderJob* job;
+		RenderJob* job_;
 		// Public Member Functions //
 		// Constructor
-		// Params:
-		//	currGraphics: The graphics class used to render the world
-		Transform(Graphics* currGraphics);
+		Transform();
 		// Initializes the component
 		void Initialize();
 		// Updates the transform
@@ -75,8 +73,5 @@ namespace Junior
 		const Mat3& GetLocalTransformation() const;
 		// Returns: The global transformation matrix
 		const Mat3 GetGlobalTransformation() const;
-
-		// Returns: It's render job
-		RenderJob* GetRenderJob() const;
 	};
 }
