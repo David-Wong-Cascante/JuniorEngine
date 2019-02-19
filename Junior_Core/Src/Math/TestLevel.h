@@ -24,8 +24,8 @@ namespace Junior
 		double timer_;
 		bool deletedObject2_;
 		Vec3 lerpJoystickPosition;
-		Transform *transform_, *transform2_;
-		GameObject *cog, *cog2_;
+		Transform *transform_, *transform2_, *cameraTransform_;
+		GameObject *cog_, *cog2_, *camera_;
 		const JoystickData* playerJoystick_;
 	public:
 		// Constructor

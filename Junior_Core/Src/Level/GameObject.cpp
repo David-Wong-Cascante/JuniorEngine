@@ -5,7 +5,7 @@
 * File name: GameObject.h
 * Description: Define the Game Object functionality to get components, get its name, update, etc...
 * Created: 1-May-2018
-* Last Modified: 11-Dec-2018
+* Last Modified: 18-Feb-2019
 */
 
 // Includes //
@@ -18,11 +18,12 @@
 
 // Public Member Functions //
 
-Junior::GameObject::GameObject(const char* name)
+Junior::GameObject::GameObject(const char* name, bool rendered)
 	: name_(name), components_(), children_(), parent_(nullptr), destroyed(false), renderJob_(nullptr)
 {
 	Graphics& graphics = Graphics::GetInstance();
-	renderJob_ = graphics.GetNewRenderJob();
+	if(rendered)
+		renderJob_ = graphics.GetNewRenderJob();
 }
 
 Junior::GameObject::~GameObject()
@@ -97,6 +98,12 @@ Junior::GameObject* Junior::GameObject::GetParent() const
 	return parent_;
 }
 
+// Gets the object's children
+const std::vector<Junior::GameObject*>& Junior::GameObject::GetChildren() const
+{
+	return children_;
+}
+
 Junior::RenderJob* Junior::GameObject::GetRenderJob() const
 {
 	return renderJob_;
@@ -111,12 +118,12 @@ void Junior::GameObject::AddComponent(Component* component)
 }
 
 // Removes the component from the game object
-void Junior::GameObject::RemoveComponent(ComponentType type)
+void Junior::GameObject::RemoveComponent(const std::string& type)
 {
 	// Iterate through the list of components until we find the component we are looking for
 	for (unsigned i = 0; i < components_.size(); ++i)
 	{
-		if (components_[i]->GetType() == type)
+		if (components_[i]->GetTypeName() == type)
 		{	
 			// Remove the first component with the type
 			components_.erase(components_.begin() + i);
@@ -126,11 +133,11 @@ void Junior::GameObject::RemoveComponent(ComponentType type)
 }
 
 // Get the first component it finds based on on the component's id
-Junior::Component * Junior::GameObject::GetComponent(ComponentType type) const
+Junior::Component * Junior::GameObject::GetComponent(const std::string& type) const
 {
 	for (Component* component : components_)
 	{
-		if (component->GetType() == type)
+		if (component->GetTypeName() == type)
 		{
 			return component;
 		}

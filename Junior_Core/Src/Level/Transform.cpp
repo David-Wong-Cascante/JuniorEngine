@@ -16,18 +16,20 @@
 #include "Graphics.h"			// Graphics
 #include "Vec3.h"				// Vec3
 #include "LinearMath.h"			// Linear Math, Helper Functions
+#include "Camera.h"				// Camera
 
 // Public Member Functions //
 
 Junior::Transform::Transform() 
-	: localRot_(0.0f), localTranslation_({0, 0, 0, 1}), localScaling_({1, 1, 1, 0})
+	: Component("Transform"), localRot_(0.0f), localTranslation_({0, 0, 0, 1}), localScaling_({1, 1, 1, 0})
 {
-	this->type_ = ComponentType::TRANSFORM;
 };
 
 void Junior::Transform::Initialize()
 {
 	this->updateable_ = true;
+	// Find the owner's camera
+	camera_ = owner_->GetComponent<Camera>();
 	job_ = owner_->GetRenderJob();
 	ReconstructTransformation();
 }
@@ -36,10 +38,11 @@ void Junior::Transform::Update(double ms)
 {
 	// Reconstruct the matrix if necessary
 	ReconstructTransformation();
+	Mat3 transformation = GetGlobalTransformation();
 	if (job_)
 	{
 		// Set the render jobs matrix pointer
-		job_->transformation_ = GetGlobalTransformation();
+		job_->transformation_ = transformation;
 	}
 }
 
@@ -104,14 +107,20 @@ const Junior::Mat3 Junior::Transform::GetGlobalTransformation() const
 		// If the transform component exists on the parent, then multiply this transformation by the parent's transform
 		if (parent)
 		{
-			Transform* parentTransform = static_cast<Transform*>(parent->GetComponent(type_));
+			Transform* parentTransform = parent->GetComponent<Transform>();
 			if (parentTransform)
 			{
 				globalTransformation = parentTransform->GetGlobalTransformation();
 			}
 		}
 	}
-	return globalTransformation * localTransformation_;
+	// Total Transformation
+	Mat3 totalTransformation = globalTransformation * localTransformation_;
+	// Set the camera's view matrix
+	if (camera_)
+		camera_->UpdateViewMatrix(totalTransformation);
+
+	return totalTransformation;
 }
 
 // Private Member Functions //

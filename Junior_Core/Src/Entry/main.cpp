@@ -15,6 +15,7 @@
 #ifdef _DEBUG
 #include "MemoryLeakGuard.h"				// Memory Leak Guard
 #endif
+
 #include "Graphics.h"						// Graphics
 #include "Time.h"							// Time
 #include "Input.h"							// Input
@@ -36,6 +37,7 @@ int main(void)
 	Junior::MemoryManager manager;
 	// Create the Graphics class
 	Junior::Graphics& g = Junior::Graphics::GetInstance();
+	Junior::Input& input = Junior::Input::GetInstance();
 
 	// Load the Graphics class
 	if (!g.Load())
@@ -49,7 +51,8 @@ int main(void)
 	}
 
 	// Initialize the Input
-	Junior::Input::Load();
+	input.Load();
+	input.Initialize();
 
 	// Load the space
 	Junior::Space* space = new Junior::Space("CurrentSpace");
@@ -61,7 +64,7 @@ int main(void)
 		// Update all of the time functions
 		Junior::Time::GetInstance().Update(0);
 		// Quit the game loop if the user presses escape
-		if (Junior::Input::GetKeyState(GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		if (input.GetKeyState(GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		{
 			break;
 		}
@@ -78,9 +81,10 @@ int main(void)
 	//manager.DeAllocate(cog);
 	//manager.DeAllocate(cog2);
 
-	Junior::Input::Unload();
 	space->Shutdown();
 	space->Unload();
+	input.Shutdown();
+	input.Unload();
 	g.Shutdown();
 	g.Unload();
 

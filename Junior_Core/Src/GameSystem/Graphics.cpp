@@ -4,11 +4,11 @@
 * File name: Graphics.cpp
 * Description: Write the functionality of the window and the renderer under the same class
 * Created: 20-Apr-2018
-* Last Modified: 14-Feb-2019
+* Last Modified: 18-Feb-2019
 */
 
 
-// Includes //
+// Includes
 #include "Graphics.h"
 #ifdef _DEBUG
 #include "MemoryLeakGuard.h"		// Memory Leak Guard
@@ -26,6 +26,7 @@
 #include "Vec3.h"					// Vec3
 #include "Mat3.h"					// Mat3
 #include "TextureAtlas.h"			// Texture Atlas Tree
+#include "Camera.h"					// Camera
 
 // Defines
 #define MAX_ATLAS_SIZE 512
@@ -115,6 +116,9 @@ bool Junior::Graphics::Load()
 
 	// Set the back buffer's clear color
 	glClearColor(0.2f, 0.4f, 0.6f, 1);
+	// Set the blend mode
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Set up a pointer to make sure we can access this instance of the class whenever we need to change something graphics-wise
 	glfwSetWindowUserPointer(windowHandle_, this);
@@ -153,7 +157,6 @@ bool Junior::Graphics::Load()
 	// Generate the texture array
 	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, false, GL_RGBA, GL_RGB8, MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 2);
 	textureBank_->AppendToArray2D(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, atlas_->GetPixels());
-	//textureBank_->AppendedLoadToTextureArray2D("..//Assets//Private_Images//SmashBall.png");
 
 	return true;
 }
@@ -227,7 +230,7 @@ bool Junior::Graphics::Initialize()
 	glBindVertexArray(0);
 
 	// Set the orthographic matrix at the start
-	orthographicMatrix_ = Orthographic(-windowWidth_/2.0f, windowWidth_/2.0f, windowHeight_/2.0f, -windowHeight_/2.0f, -5.0f, 5.0f);
+	//orthographicMatrix_ = Orthographic(-windowWidth_/2.0f, windowWidth_/2.0f, windowHeight_/2.0f, -windowHeight_/2.0f, -5.0f, 5.0f);
 	//orthographicMatrix_ = Perspective(90.0f, static_cast<float>(windowWidth_), static_cast<float>(windowHeight_), -5.0f, 100.f);
 	//orthographicMatrix_ = Identity();
 
@@ -244,7 +247,11 @@ void Junior::Graphics::SetDimensions(int width, int height)
 	this->windowWidth_ = width;
 	this->windowHeight_ = height;
 	//float aspectRatio = (float)windowHeight_ / (float)windowWidth_;
-	orthographicMatrix_ = Orthographic(-windowWidth_ / 2.0f, windowWidth_ / 2.0f, windowHeight_ / 2.0f, -windowHeight_ / 2.0f, -5.0f, 5.0f);
+	if (mainCamera_)
+	{
+		mainCamera_->UpdateProjection(ProjectionMode::ORTHOGRAPHIC, static_cast<float>(windowWidth_), static_cast<float>(windowHeight_), -5.0f, 5.0f);
+	}
+	//orthographicMatrix_ = Orthographic(-windowWidth_ / 2.0f, windowWidth_ / 2.0f, windowHeight_ / 2.0f, -windowHeight_ / 2.0f, -5.0f, 5.0f);
 	//orthographicMatrix_ = Perspective(90.0f, static_cast<float>(width), static_cast<float>(height), 0.01f, 1000.f);
 	glViewport(0, 0, width, height);
 }
@@ -297,8 +304,13 @@ void Junior::Graphics::Render()
 		CHECK_GL_ERROR();
 
 		// Render the all of the render jobs (instanced)
-		GLuint projLoc = glGetUniformLocation(defaultProgram_->programID_, "orthographic");
-		glUniformMatrix4fv(projLoc, 1, GL_TRUE, orthographicMatrix_.m_);
+		GLuint projLoc = glGetUniformLocation(defaultProgram_->programID_, "camera");
+		//glUniformMatrix4fv(projLoc, 1, GL_TRUE, orthographicMatrix_.m_);
+		if(mainCamera_)
+			glUniformMatrix4fv(projLoc, 1, GL_FALSE, mainCamera_->GetCameraMatrix().m_);
+		else
+			glUniformMatrix4fv(projLoc, 1, GL_FALSE, Identity().m_);
+
 
 		// Set the temporal texture
 		GLuint textureLoc = glGetUniformLocation(defaultProgram_->programID_, "diffuse");
@@ -390,6 +402,16 @@ void Junior::Graphics::RemoveRenderJob(RenderJob* renderJob)
 			renderJobs_.erase(renderJobs_.begin() + i);
 		}
 	}
+}
+
+int Junior::Graphics::GetWindowWidth() const
+{
+	return windowWidth_;
+}
+
+int Junior::Graphics::GetWindowHeight() const
+{
+	return windowHeight_;
 }
 
 Junior::Graphics& Junior::Graphics::GetInstance()

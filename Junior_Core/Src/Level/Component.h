@@ -8,20 +8,14 @@
 * Last Modified: 13-Feb-2019
 */
 
+// Includes
+#include <string>				// String
+
 namespace Junior
 {
 	// Forward Declarations //
 	class GameObject;
 	class MemoryManager;
-
-	enum ComponentType
-	{
-		NONE = 0,
-		TRANSFORM,
-		SPRITE,
-		TEXT,
-	};
-
 
 	class Component
 	{
@@ -29,10 +23,10 @@ namespace Junior
 		// Protected Class Variables //
 		bool updateable_;
 		GameObject* owner_;
-		ComponentType type_;
+		std::string name_;
 	public:
 		// Public Member Functions
-		Component(bool updatable = true);
+		Component(std::string name, bool updatable = true);
 		~Component();
 		// Classes inheriting from Component should define this function
 		virtual void Initialize() = 0;
@@ -43,9 +37,9 @@ namespace Junior
 		// Parmas:
 		//	cog: The parent we want to set this component to
 		void SetOwner(GameObject* cog);
-		// Get the component's type
+		// Get the component's type name
 		// Returns: The component type
-		const ComponentType GetType() const;
+		const std::string GetTypeName() const;
 		// Is the object updateable
 		// Returns: Whether the render job should be updated
 		bool IsUpdateable() const;

@@ -13,8 +13,8 @@
 
 // Public Member Functions
 
-Junior::Component::Component(bool updatable)
-	: owner_(nullptr), updateable_(updatable), type_(ComponentType::NONE)
+Junior::Component::Component(std::string name, bool updatable)
+	: owner_(nullptr), name_(name), updateable_(updatable)
 {
 }
 
@@ -28,9 +28,9 @@ void Junior::Component::SetOwner(GameObject* cog)
 	this->owner_ = cog;
 }
 
-const Junior::ComponentType Junior::Component::GetType() const
+const std::string Junior::Component::GetTypeName() const
 {
-	return type_;
+	return name_;
 }
 
 bool Junior::Component::IsUpdateable() const

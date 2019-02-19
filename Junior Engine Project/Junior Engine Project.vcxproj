@@ -170,6 +170,8 @@
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\Mat3.cpp" />
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\Vec3.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Graphics\TextureAtlas.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\Level\Animator.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\Level\Camera.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Level\Level.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Level\Sprite.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Math\TestLevel.cpp" />
@@ -197,6 +199,8 @@
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\Mat3.h" />
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\Vec3.h" />
     <ClInclude Include="..\Junior_Core\Src\Graphics\TextureAtlas.h" />
+    <ClInclude Include="..\Junior_Core\Src\Level\Animator.h" />
+    <ClInclude Include="..\Junior_Core\Src\Level\Camera.h" />
     <ClInclude Include="..\Junior_Core\Src\Level\Sprite.h" />
     <ClInclude Include="..\Junior_Core\Src\Math\TestLevel.h" />
     <ClInclude Include="..\Junior_Core\Src\Util\MemoryLeakGuard.h" />

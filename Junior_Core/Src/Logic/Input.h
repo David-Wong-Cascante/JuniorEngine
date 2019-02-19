@@ -5,7 +5,7 @@
 * File name: Input.h
 * Description: Declare the way our engine will handle user input
 * Created: 20-Apr-2018
-* Last Modified: 9-Feb-2019
+* Last Modified: 18-Feb-2019
 */
 
 // Includes //
@@ -40,40 +40,58 @@ namespace Junior
 	private:
 		// Private Class Variables //
 		// The keys map
-		static std::map<int, int> keys;
+		std::map<int, int> keys;
 		// The mouse map
-		static std::map<int, int> mouseButtons;
+		std::map<int, int> mouseButtons;
 		// Joystick data
-		static std::vector<JoystickData*> joystickData;
+		std::vector<JoystickData*> joystickData;
 	public:
 		// Public Class Variables //
+
+		// Constructor
+		Input();
 		// Cursor X and Y Position
-		static double cursorXPos, cursorYPos;
+		double cursorXPos, cursorYPos;
 		// Scroll wheel
-		static double scrollXOffset, scrollYOffset;
+		double scrollXOffset, scrollYOffset;
 		// Public Member Functions //
 		// Params:
 		//	id: The key id
 		// Returns: The Key's State
-		int static GetKeyState(int id);
+		int GetKeyState(int id);
 		// Params: 
 		//	button: The mouse button
 		// Returns: The state of the button
-		int static GetMouseButtonState(int button);
+		int GetMouseButtonState(int button);
 		// Params:
 		//	id: The joystick's id
 		// Returns: The joystick's data, or nullptr if it can't find the correct joystick
-		static const JoystickData* GetJoystickState(int id);
+		const JoystickData* GetJoystickState(int id);
 	
+		// Loads the component
+		// Returns: Whether input succeeded in loading
+		bool Load() override;
 		// Inititalizes input components
-		static void Load();
+		// Returns: Whether input succeded in initializing
+		bool Initialize() override;
+		// Updates the component
+		// Params:
+		//	dt: Time between frames
+		void Update(double dt) override;
+		// Renders the input (useful for debug)
+		void Render() override;
+		// Shuts down the component
+		void Shutdown() override;
 		// Unloads input components
-		static void Unload();
+		void Unload() override;
 		// Friend Functions
 		friend void JoystickConnectionCallback(int joystick, int event);
 		friend void MouseButtonCallback(GLFWwindow* window, int button, int action, int mode);
 		friend void MouseCursorCallback(GLFWwindow* window, double xPos, double yPos);
 		friend void MouseScrollCallback(GLFWwindow* window, double xOffset, double yOffset);
 		friend void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
+
+		// Returns: A static instance of the input
+		static Input& GetInstance();
 	};
 }

@@ -20,16 +20,14 @@
 
 // Public Member Functions
 Junior::Sprite::Sprite()
-	: texture_(nullptr), job_(nullptr), atlasNode_(nullptr)
+	: Component("Sprite"), texture_(nullptr), job_(nullptr), atlasNode_(nullptr)
 {
-	type_ = ComponentType::SPRITE;
 	texture_ = new Texture;
 }
 
 Junior::Sprite::Sprite(const std::string& path)
-	: texture_(nullptr), job_(nullptr), atlasNode_(nullptr)
+	: Component("Sprite"), texture_(nullptr), job_(nullptr), atlasNode_(nullptr)
 {
-	type_ = ComponentType::SPRITE;
 	texture_ = new Texture;
 	texture_->LoadFromDisk(path);
 }
@@ -58,7 +56,6 @@ void Junior::Sprite::Initialize()
 		job_->uvTranslationAndScale_.x_ = static_cast<float>(atlasNode_->xPos_) / static_cast<float>(atlas->GetWidth()) + 0.005f;
 		job_->uvTranslationAndScale_.y_ = static_cast<float>(atlasNode_->yPos_) / static_cast<float>(atlas->GetHeight()) + 0.005f;
 	}
-
 }
 
 void Junior::Sprite::Update(double dt)
@@ -68,6 +65,25 @@ void Junior::Sprite::Update(double dt)
 void Junior::Sprite::Clean(MemoryManager* manager)
 {
 	delete texture_;
+}
+
+void Junior::Sprite::SetUVModifications(float xOffset, float yOffset)
+{
+	TextureAtlas* atlas = Graphics::GetInstance().GetTextureAtlas();
+	SetUVModifications(
+		xOffset, 
+		yOffset, 
+		static_cast<float>(texture_->GetDimension(0)) / static_cast<float>(atlas->GetWidth()),
+		static_cast<float>(texture_->GetDimension(1)) / static_cast<float>(atlas->GetHeight())
+	);
+}
+
+void Junior::Sprite::SetUVModifications(float xOffset, float yOffset, float xScale, float yScale)
+{
+	job_->uvTranslationAndScale_.x_ = xOffset;
+	job_->uvTranslationAndScale_.y_ = yOffset;
+	job_->uvTranslationAndScale_.z_ = xScale;
+	job_->uvTranslationAndScale_.w_ = yScale;
 }
 
 void Junior::Sprite::LoadFromDisk(const std::string& path)
@@ -87,4 +103,9 @@ void Junior::Sprite::LoadFromDisk(const std::string& path)
 Junior::Texture* Junior::Sprite::GetTexture() const
 {
 	return texture_;
+}
+
+Junior::AtlasNode* Junior::Sprite::GetNode() const
+{
+	return atlasNode_;
 }

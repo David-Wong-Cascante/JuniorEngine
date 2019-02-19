@@ -5,7 +5,7 @@
 * File name: GameObject.h
 * Description: Define what a Game Object looks like
 * Created: 28-Apr-2018
-* Last Modified: 9-Feb-2019
+* Last Modified: 18-Feb-2019
 */
 
 // Includes //
@@ -19,8 +19,7 @@ namespace Junior
 	class MemoryManager;
 	class Component;
 	struct RenderJob;
-	
-	enum ComponentType;
+
 	class GameObject
 	{
 	private:
@@ -42,7 +41,8 @@ namespace Junior
 		// Constructor
 		// Params:
 		//	name: The name of the game object
-		GameObject(const char* name);
+		//	rendered: Whether the object is going to be rendered or not
+		GameObject(const char* name, bool rendered = true);
 		// Destructor destroys the game object
 		~GameObject();
 		// Initalizes all of the components inside of it
@@ -66,12 +66,14 @@ namespace Junior
 		// Removes a component from this GameObject
 		// Params:
 		//	type: The component's type
-		void RemoveComponent(ComponentType type);
+		void RemoveComponent(const std::string& name);
 
 		// Returns: The name of the game object
 		const char* GetName() const;
 		// Returns: The parent of this game object
 		GameObject* GetParent() const;
+		// Returns: The children in a list
+		const std::vector<GameObject*>& GetChildren() const;
 		// Returns: The render job of this game component
 		RenderJob* GetRenderJob() const;
 
@@ -79,7 +81,7 @@ namespace Junior
 		// Params:
 		//	type: The type of component we are looking for
 		// Returns: The first component in the list of components with the desired component type
-		Component* GetComponent(ComponentType type) const;
+		Component* GetComponent(const std::string& name) const;
 		
 		// Gives a pointer to a selected component
 		template <class T>

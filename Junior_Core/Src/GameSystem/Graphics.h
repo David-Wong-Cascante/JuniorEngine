@@ -5,7 +5,7 @@
  * File name: Graphics.h
  * Description: Declare the functionality of the window and the renderer under the same class
  * Created: 20-Apr-2018
- * Last Modified: 14-Feb-2019
+ * Last Modified: 18-Feb-2019
 */
 
 // Includes //
@@ -22,15 +22,22 @@ namespace Junior
 {
 
 	// Foward Declarations
-	class Texture;
+	class Camera;
 	class DrawProgram;
-	class Input;
+	class Texture;
 	class TextureAtlas;
+	class Input;
 
 	class Graphics : public GameSystem
 	{
+	public:
+		// Public Member Variables
+
+		// The main camera
+		Camera* mainCamera_;
 	private:
 		// Private Class Variables
+
 		int windowWidth_ = 0, windowHeight_ = 0;
 		int openGLVersionMajor_ = 0, openGLVersionMinor_ = 0;
 		unsigned int vao_ = 0, vbo_ = 0;
@@ -38,7 +45,7 @@ namespace Junior
 		
 		// Texture array
 		Texture* textureBank_;
-		// Let the jank ensue
+		// Let the jank ensue (texture atlas)
 		TextureAtlas* atlas_;
 
 		GLFWwindow* windowHandle_ = nullptr;
@@ -83,6 +90,10 @@ namespace Junior
 		// Poll the window so it actually responds
 		void PollWindow();
 
+		// Returns: The window's with
+		int GetWindowWidth() const;
+		// Returns: The window's height
+		int GetWindowHeight() const;
 		// Gets a new render job from the memory manager of the graphics instance
 		// Returns: A new pointer to the render job
 		RenderJob* GetNewRenderJob();

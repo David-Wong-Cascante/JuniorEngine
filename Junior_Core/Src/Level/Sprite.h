@@ -24,6 +24,7 @@ namespace Junior
 	{
 	private:
 		// Private Member Variables
+
 		// The sprite's texture
 		Texture* texture_;
 		// The node of the texture atlas we are using
@@ -49,6 +50,18 @@ namespace Junior
 		// Params:
 		//	The memory manager used to create this object
 		void Clean(MemoryManager* manager) override;
+		// Modifies the sprite's UV modification
+		// Params:
+		//	xOffset: The x offset
+		//	yOffset: The y offset
+		//	xScale: The xscale
+		//	yScale: The y scale
+		void SetUVModifications(float xOffset, float yOffset, float xScale, float yScale);
+		// Modfies the sprite's UV modification
+		// Params:
+		//	xOffset: The x offset
+		//	yOffset: The y offset
+		void SetUVModifications(float xOffset, float yOffset);
 		// Loads an image to the sprite's texture
 		// Params:
 		//	path: The path to the image file
@@ -56,5 +69,7 @@ namespace Junior
 		// Gets the immediate texture from this sprite
 		// Returns: The sprite's texture
 		Texture* GetTexture() const;
+		// Returns: The atlas node used to store this sprite's subtexture
+		AtlasNode* GetNode() const;
 	};
 }

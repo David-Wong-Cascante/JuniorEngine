@@ -90,6 +90,12 @@
     <ClCompile Include="..\Junior_Core\Src\Level\Sprite.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Level\Animator.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Level\Camera.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.h">
@@ -165,6 +171,12 @@
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\Junior_Core\Src\Level\Sprite.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Level\Animator.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Level\Camera.h">
       <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>

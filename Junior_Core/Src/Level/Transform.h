@@ -17,16 +17,24 @@ namespace Junior
 {
 	// Forward Declarations //
 	struct RenderJob;
+	class Camera;
 
 	class Transform : public Component
 	{
 	private:
 		// Private Class Variables //
+		// Local Transformation
 		Mat3 localTransformation_;
+		// Local Translation
 		Vec3 localTranslation_;
+		// Local Scaling
 		Vec3 localScaling_;
+		// Local Rotation
 		float localRot_;
+		// Whether the transformation matrix is dirty or not
 		bool isDirty;
+		// The object's camera
+		Camera* camera_;
 
 		// Private Member Functions //
 		// Constructs a new transformation matrix based on the

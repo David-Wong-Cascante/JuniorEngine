@@ -3,7 +3,7 @@
 * Author: David Wong
 * Email: david.wongcascante@digipen.edu
 * File name: Mat3.h
-* Description: Tell the compiler what a 3x3 matrix can do before actually telling them how
+* Description: Tell the compiler what a 3x3 matrix can do before actually telling them how (column major order)
 * Created: 26-Apr-2018
 * Last Modified: 29-Oct-2018
 */

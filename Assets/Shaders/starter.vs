@@ -14,7 +14,7 @@ layout (location = 7) in float textureID;
 
 out vec2 TexCoords;
 out float TextureID;
-uniform mat4 orthographic;
+uniform mat4 camera;
 
 void main()
 {
@@ -23,5 +23,5 @@ void main()
 	TexCoords.y *= texCoordModif.w;
 	TexCoords += texCoordModif.xy;
 	TextureID = textureID;
-	gl_Position = orthographic * modelTransform * vec4(pos, 1.0);
+	gl_Position = camera * modelTransform * vec4(pos, 1.0);
 }
