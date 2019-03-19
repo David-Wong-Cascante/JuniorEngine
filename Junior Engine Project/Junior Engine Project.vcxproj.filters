@@ -96,6 +96,9 @@
     <ClCompile Include="..\Junior_Core\Src\Level\Camera.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\GameSystem\Debug.cpp">
+      <Filter>GameSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.h">
@@ -178,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="..\Junior_Core\Src\Level\Camera.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\GameSystem\Debug.h">
+      <Filter>GameSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

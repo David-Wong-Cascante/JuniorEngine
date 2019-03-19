@@ -14,9 +14,9 @@
 // Use the GLFW functionality
 #include <GLFW/glfw3.h>
 
-#define CHECK_GL_ERROR()																										\
-{																																\
+#define CHECK_GL_ERROR()
+/*{																																\
 	GLenum err;																													\
 	while ((err = glGetError()) != GL_NO_ERROR)																					\
 		std::cout << "[GL Error in line " << __LINE__ << ", file: " << __FILE__ << "]: " << IdentifyGLError(err) << std::endl;	\
-}																																\
+}																																\*/

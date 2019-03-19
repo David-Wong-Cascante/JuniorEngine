@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F79D3F4B-BCE4-4624-9887-CABB7E48E60B}</ProjectGuid>
     <RootNamespace>JuniorEngineProject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -169,6 +169,7 @@
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.cpp" />
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\Mat3.cpp" />
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\Vec3.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\GameSystem\Debug.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Graphics\TextureAtlas.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Level\Animator.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Level\Camera.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.h" />
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\Mat3.h" />
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\Vec3.h" />
+    <ClInclude Include="..\Junior_Core\Src\GameSystem\Debug.h" />
     <ClInclude Include="..\Junior_Core\Src\Graphics\TextureAtlas.h" />
     <ClInclude Include="..\Junior_Core\Src\Level\Animator.h" />
     <ClInclude Include="..\Junior_Core\Src\Level\Camera.h" />
