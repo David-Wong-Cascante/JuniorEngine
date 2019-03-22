@@ -12,6 +12,8 @@
 #include <string>							// String
 #include <math.h>							// Math
 
+#include "Debug.h"							// Debug
+
 #ifdef _DEBUG
 #include "MemoryLeakGuard.h"				// Memory Leak Guard
 #endif
@@ -29,9 +31,13 @@
 int main(void)
 {
 	// Set up the memory leak guard
+	Junior::Debug& debug = Junior::Debug::GetInstance();
+	debug.SetOutputFile("JuniorDebugInfo.txt");
 #ifdef _DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
+	debug.Print<std::string>(debug.GetDebugLevelName(Junior::DebugLevel::NOTIFICATION));
+	debug.PrintLn<std::string>("Debug Memory Management Enabled");
 #endif
 	// Initialize the memory manager for everything else in the game engine
 	Junior::MemoryManager manager;

@@ -15,6 +15,7 @@
 #include "RenderJob.h"			// Render Job
 #include "GameObject.h"			// Game Object
 #include "MemoryManager.h"		// Memory Manager
+#include "Debug.h"				// Debug
 
 #include <iostream>				// IO STREAM
 
@@ -34,6 +35,8 @@ Junior::Sprite::Sprite(const std::string& path)
 
 void Junior::Sprite::Initialize()
 {
+	// Debug printing
+	Debug& debug = Debug::GetInstance();
 	// Update the render job we are going to use
 	job_ = owner_->GetRenderJob();
 	if (texture_)
@@ -46,7 +49,8 @@ void Junior::Sprite::Initialize()
 		atlas->Push(&atlasNode_);
 		atlas->UpdateNodePixels(atlasNode_, texture_->GetPixels());
 		graphics.UpdateTextureAtlas();
-		std::cout << "Finished adding data to sprite" << std::endl;
+		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+		debug.PrintLn<std::string>("Finished adding data to sprite");
 		// TODO: Update the sprite's texture coordinates
 		// X offset, Y offset and uniform scale
 		// Scale

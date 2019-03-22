@@ -11,6 +11,7 @@
 #include "TextureAtlas.h"
 #include <iostream>					// IO Stream
 #include "OpenGLBundle.h"			// OpenGL Stuff
+#include "Debug.h"					// Debug Printing
 
 
 // Public Member Functions
@@ -174,17 +175,23 @@ Junior::TextureAtlas::~TextureAtlas()
 
 void Junior::TextureAtlas::Push(AtlasNode** node, AtlasNode* plot)
 {
-#ifdef _DEBUG
-	std::cout << "[NOTIFICATION]: Pushing node size [" << (*node)->width_ << ", " << (*node)->height_ << "]" << std::endl;
-#endif
+	// Debug printing
+	Debug& debug = Debug::GetInstance();
+
+	// Printing node pushes
+	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.Print<std::string>("Pushing node size [");
+	debug.Print<int>((*node)->width_);
+	debug.Print<std::string>(", ");
+	debug.Print<int>((*node)->height_);
+	debug.PrintLn<std::string>("]");
 	// Quit out of the function early if we tried to set data into an already used plot
 	if (plot->used_)
 	{
-#ifdef _DEBUG
-		std::cout << "[ERROR]: Attempted to push a node into a used plot:" << std::endl;
-#endif
-		PrintNode(std::cout, plot);
-		std::cout << "!" << std::endl;
+		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::WARNING));
+		debug.PrintLn("Attempted to push node into a used plot");
+		//PrintNode(std::cout, plot);
+		//std::cout << "!" << std::endl;
 	}
 	// Establish the two splits
 	AtlasNode* firstSplit = nullptr;
@@ -260,9 +267,12 @@ void Junior::TextureAtlas::Push(AtlasNode** node, AtlasNode* plot)
 		}
 		else
 		{
-#if _DEBUG
-			std::cout << "[WARNING]: Attempted to make a bigger subplot than its plot on the height (" << (*node)->height_ << " > " << plot->height_ << ")!" << std::endl;
-#endif
+			debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::WARNING));
+			debug.Print<std::string>("Attempted to make a bigger subplot than its plot heightwise (");
+			debug.Print<int>((*node)->height_);
+			debug.Print<std::string>(" > ");
+			debug.Print<int>(plot->height_);
+			debug.PrintLn<std::string>(")");
 		}
 	}
 
@@ -301,9 +311,12 @@ void Junior::TextureAtlas::Push(AtlasNode** node, AtlasNode* plot)
 		}
 		else
 		{
-#ifdef _DEBUG
-			std::cout << "[WARNING]: Attempted to make a bigger subplot than its plot on the width (" << (*node)->width_ << " > " << plot->width_ << ")!" << std::endl;
-#endif
+			debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::WARNING));
+			debug.Print<std::string>("Attempted to make a bigger subplot than its plot widthwise (");
+			debug.Print<int>((*node)->width_);
+			debug.Print<std::string>(" > ");
+			debug.Print<int>(plot->width_);
+			debug.PrintLn<std::string>(")");
 		}
 	}
 
@@ -323,9 +336,8 @@ void Junior::TextureAtlas::Push(AtlasNode** node, AtlasNode* plot)
 		}
 	}
 
-#ifdef _DEBUG
-	std::cout << "[NOTIFICATION]: Finished pushing node" << std::endl;
-#endif
+	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.PrintLn<std::string>("Finished pushing texture atlas node");
 }
 
 void Junior::TextureAtlas::Push(AtlasNode** node)

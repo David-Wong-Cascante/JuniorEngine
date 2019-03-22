@@ -27,6 +27,7 @@
 #include "Mat3.h"					// Mat3
 #include "TextureAtlas.h"			// Texture Atlas Tree
 #include "Camera.h"					// Camera
+#include "Debug.h"					// Debug
 
 // Defines
 #define MAX_ATLAS_SIZE 512
@@ -58,6 +59,8 @@ Junior::Graphics& Junior::Graphics::operator=(const Graphics& other)
 // Public Member Functions
 bool Junior::Graphics::Load()
 {
+	// Debug print information
+	Debug& debug = Debug::GetInstance();
 	// Load the window and the context
 	// Set the default window width and height
 	windowWidth_ = 1920;
@@ -66,9 +69,8 @@ bool Junior::Graphics::Load()
 	// Initialize GLFW so that we can use its library
 	if (!glfwInit())
 	{
-#ifdef _DEBUG
-		std::cout << "Failed to create the window" << std::endl;
-#endif
+		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::ERROR));
+		debug.PrintLn<std::string>("Failed to create the window");
 		return 0;
 	}
 
@@ -81,6 +83,8 @@ bool Junior::Graphics::Load()
 	windowHandle_ = glfwCreateWindow(windowWidth_, windowHeight_, "Junior Game Engine", NULL, NULL);
 	if (!windowHandle_)
 	{
+		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::ERROR));
+		debug.PrintLn<std::string>("Failed to create the window handle");
 		return 0;
 	}
 
@@ -92,17 +96,17 @@ bool Junior::Graphics::Load()
 	glewExperimental = true;
 	if (glewInit() != GLEW_OK)
 	{
-#ifdef _DEBUG
-		std::cout << "Failed to initialize GLEW" << std::endl;
-#endif
+		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::ERROR));
+		debug.PrintLn<std::string>("Failed to initialize the window");
 		return 0;
 	}
 	
 	// Check OpenGL's version
 	char* openGLVersion = (char*)(glGetString(GL_VERSION));
-#ifdef _DEBUG
-	std::cout << "Running OpenGL Version " << openGLVersion << std::endl;
-#endif
+	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.Print<std::string>("Running OpenGL version ");
+	debug.PrintLn<char*>(openGLVersion);
+
 	glGetIntegerv(GL_MAJOR_VERSION, &openGLVersionMajor_);
 	glGetIntegerv(GL_MINOR_VERSION, &openGLVersionMinor_);
 
@@ -132,9 +136,15 @@ bool Junior::Graphics::Load()
 
 	// defaultProgram_ = 0;
 	// Set up the draw program used to draw the triangle
+	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.PrintLn<std::string>("Creating the default shading program");
+
 	defaultProgram_ = new Junior::DrawProgram;
 	defaultProgram_->LoadFromDisk("..//Assets//Shaders//starter");
 	// Generate the texture 
+	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.PrintLn<std::string>("Creating the texture atlas");
+
 	atlas_ = new TextureAtlas(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 4);
 	// Generate some pixels
 	unsigned char* pixels = new unsigned char[MAX_ATLAS_SIZE * MAX_ATLAS_SIZE * 4];
@@ -163,6 +173,10 @@ bool Junior::Graphics::Load()
 
 bool Junior::Graphics::Initialize()
 {
+	// Debug printing
+	Debug& debug = Debug::GetInstance();
+	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.PrintLn<std::string>("Initialize general vertex data for graphics");
 	// Delete any previous data if it existed
 	glDeleteBuffers(1, &renderJobBuffer_);
 	glDeleteBuffers(1, &vbo_);
@@ -228,11 +242,6 @@ bool Junior::Graphics::Initialize()
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-
-	// Set the orthographic matrix at the start
-	//orthographicMatrix_ = Orthographic(-windowWidth_/2.0f, windowWidth_/2.0f, windowHeight_/2.0f, -windowHeight_/2.0f, -5.0f, 5.0f);
-	//orthographicMatrix_ = Perspective(90.0f, static_cast<float>(windowWidth_), static_cast<float>(windowHeight_), -5.0f, 100.f);
-	//orthographicMatrix_ = Identity();
 
 	return true;
 }
@@ -362,6 +371,10 @@ void Junior::Graphics::Shutdown()
 
 void Junior::Graphics::Unload()
 {
+	// Debug printing
+	Debug& debug = Debug::GetInstance();
+	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.PrintLn<std::string>("Unloading Graphics");
 	// Delete the texture atlas
 	delete atlas_;
 	// Delete the shader program
@@ -471,6 +484,7 @@ const char* Junior::IdentifyGLSeverity(unsigned severity)
 
 void GLAPIENTRY Junior::MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char * message, const void * userParam)
 {
+	Debug& debug = Debug::GetInstance();
 	// Ignore notifications
 	//if (severity == GL_DEBUG_SEVERITY_NOTIFICATION)
 	//	return;
@@ -479,8 +493,21 @@ void GLAPIENTRY Junior::MessageCallback(GLenum source, GLenum type, GLuint id, G
 	const char* severityName = IdentifyGLSeverity(severity);
 
 	// Print the error message
-	std::cout << "GL CALLBACK: " << (type == GL_DEBUG_TYPE_ERROR ? "GL ERROR -> " : "")
-		<< "type: " << errorName
-		<< ", severity: " << severityName
-		<< std::endl << "\"" << message << "\"" << std::endl;
+	debug.Print<std::string>("GL CALLBACK -> ");
+	if (type == GL_DEBUG_TYPE_ERROR)
+	{
+		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::ERROR));
+	}
+	else
+	{
+		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	}
+
+	debug.Print<std::string>("Type: ");
+	debug.Print<const char*>(errorName);
+	debug.Print<std::string>(", Severity: ");
+	debug.PrintLn<const char*>(severityName);
+	debug.Print<std::string>("\"");
+	debug.Print<const char*>(message);
+	debug.PrintLn<std::string>("\"");
 }
