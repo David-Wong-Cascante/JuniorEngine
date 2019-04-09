@@ -5,7 +5,7 @@
  * File name: Animator.h
  * Description: Moves UV coordinates around to create animations inside sprite sheets
  * Created: 14-Feb-2019
- * Last Modified: 14-Feb-2019
+ * Last Modified: 8-Apr-2019
 */
 
 // Includes
@@ -17,7 +17,7 @@ namespace Junior
 	class MemoryManager;
 	class Sprite;
 
-	class Animator : public Component
+	class Animator : public Component<Animator>
 	{
 	private:
 		// Private Member Variables
@@ -61,7 +61,11 @@ namespace Junior
 		// Params:
 		//	colums: The number of columns in the sprite sheet
 		//	rows: The number of rows in the sprite sheet
-		Animator(unsigned columns, unsigned rows);
+		Animator(unsigned columns = 0, unsigned rows = 0);
+		// Copy Constructor
+		// Params:
+		//	other: The other animator
+		Animator(const Animator& other);
 		// Initializes the component
 		void Initialize() override;
 		// Updates the component
@@ -71,7 +75,7 @@ namespace Junior
 		// Shutsdown the component
 		// Params:
 		//	manager: The memory manager used to create this component
-		void Clean(MemoryManager* manager) override;
+		void Unload(MemoryManager* manager) override;
 		// Play the animation
 		// Params:
 		//	start: The starting frame of the animation
@@ -87,5 +91,15 @@ namespace Junior
 		void SetFrame(unsigned frame);
 		// Returns: Whether an animation is playing or not
 		bool IsPlaying() const;
+		// Writes the component to a file
+		// Params:
+		//	parser: The parser used to write the component
+		// Throws: ParserException
+		void Serialize(Parser& parser) override;
+		// Reads and creates an object from a file
+		// Params:
+		//	parser: The parser used to read the component from the file
+		// Throws: ParserException
+		void Deserialize(Parser& parser) override;
 	};
 }

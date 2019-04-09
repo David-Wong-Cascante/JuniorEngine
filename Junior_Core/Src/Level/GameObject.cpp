@@ -5,7 +5,7 @@
 * File name: GameObject.h
 * Description: Define the Game Object functionality to get components, get its name, update, etc...
 * Created: 1-May-2018
-* Last Modified: 18-Feb-2019
+* Last Modified: Apr-8-2019
 */
 
 // Includes //
@@ -18,7 +18,7 @@
 
 // Public Member Functions //
 
-Junior::GameObject::GameObject(const char* name, bool rendered)
+Junior::GameObject::GameObject(std::string name, bool rendered)
 	: name_(name), components_(), children_(), parent_(nullptr), destroyed(false), renderJob_(nullptr)
 {
 	Graphics& graphics = Graphics::GetInstance();
@@ -33,7 +33,7 @@ Junior::GameObject::~GameObject()
 
 void Junior::GameObject::Initialize()
 {
-	for (Component* component : components_)
+	for (ComponentContainer* component : components_)
 	{
 		component->Initialize();
 	}
@@ -44,7 +44,7 @@ void Junior::GameObject::Update(double ms)
 {
 	if (components_.size() > 0)
 	{
-		for (Component* component : components_)
+		for (ComponentContainer* component : components_)
 		{
 			if (component->IsUpdateable())
 			{
@@ -60,16 +60,16 @@ void Junior::GameObject::AddChild(GameObject* child)
 	children_.push_back(child);
 }
 
-void Junior::GameObject::Clean(MemoryManager* manager)
+void Junior::GameObject::Unload(MemoryManager* manager)
 {
 	if (components_.size() > 0)
 	{
-		for (Component* component : components_)
+		for (ComponentContainer* component : components_)
 		{
 			// If the component exists, then clean it up and delete it
 			if (component)
 			{
-				component->Clean(manager);
+				component->Unload(manager);
 				//manager->DeAllocate(component);
 				delete component;
 				component = 0;
@@ -86,31 +86,8 @@ void Junior::GameObject::Clean(MemoryManager* manager)
 	}
 }
 
-// Get the objects's name
-const char* Junior::GameObject::GetName() const
-{
-	return name_;
-}
-
-// Get's the object's parent
-Junior::GameObject* Junior::GameObject::GetParent() const
-{
-	return parent_;
-}
-
-// Gets the object's children
-const std::vector<Junior::GameObject*>& Junior::GameObject::GetChildren() const
-{
-	return children_;
-}
-
-Junior::RenderJob* Junior::GameObject::GetRenderJob() const
-{
-	return renderJob_;
-}
-
 // Add the component to the game object
-void Junior::GameObject::AddComponent(Component* component)
+void Junior::GameObject::AddComponent(ComponentContainer* component)
 {
 	component->SetOwner(this);
 	component->Initialize();
@@ -132,10 +109,59 @@ void Junior::GameObject::RemoveComponent(const std::string& type)
 	}
 }
 
-// Get the first component it finds based on on the component's id
-Junior::Component * Junior::GameObject::GetComponent(const std::string& type) const
+void Junior::GameObject::Serialize(Parser& parser)
 {
-	for (Component* component : components_)
+	// Serialize the name of the component
+	parser.WriteValue(name_);
+	// Then serialize the rest of the component
+	parser.StarScope();
+	for (unsigned i = 0; i < components_.size(); ++i)
+	{
+		components_[i]->Serialize(parser);
+	}
+	parser.EndScope();
+}
+
+void Junior::GameObject::Deserialize(Parser& parser)
+{
+	// Get the name of the component
+	parser.ReadValue(name_);
+	// Then start deserializing the rest of the components
+	unsigned prevTabs = parser.StarScope();
+	while (parser.GetCurrentIndents() > prevTabs)
+	{
+		// Create new components and save them to the game object
+	}
+	parser.EndScope();
+}
+
+// Get the objects's name
+std::string Junior::GameObject::GetName() const
+{
+	return name_;
+}
+
+// Get's the object's parent
+Junior::GameObject* Junior::GameObject::GetParent() const
+{
+	return parent_;
+}
+
+// Gets the object's children
+const std::vector<Junior::GameObject*>& Junior::GameObject::GetChildren() const
+{
+	return children_;
+}
+
+Junior::RenderJob* Junior::GameObject::GetRenderJob() const
+{
+	return renderJob_;
+}
+
+// Get the first component it finds based on on the component's id
+Junior::ComponentContainer * Junior::GameObject::GetComponent(const std::string& type) const
+{
+	for (ComponentContainer* component : components_)
 	{
 		if (component->GetTypeName() == type)
 		{

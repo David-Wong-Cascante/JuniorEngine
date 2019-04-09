@@ -4,7 +4,7 @@
 * File name: TestLevel.cpp
 * Description: Test level for object management
 * Created: 20-Dec-2018
-* Last Modified: 20-Dec-2018
+* Last Modified: 8-Apr-2018
 */
 
 // Includes
@@ -44,9 +44,11 @@ bool Junior::TestLevel::Initialize()
 	Camera* cameraComponent = new Junior::Camera;
 	camera_->AddComponent(cameraComponent);
 	Graphics& graphics = Graphics::GetInstance();
-	cameraComponent->UpdateProjection(ProjectionMode::ORTHOGRAPHIC, static_cast<float>(graphics.GetWindowWidth()), static_cast<float>(graphics.GetWindowHeight()), -5.0f, 5.0f);
+	cameraComponent->UpdateProjection(ProjectionMode::ORTHOGRAPHIC, static_cast<float>(graphics.GetWindowWidth()), 
+										static_cast<float>(graphics.GetWindowHeight()), -5.0f, 5.0f);
 
-	cog_->AddComponent(new Junior::Transform);
+	Transform* transform = new Junior::Transform;
+	cog_->AddComponent(transform);
 	cog2_->AddComponent(new Junior::Transform);
 	camera_->AddComponent(new Junior::Transform);
 
@@ -57,8 +59,6 @@ bool Junior::TestLevel::Initialize()
 
 	Animator* animator = new Animator(2, 4);
 	cog_->AddComponent(animator);
-	animator->Play(0, 7, 0.2f, true);
-
 	transform_ = cog_->GetComponent<Transform>();
 	transform2_ = cog2_->GetComponent<Transform>();
 	cameraTransform_ = camera_->GetComponent<Transform>();

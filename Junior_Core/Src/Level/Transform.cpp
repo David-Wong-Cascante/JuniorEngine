@@ -18,12 +18,18 @@
 #include "LinearMath.h"			// Linear Math, Helper Functions
 #include "Camera.h"				// Camera
 
-// Public Member Functions //
+// Public Member Functions
 
 Junior::Transform::Transform() 
 	: Component("Transform"), localRot_(0.0f), localTranslation_({0, 0, 0, 1}), localScaling_({1, 1, 1, 0})
 {
-};
+}
+
+Junior::Transform::Transform(const Transform& other)
+	: Component("Transform"), localRot_(other.localRot_), localTranslation_(other.localTranslation_), localScaling_(other.localScaling_),
+	localTransformation_(other.localTransformation_)
+{
+}
 
 void Junior::Transform::Initialize()
 {
@@ -46,7 +52,7 @@ void Junior::Transform::Update(double ms)
 	}
 }
 
-void Junior::Transform::Clean(MemoryManager* manager)
+void Junior::Transform::Unload(MemoryManager* manager)
 {
 }
 
@@ -121,6 +127,14 @@ const Junior::Mat3 Junior::Transform::GetGlobalTransformation() const
 		camera_->UpdateViewMatrix(totalTransformation);
 
 	return totalTransformation;
+}
+
+void Junior::Transform::Serialize(Parser& parser)
+{
+}
+
+void Junior::Transform::Deserialize(Parser& parser)
+{
 }
 
 // Private Member Functions //

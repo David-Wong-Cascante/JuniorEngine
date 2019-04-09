@@ -21,7 +21,7 @@ namespace Junior
 		ORTHOGRAPHIC, PERSPECTIVE
 	};
 
-	class Camera : public Component
+	class Camera : public Component<Camera>
 	{
 		// Friend Classes
 		friend class Transform;
@@ -56,6 +56,10 @@ namespace Junior
 		//	nearPlane: The camera's near plane
 		//	farPlane: The camera's far plane
 		Camera(ProjectionMode mode = ProjectionMode::ORTHOGRAPHIC, float cameraWidth = 3.0f, float cameraHeight = 3.0f, float nearPlane = -5.0f, float farPlane = 5.0f	);
+		// Hidden Copy Constructor
+		// Params:
+		//	other: The other camera we want to ccocpy from
+		Camera(const Camera& other);
 		// Initializes the component
 		void Initialize() override;
 		// Update the component
@@ -63,7 +67,7 @@ namespace Junior
 		//	dt: The time between frames
 		void Update(double dt) override;
 		// Shutsdown the component
-		void Clean(MemoryManager* manager) override;
+		void Unload(MemoryManager* manager) override;
 		// Updates the camera's projection matrix
 		// Params:
 		//	mode: The new projection mode
@@ -82,5 +86,15 @@ namespace Junior
 		float GetFarZPlane() const;
 		// Returns: The matrix with projection and camera transformation multiplied
 		const Mat3 GetCameraMatrix();
+		// Writes the component to a file
+		// Params:
+		//	parser: The parser used to write the component
+		// Throws: ParserException
+		void Serialize(Parser& parser) override;
+		// Reads and creates an object from a file
+		// Params:
+		//	parser: The parser used to read the component from the file
+		// Throws: ParserException
+		void Deserialize(Parser& parser) override;
 	};
 }

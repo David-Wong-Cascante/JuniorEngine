@@ -15,12 +15,23 @@
 #include "TextureAtlas.h"		// Texture Atlas
 #include "Texture.h"			// Texture
 
-// Public Member Functions
 
+// Public Member Functions
 Junior::Animator::Animator(unsigned columns, unsigned rows)
-	: Component("Animator"), currentFrame_(0), playing_(false), loop_(false), start_(0), end_(0), numColumns_(columns), numRows_(rows), timer_(0.0), timePerFrame_(0.0), sprite_(nullptr),
-	originalXOffset_(0), originalYOffset_(0), textureXSize_(0), textureYSize_(0)
+	: Component("Animator"), currentFrame_(0), playing_(false), loop_(false), start_(0), end_(0), 
+	numColumns_(columns), numRows_(rows), timer_(0.0), timePerFrame_(0.0), sprite_(nullptr),
+	originalXOffset_(0), originalYOffset_(0), textureXSize_(0), textureYSize_(0), columnSize_(0),
+	rowSize_(0)
 {
+}
+
+Junior::Animator::Animator(const Animator& other)
+	: Component("Animator"), currentFrame_(other.currentFrame_), playing_(other.playing_), loop_(other.loop_), start_(other.start_),
+	end_(other.end_), numColumns_(other.numColumns_), numRows_(other.numRows_), timer_(other.timer_), timePerFrame_(other.timePerFrame_),
+	originalXOffset_(other.originalXOffset_), originalYOffset_(other.originalYOffset_), textureXSize_(other.textureXSize_),
+	textureYSize_(other.textureYSize_), columnSize_(other.columnSize_), rowSize_(other.rowSize_)
+{
+	sprite_ = other.sprite_->Clone<Sprite>();
 }
 
 void Junior::Animator::Initialize()
@@ -73,7 +84,7 @@ void Junior::Animator::Update(double dt)
 	
 }
 
-void Junior::Animator::Clean(MemoryManager* memoryManager)
+void Junior::Animator::Unload(MemoryManager* memoryManager)
 {
 }
 
@@ -103,4 +114,12 @@ void Junior::Animator::SetFrame(unsigned frame)
 bool Junior::Animator::IsPlaying() const
 {
 	return playing_;
+}
+
+void Junior::Animator::Serialize(Parser& parser)
+{
+}
+
+void Junior::Animator::Deserialize(Parser& parser)
+{
 }

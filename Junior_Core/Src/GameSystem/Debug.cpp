@@ -54,7 +54,6 @@ const std::string Junior::Debug::GetDebugLevelName(Junior::DebugLevel level) con
 
 Junior::Debug& Junior::Debug::GetInstance()
 {
-	//static Debug debug("JuniorDebugInfo.txt");
 	static Debug debug(std::cout);
 	return debug;
 }

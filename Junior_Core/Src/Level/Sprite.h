@@ -20,7 +20,7 @@ namespace Junior
 	struct AtlasNode;
 	struct RenderJob;
 
-	class Sprite : public Component
+	class Sprite : public Component<Sprite>
 	{
 	private:
 		// Private Member Variables
@@ -31,6 +31,7 @@ namespace Junior
 		AtlasNode* atlasNode_;
 		// The object's render job
 		RenderJob* job_;
+
 	public:
 		// Public Member Functions
 
@@ -40,6 +41,10 @@ namespace Junior
 		// Params:
 		//	path: The path to the imag file
 		Sprite(const std::string& path);
+		// Copy Constructor
+		// Params:
+		//	other: The other sprite we are trying to copy from
+		Sprite(const Sprite& other);
 		// Initializes the component
 		void Initialize() override;
 		// Updates the component
@@ -49,7 +54,7 @@ namespace Junior
 		// Cleans up the component
 		// Params:
 		//	The memory manager used to create this object
-		void Clean(MemoryManager* manager) override;
+		void Unload(MemoryManager* manager) override;
 		// Modifies the sprite's UV modification
 		// Params:
 		//	xOffset: The x offset
@@ -71,5 +76,15 @@ namespace Junior
 		Texture* GetTexture() const;
 		// Returns: The atlas node used to store this sprite's subtexture
 		AtlasNode* GetNode() const;
+		// Writes the component to a file
+		// Params:
+		//	parser: The parser used to write the component
+		// Throws: ParserException
+		void Serialize(Parser& parser) override;
+		// Reads and creates an object from a file
+		// Params:
+		//	parser: The parser used to read the component from the file
+		// Throws: ParserException
+		void Deserialize(Parser& parser) override;
 	};
 }

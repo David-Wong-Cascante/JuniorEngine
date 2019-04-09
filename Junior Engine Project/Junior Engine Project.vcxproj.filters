@@ -25,6 +25,9 @@
     <Filter Include="Util">
       <UniqueIdentifier>{333bbb26-cff4-417f-8d13-d4db2a747327}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\Components">
+      <UniqueIdentifier>{554481bb-ede3-4054-96a1-8f7fc2325651}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.cpp">
@@ -51,9 +54,6 @@
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\Texture.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\Component.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObject.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -61,9 +61,6 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\Space.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\Transform.cpp">
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\GameSystem.cpp">
@@ -87,17 +84,29 @@
     <ClCompile Include="..\Junior_Core\Src\Graphics\TextureAtlas.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Level\Sprite.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Level\Animator.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Level\Camera.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="..\Junior_Core\Src\GameSystem\Debug.cpp">
       <Filter>GameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\GameSystem\Application.cpp">
+      <Filter>GameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Util\Parser.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Level\Animator.cpp">
+      <Filter>Level\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Level\Camera.cpp">
+      <Filter>Level\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Level\Sprite.cpp">
+      <Filter>Level\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\Transform.cpp">
+      <Filter>Level\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Level\ComponentContainer.cpp">
+      <Filter>Level\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,9 +146,6 @@
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\Texture.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Component.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObject.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -150,9 +156,6 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Space.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Transform.h">
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\GameSystem.h">
@@ -173,17 +176,35 @@
     <ClInclude Include="..\Junior_Core\Src\Graphics\TextureAtlas.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Level\Sprite.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Level\Animator.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Level\Camera.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="..\Junior_Core\Src\GameSystem\Debug.h">
       <Filter>GameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\GameSystem\Application.h">
+      <Filter>GameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Util\Parser.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Util\Serializable.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Level\Animator.h">
+      <Filter>Level\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Level\Camera.h">
+      <Filter>Level\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Level\Sprite.h">
+      <Filter>Level\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Transform.h">
+      <Filter>Level\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Component.h">
+      <Filter>Level\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Level\ComponentContainer.h">
+      <Filter>Level\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

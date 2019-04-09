@@ -54,7 +54,7 @@ namespace Junior
 				}
 
 				// Clean up the destroyed object
-				object->Clean(manager);
+				object->Unload(manager);
 				delete object;
 			}
 			destroyedObjects_.clear();
@@ -65,7 +65,7 @@ namespace Junior
 	{
 		for (GameObject* gameObject : gameObjects_)
 		{
-			gameObject->Clean(manager);
+			gameObject->Unload(manager);
 			delete gameObject;
 		}
 	}

@@ -159,7 +159,6 @@
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\DrawProgram.cpp" />
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\ResourceManager.cpp" />
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\Texture.cpp" />
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\Component.cpp" />
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObject.cpp" />
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObjectManager.cpp" />
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\Space.cpp" />
@@ -169,13 +168,16 @@
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.cpp" />
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\Mat3.cpp" />
     <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\Vec3.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\GameSystem\Application.cpp" />
     <ClCompile Include="..\Junior_Core\Src\GameSystem\Debug.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Graphics\TextureAtlas.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Level\Animator.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Level\Camera.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\Level\ComponentContainer.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Level\Level.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Level\Sprite.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Math\TestLevel.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\Util\Parser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\GameSystem.h" />
@@ -199,13 +201,17 @@
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.h" />
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\Mat3.h" />
     <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\Vec3.h" />
+    <ClInclude Include="..\Junior_Core\Src\GameSystem\Application.h" />
     <ClInclude Include="..\Junior_Core\Src\GameSystem\Debug.h" />
     <ClInclude Include="..\Junior_Core\Src\Graphics\TextureAtlas.h" />
     <ClInclude Include="..\Junior_Core\Src\Level\Animator.h" />
     <ClInclude Include="..\Junior_Core\Src\Level\Camera.h" />
+    <ClInclude Include="..\Junior_Core\Src\Level\ComponentContainer.h" />
     <ClInclude Include="..\Junior_Core\Src\Level\Sprite.h" />
     <ClInclude Include="..\Junior_Core\Src\Math\TestLevel.h" />
     <ClInclude Include="..\Junior_Core\Src\Util\MemoryLeakGuard.h" />
+    <ClInclude Include="..\Junior_Core\Src\Util\Parser.h" />
+    <ClInclude Include="..\Junior_Core\Src\Util\Serializable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

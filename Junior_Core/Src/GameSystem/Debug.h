@@ -5,7 +5,7 @@
 * File name: Debug.h
 * Description: Describes the debug methods used
 * Created: 19-Mar-2019
-* Last Modified: 19-Mar-2019
+* Last Modified: 27-Mar-2019
 */
 
 // Includes
@@ -29,6 +29,7 @@ namespace Junior
 	{
 	private:
 		// Private Member Variables
+
 		// The output buffer for files
 		std::filebuf fileBuffer;
 		// The output stream for debug

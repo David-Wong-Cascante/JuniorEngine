@@ -62,11 +62,17 @@ void Junior::Sprite::Initialize()
 	}
 }
 
+Junior::Sprite::Sprite(const Sprite& sprite)
+	: Component("Sprite"), job_(nullptr), atlasNode_(nullptr)
+{
+	texture_ = new Texture;
+}
+
 void Junior::Sprite::Update(double dt)
 {
 }
 
-void Junior::Sprite::Clean(MemoryManager* manager)
+void Junior::Sprite::Unload(MemoryManager* manager)
 {
 	delete texture_;
 }
@@ -112,4 +118,12 @@ Junior::Texture* Junior::Sprite::GetTexture() const
 Junior::AtlasNode* Junior::Sprite::GetNode() const
 {
 	return atlasNode_;
+}
+
+void Junior::Sprite::Serialize(Parser& parser)
+{
+}
+
+void Junior::Sprite::Deserialize(Parser& parser)
+{
 }

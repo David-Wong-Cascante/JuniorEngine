@@ -37,6 +37,12 @@ Junior::Camera::Camera(Junior::ProjectionMode mode, float cameraWidth, float cam
 	UpdateProjection(mode, cameraWidth, cameraHeight, zNear, zFar);
 }
 
+Junior::Camera::Camera(const Camera& other)
+	: Component("Camera"), mode_(other.mode_), cameraWidth_(other.cameraWidth_), cameraHeight_(other.cameraHeight_), nearPlane_(other.nearPlane_),
+	farPlane_(other.farPlane_)
+{
+}
+
 void Junior::Camera::Initialize()
 {
 	// Create the projection matrix
@@ -47,9 +53,8 @@ void Junior::Camera::Update(double dt)
 
 }
 
-void Junior::Camera::Clean(MemoryManager* manager)
+void Junior::Camera::Unload(MemoryManager* manager)
 {
-
 }
 
 void Junior::Camera::UpdateProjection(ProjectionMode mode, float cameraWidth, float cameraHeight, float zNear, float zFar)
@@ -96,4 +101,12 @@ float Junior::Camera::GetFarZPlane() const
 const Junior::Mat3 Junior::Camera::GetCameraMatrix()
 {
 	return (projection_ * view_);
+}
+
+void Junior::Camera::Serialize(Parser& parser)
+{
+}
+
+void Junior::Camera::Deserialize(Parser& parser)
+{
 }

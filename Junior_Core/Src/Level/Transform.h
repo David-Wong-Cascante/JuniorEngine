@@ -9,9 +9,9 @@
 */
 
 // Includes //
-#include "Component.h"
-#include "Vec3.h"
-#include "Mat3.h"
+#include "Component.h"				// Component
+#include "Vec3.h"					// Vector3
+#include "Mat3.h"					// Matrix3
 
 namespace Junior
 {
@@ -19,10 +19,10 @@ namespace Junior
 	struct RenderJob;
 	class Camera;
 
-	class Transform : public Component
+	class Transform : public Component<Transform>
 	{
 	private:
-		// Private Class Variables //
+		// Private Class Variables
 		// Local Transformation
 		Mat3 localTransformation_;
 		// Local Translation
@@ -35,6 +35,8 @@ namespace Junior
 		bool isDirty;
 		// The object's camera
 		Camera* camera_;
+		// The game object's render job
+		RenderJob* job_;
 
 		// Private Member Functions //
 		// Constructs a new transformation matrix based on the
@@ -42,20 +44,25 @@ namespace Junior
 		void ReconstructTransformation();
 	public:
 		// Public Class Variables //
-		RenderJob* job_;
 		// Public Member Functions //
+
 		// Constructor
 		Transform();
+		// Protected Member Functions
+		// Copy constructor
+		// Params:
+		//	other: The other transform
+		Transform(const Transform& other);
 		// Initializes the component
-		void Initialize();
+		void Initialize() override;
 		// Updates the transform
 		// Params:
 		//	ms: The delta time between frames
-		void Update(double ms);
+		void Update(double ms) override;
 		// Cleans up the transform
 		// Params:
 		//	manager: The memory manager used to create this instance of the component
-		void Clean(MemoryManager* manager);
+		void Unload(MemoryManager* manager) override;
 		
 		// Sets the local translatoin
 		// Params:
@@ -81,5 +88,15 @@ namespace Junior
 		const Mat3& GetLocalTransformation() const;
 		// Returns: The global transformation matrix
 		const Mat3 GetGlobalTransformation() const;
+		// Writes the component to a file
+		// Params:
+		//	parser: The parser used to write the component
+		// Throws: ParserException
+		void Serialize(Parser& parser) override;
+		// Reads and creates an object from a file
+		// Params:
+		//	parser: The parser used to read the component from the file
+		// Throws: ParserException
+		void Deserialize(Parser& parser) override;
 	};
 }
