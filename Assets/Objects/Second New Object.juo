@@ -1,0 +1,14 @@
+Second_New_Object
+{
+   numComponents : 2
+   Junior::Transform
+   {
+      localTranslation : [ 300, 0, 0, 1 ]
+      localRotation : 0
+      localScaling : [ 256, 128, 1, 1 ]
+   }
+   Junior::Sprite
+   {
+      texturePath : ..//Assets//Images//WideTestImage1.png
+   }
+}

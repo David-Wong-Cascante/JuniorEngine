@@ -1,0 +1,65 @@
+/*
+* Author: David Wong
+* Email: david.wongcascante@digipen.edu
+* File name: GameObjectFactory.cpp
+* Description: Constructs game objects and components from files
+* Created: 9-Apr-2019
+* Last Modified: 9-Apr-2019
+*/
+
+// Includes
+#include <vector>		// Vector
+#include <string>		// String
+#include "Parser.h"		// Parser
+
+namespace Junior
+{
+	// Forward Declarations
+	class ComponentContainer;
+	class GameObject;
+
+	class GameObjectFactory
+	{
+	private:
+		// Private Member Variables
+
+		// The vector containing all the prepared components for deserialization
+		std::vector<ComponentContainer*> preparedComponents;
+		// The target file path
+		std::string filePath;
+		// File extention
+		std::string fileExtension;
+
+		// Private Member Functions
+
+		// Hide the constructor
+		GameObjectFactory();
+	public:
+		// Public Member Functions
+
+		// Destructor
+		~GameObjectFactory();
+		// Registers a component to the factory
+		template <class T>
+		void RegisterComponent()
+		{
+			preparedComponents.push_back(new T);
+		}
+		// Creates a new component based the parser
+		// Params:
+		//	name: The name of the component
+		// Returns: The component we created
+		ComponentContainer* CreateComponent(const std::string& name) const;
+		// Creates a new object based on the parser
+		// Params:
+		//	name: The name of the object we want to create
+		// Returns: The object created
+		GameObject* CreateObject(const std::string& name) const;
+		// Saves an object to a file
+		// Params:
+		//	archetype: The object we are saving
+		void SaveObject(GameObject* archetype) const;
+		// Returns: The instance of the game object factory
+		static GameObjectFactory& GetInstance();
+	};
+}

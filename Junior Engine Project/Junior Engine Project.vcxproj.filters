@@ -1,210 +1,192 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Math">
-      <UniqueIdentifier>{7d6dacbe-cb93-432a-852a-2589acddc091}</UniqueIdentifier>
+    <ClInclude Include="..\Junior_Core\Src\Include\Animator.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Camera.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Component.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\ComponentContainer.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Texture.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Sprite.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Application.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Debug.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\GameObjectFactory.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\GameObjectManager.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\GameSystem.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Input.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Graphics.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\MemoryLeakGuard.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\MemoryManager.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\ResourceManager.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Parser.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Serializable.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Resource.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Level.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\RenderJob.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\DrawProgram.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\GameObject.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\LinearMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Mat3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Vec3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Transform.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Space.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\OpenGLBundle.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\TextureAtlas.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Time.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Components">
+      <UniqueIdentifier>{8fee923e-fb0e-4e25-8494-25018315c143}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Logic">
-      <UniqueIdentifier>{91c2f14c-cb67-4566-8887-05610d87a6c3}</UniqueIdentifier>
+    <Filter Include="Game Systems">
+      <UniqueIdentifier>{cf87f992-632b-437f-98da-5d82b04a6b2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serialization">
+      <UniqueIdentifier>{8a0e3ce0-2432-4cb4-aa84-16435af8e5fa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graphics">
-      <UniqueIdentifier>{d1d1c48b-ffd1-4f8b-879b-1d50970a2241}</UniqueIdentifier>
+      <UniqueIdentifier>{b7b9d062-6618-43f0-8e5f-89895a32ebf3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level">
-      <UniqueIdentifier>{0f355616-f675-460d-a739-73907c12ab45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameSystem">
-      <UniqueIdentifier>{c27f35af-c70f-4621-9419-ae75ab3745de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entry">
-      <UniqueIdentifier>{1a9b2f20-8de9-4803-8234-71a3a3075d48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game">
-      <UniqueIdentifier>{c894a77f-552f-44e5-b508-b5bb23e31737}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Util">
-      <UniqueIdentifier>{333bbb26-cff4-417f-8d13-d4db2a747327}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\Components">
-      <UniqueIdentifier>{554481bb-ede3-4054-96a1-8f7fc2325651}</UniqueIdentifier>
+    <Filter Include="Math">
+      <UniqueIdentifier>{1aaf2a9e-1f7c-4865-a5a5-18bd54c43e0f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.cpp">
+    <ClCompile Include="..\Junior_Core\Src\Source\Animator.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Camera.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Transform.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Sprite.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\ComponentContainer.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Application.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Debug.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\GameObject.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\GameObjectFactory.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\GameObjectManager.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\GameSystem.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Graphics.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Input.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Level.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\MemoryManager.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\ResourceManager.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Space.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Time.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\DrawProgram.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\TextureAtlas.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\LinearMath.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\Mat3.cpp">
+    <ClCompile Include="..\Junior_Core\Src\Source\Mat3.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Math\Vec3.cpp">
+    <ClCompile Include="..\Junior_Core\Src\Source\Vec3.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Logic\Input.cpp">
-      <Filter>Logic</Filter>
+    <ClCompile Include="..\Junior_Core\Src\Source\Parser.cpp">
+      <Filter>Serialization</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Logic\Time.cpp">
-      <Filter>Logic</Filter>
+    <ClCompile Include="..\Junior_Core\Src\Source\Texture.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\DrawProgram.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\ResourceManager.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\Texture.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObject.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObjectManager.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\Space.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\GameSystem.cpp">
-      <Filter>GameSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\Graphics.cpp">
-      <Filter>GameSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\MemoryManager.cpp">
-      <Filter>GameSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Entry\main.cpp">
-      <Filter>Entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Level\Level.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Math\TestLevel.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Graphics\TextureAtlas.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\GameSystem\Debug.cpp">
-      <Filter>GameSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\GameSystem\Application.cpp">
-      <Filter>GameSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Util\Parser.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Level\Animator.cpp">
-      <Filter>Level\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Level\Camera.cpp">
-      <Filter>Level\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Level\Sprite.cpp">
-      <Filter>Level\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuniorEngine\Junior_Core\Src\Level\Transform.cpp">
-      <Filter>Level\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Level\ComponentContainer.cpp">
-      <Filter>Level\Components</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\LinearMath.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\Mat3.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Math\Vec3.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Logic\Input.h">
-      <Filter>Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Logic\Serialize.h">
-      <Filter>Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Logic\Time.h">
-      <Filter>Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\DrawProgram.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\OpenGLBundle.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\RenderJob.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\Resource.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\ResourceManager.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Graphics\Texture.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObject.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\GameObjectManager.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Level.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Space.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\GameSystem.h">
-      <Filter>GameSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\Graphics.h">
-      <Filter>GameSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\GameSystem\MemoryManager.h">
-      <Filter>GameSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Math\TestLevel.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Util\MemoryLeakGuard.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Graphics\TextureAtlas.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\GameSystem\Debug.h">
-      <Filter>GameSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\GameSystem\Application.h">
-      <Filter>GameSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Util\Parser.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Util\Serializable.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Level\Animator.h">
-      <Filter>Level\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Level\Camera.h">
-      <Filter>Level\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Level\Sprite.h">
-      <Filter>Level\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Transform.h">
-      <Filter>Level\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JuniorEngine\Junior_Core\Src\Level\Component.h">
-      <Filter>Level\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Level\ComponentContainer.h">
-      <Filter>Level\Components</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

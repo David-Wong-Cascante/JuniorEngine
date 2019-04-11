@@ -1,0 +1,18 @@
+Camera
+{
+   numComponents : 2
+   Junior::Camera
+   {
+      projectionMode : Orthographic
+      cameraWidth : 1920
+      cameraHeight : 1080
+      nearPlane : -5
+      farPlane : 5
+   }
+   Junior::Transform
+   {
+      localTranslation : [ 0, 0, 0, 1 ]
+      localRotation : 0
+      localScaling : [ 1, 1, 1, 0 ]
+   }
+}

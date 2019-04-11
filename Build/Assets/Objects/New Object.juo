@@ -1,0 +1,25 @@
+New_Object
+{
+   numComponents : 3
+   Junior::Transform
+   {
+      localTranslation : [ -0.25, 0, 0, 1 ]
+      localRotation : 0
+      localScaling : [ 128, 128, 1, 1 ]
+   }
+   Junior::Sprite
+   {
+      texturePath : ..//Assets//Images//GoldenAnim.png
+   }
+   Junior::Animator
+   {
+      currentFrame : 0
+      playing : 1
+      loop : 0
+      animStart : 0
+      animEnd : 0
+      numColumns : 2
+      numRows : 4
+      timePerFrame : 0.3
+   }
+}
