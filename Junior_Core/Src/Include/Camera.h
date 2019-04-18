@@ -4,8 +4,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: Camera.h
 * Description: Holds the data for camera transformations and such as a component so that it can look at the object's transform
-* Created: 18-Feb-2019
-* Last Modified: 18-Feb-2019
+* Created: 18 Feb 2019
+* Last Modified: 18 Apr 2019
 */
 
 // Includes
@@ -70,7 +70,7 @@ namespace Junior
 		//	dt: The time between frames
 		void Update(double dt) override;
 		// Shutsdown the component
-		void Unload(MemoryManager* manager) override;
+		void Unload() override;
 		// Updates the camera's projection matrix
 		// Params:
 		//	mode: The new projection mode

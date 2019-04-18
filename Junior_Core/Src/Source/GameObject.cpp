@@ -62,7 +62,7 @@ void Junior::GameObject::AddChild(GameObject* child)
 	children_.push_back(child);
 }
 
-void Junior::GameObject::Unload(MemoryManager* manager)
+void Junior::GameObject::Unload()
 {
 	if (components_.size() > 0)
 	{
@@ -71,7 +71,7 @@ void Junior::GameObject::Unload(MemoryManager* manager)
 			// If the component exists, then clean it up and delete it
 			if (component)
 			{
-				component->Unload(manager);
+				component->Unload();
 				//manager->DeAllocate(component);
 				delete component;
 				component = 0;

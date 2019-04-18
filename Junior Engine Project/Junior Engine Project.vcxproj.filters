@@ -13,9 +13,6 @@
     <ClInclude Include="..\Junior_Core\Src\Include\ComponentContainer.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Include\Texture.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\Junior_Core\Src\Include\Sprite.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -93,6 +90,9 @@
     </ClInclude>
     <ClInclude Include="..\Junior_Core\Src\Include\Time.h">
       <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Texture.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -185,11 +185,11 @@
     <ClCompile Include="..\Junior_Core\Src\Source\Parser.cpp">
       <Filter>Serialization</Filter>
     </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Source\Texture.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\Junior_Core\Src\Source\Resource.cpp">
       <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Texture.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

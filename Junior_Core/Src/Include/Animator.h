@@ -4,8 +4,8 @@
  * Email: david.wongcascante@digipen.edu
  * File name: Animator.h
  * Description: Moves UV coordinates around to create animations inside sprite sheets
- * Created: 14-Feb-2019
- * Last Modified: 8-Apr-2019
+ * Created: 14 Feb 2019
+ * Last Modified: 18 Apr 2019
 */
 
 // Includes
@@ -75,7 +75,7 @@ namespace Junior
 		// Shutsdown the component
 		// Params:
 		//	manager: The memory manager used to create this component
-		void Unload(MemoryManager* manager) override;
+		void Unload() override;
 		// Play the animation
 		// Params:
 		//	start: The starting frame of the animation

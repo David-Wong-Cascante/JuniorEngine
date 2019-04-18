@@ -38,7 +38,7 @@ Junior::GameObjectFactory::~GameObjectFactory()
 	// Delete all of the prepared components
 	for (auto cbegin = preparedComponents.cbegin(); cbegin < preparedComponents.cend(); ++cbegin)
 	{
-		(*cbegin)->Unload(nullptr);
+		(*cbegin)->Unload();
 		delete (*cbegin);
 	}
 

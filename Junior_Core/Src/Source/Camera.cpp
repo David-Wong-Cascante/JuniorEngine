@@ -3,8 +3,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: Camera.h
 * Description: Describes how the camera works
-* Created: 18-Feb-2019
-* Last Modified: 18-Feb-2019
+* Created: 18 Feb 2019
+* Last Modified: 18 Apr 2019
 */
 
 // Includes
@@ -54,7 +54,7 @@ void Junior::Camera::Update(double dt)
 
 }
 
-void Junior::Camera::Unload(MemoryManager* manager)
+void Junior::Camera::Unload()
 {
 }
 

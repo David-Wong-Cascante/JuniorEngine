@@ -4,8 +4,8 @@
  * Email: david.wongcascante@digipen.edu
  * File Name: Sprite.h
  * Description: Sprites manage the raw data that comes from textures and updates the texture coordinates for texture maps
- * Created: 13-Feb-2019
- * Last Modified: 13-Feb-2019
+ * Created: 13 Feb 2019
+ * Last Modified: 18 Apr 2019
 */
 
 // Includes
@@ -56,7 +56,7 @@ namespace Junior
 		// Cleans up the component
 		// Params:
 		//	The memory manager used to create this object
-		void Unload(MemoryManager* manager) override;
+		void Unload() override;
 		// Modifies the sprite's UV modification
 		// Params:
 		//	xOffset: The x offset

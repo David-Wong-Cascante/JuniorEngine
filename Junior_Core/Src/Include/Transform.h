@@ -2,8 +2,8 @@
 /*
  * Author: David Wong
  * Email: david.wongcascante@digipen.edu
- * Date Created: 1-May-2018
- * Last Modified: 11-Dec-2018
+ * Date Created: 1 May 2018
+ * Last Modified: 19 Apr 2019
  * File name: Transform.h
  * Description: Declare the transform component, which is in charge of defining the final dimensions of the vertices in the game object
 */
@@ -62,7 +62,7 @@ namespace Junior
 		// Cleans up the transform
 		// Params:
 		//	manager: The memory manager used to create this instance of the component
-		void Unload(MemoryManager* manager) override;
+		void Unload() override;
 		
 		// Sets the local translatoin
 		// Params:

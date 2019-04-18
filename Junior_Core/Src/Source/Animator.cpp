@@ -3,8 +3,8 @@
  * Email: david.wongcascante@digipen.edu
  * File name: Animator.h
  * Description: Defines how the animator is going to work
- * Created: 14-Feb-2019
- * Last Modified: 14-Feb-2019
+ * Created: 14 Feb 2019
+ * Last Modified: 18 Apr 2019
 */
 
 // Includes
@@ -85,7 +85,7 @@ void Junior::Animator::Update(double dt)
 	SetFrame(currentFrame_);
 }
 
-void Junior::Animator::Unload(MemoryManager* memoryManager)
+void Junior::Animator::Unload()
 {
 }
 

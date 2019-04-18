@@ -56,7 +56,7 @@ namespace Junior
 		// Cleans the game object and its components
 		// Params:
 		//	manager: The memory manager used to create the game object
-		void Unload(MemoryManager* manager);
+		void Unload();
 		// Adds a child game object to this one
 		// Params:
 		// child: Thie child game object

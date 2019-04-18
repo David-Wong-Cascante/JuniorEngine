@@ -3,8 +3,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: GameObjectManager.cpp
 * Description: Takes care to initialize, update, and clean up all of the objects
-* Created: 11-Dec-2018
-* Last Modified: 11-Dec-2018
+* Created: 11 Dec 2018
+* Last Modified: 18 Apr 2019
 */
 
 // Includes
@@ -54,7 +54,7 @@ namespace Junior
 				}
 
 				// Clean up the destroyed object
-				object->Unload(manager);
+				object->Unload();
 				delete object;
 			}
 			destroyedObjects_.clear();
@@ -65,7 +65,7 @@ namespace Junior
 	{
 		for (GameObject* gameObject : gameObjects_)
 		{
-			gameObject->Unload(manager);
+			gameObject->Unload();
 			delete gameObject;
 		}
 	}

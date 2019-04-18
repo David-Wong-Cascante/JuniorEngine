@@ -3,8 +3,8 @@
  * Email: david.wongcascante@digipen.edu
  * File Name: Sprite.cpp
  * Description: Defines how Sprite works
- * Created: 13-Feb-2019
- * Last Modified: 14-Feb-2019
+ * Created: 13 Feb 2019
+ * Last Modified: 18 Apr 2019
 */
 
 // Includes
@@ -72,7 +72,7 @@ void Junior::Sprite::Update(double dt)
 {
 }
 
-void Junior::Sprite::Unload(MemoryManager* manager)
+void Junior::Sprite::Unload()
 {
 	delete texture_;
 }

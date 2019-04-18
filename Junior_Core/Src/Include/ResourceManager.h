@@ -1,22 +1,25 @@
 /*
 * Author: David Wong
 * Email: david.wongcascante@digipen.edu
-* Date Created: 11-Sep-2018
-* Last Modified: 29-Oct-2018
+* Date Created: 11 Sep 2018
+* Last Modified: 18 Apr 2019
 * File Name: ResourceManager.h
 * Description: Defines a static class in charge of keeping track of resources via an unordered map
 */
 
 #pragma once
 
-// Includes //
-#include <unordered_map> // std::unordered_map
-#include "Resource.h" // Resource
+// Includes
+#include <unordered_map>			// std::unordered_map
+#include "GameSystem.h"				// Game System
 
 
 namespace Junior
 {
-	class ResourceManager
+	// Forward Declarations
+	class Resource;
+
+	class ResourceManager : public GameSystem
 	{
 	private:
 		// Private Class Variables
@@ -33,7 +36,19 @@ namespace Junior
 		// Destructor
 		~ResourceManager();
 	public:
-		// Public Static Member Functions // 
+		// Public Member Functions
+		// Loads the Resource Manager
+		bool Load() override;
+		// Initialize the Resource Manager
+		bool Initialize() override;
+		// Updates the Resource Manager
+		void Update(double dt) override;
+		// Debug Renders the Resource Manager
+		void Render() override;
+		// Shutsdown the the Resource manager
+		void Shutdown() override;
+		// Unloads the Resource Manager
+		void Unload() override;
 		// Adds a resource to the manager
 		// Params:
 		//	resource: The resource we are adding
@@ -54,15 +69,18 @@ namespace Junior
 		{
 			// Attemmpting to find the resource
 			auto iter = resources_.find(resourceDir);
-			Resource* resource = iter->second;
 			T* typedResource;
-			if(resource)
+			if (iter != resources_.end())
 			{
-				// We found a resource with that name, so we are going to attempt and cast it to T
-				typedResource = dynamic_cast<T*>(resource);
-				if (typedResource)
+				Resource* resource = iter->second;
+				if(resource)
 				{
-					return new T(*typedResource);
+					// We found a resource with that name, so we are going to attempt and cast it to T
+					typedResource = dynamic_cast<T*>(resource);
+					if (typedResource)
+					{
+						return new T(*typedResource);
+					}
 				}
 			}
 			// Else we didn't find the map so we need to create it 

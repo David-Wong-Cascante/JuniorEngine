@@ -1,8 +1,8 @@
 /*
 * Author: David Wong
 * Email: david.wongcascante@digipen.edu
-* Date Created: 1-May-2018
-* Last Modified: 11-Dec-2018
+* Date Created: 1 May 2018
+* Last Modified: 18 Apr 2019
 * File name: Transform.cpp
 * Description: The Transform data type really just holds data about the Transform, we are going
 *	to define the constructor to 
@@ -54,7 +54,7 @@ void Junior::Transform::Update(double ms)
 	}
 }
 
-void Junior::Transform::Unload(MemoryManager* manager)
+void Junior::Transform::Unload()
 {
 }
 

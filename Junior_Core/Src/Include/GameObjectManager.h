@@ -4,8 +4,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: GameObjectManager.h
 * Description: Takes care to initialize, update, and clean up all of the objects
-* Created: 11-Dec-2018
-* Last Modified: 11-Dec-2018
+* Created: 11 Dec 2018
+* Last Modified: 18 Apr 2019
 */
 
 // Includes //

@@ -4,8 +4,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: ComponentContainer.h
 * Description: Wraps around a component
-* Created: 8-Apr-2019
-* Last Modified: 8-Apr-2019
+* Created: 8 Apr 2019
+* Last Modified: 18 Apr 2019
 */
 
 // Includes
@@ -43,13 +43,10 @@ namespace Junior
 		//	ms: The delta time between frames
 		virtual void Update(double ms) {};
 		// Unloads the component
-		virtual void Unload(MemoryManager* manager) {};
+		virtual void Unload() {};
 		virtual void Serialize(Parser& parser) override {};
 		virtual void Deserialize(Parser& parser) override {};
-		virtual ComponentContainer* Clone() const
-		{
-			return nullptr;
-		}
+		virtual ComponentContainer* Clone() const = 0;
 
 		// Sets the component's owner
 		// Parmas:

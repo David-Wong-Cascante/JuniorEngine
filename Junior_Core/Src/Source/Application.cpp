@@ -3,31 +3,41 @@
 * Email: david.wongcascante@digipen.edu
 * File name: Application.cpp
 * Description: Encapsulates all of the engines components under one class
-* Created: 27-Mar-2019
-* Last Modified: 27-Mar-2019
+* Created: 27 Mar 2019
+* Last Modified: 19 Apr 2019
 */
 
 // Includes
 #include "Application.h"
 
-#include "Graphics.h"				// Graphics
 #include "Debug.h"					// Debug
+
+#include "GameSystem.h"				// Game System
+#include "Graphics.h"				// Graphics
 #include "Input.h"					// Input
-#include "GameObjectManager.h"		// Game Object Manager
 #include "Time.h"					// Time
+#include "ResourceManager.h"		// Resource Manager
+#include "GameObjectManager.h"		// Game Object Manager
 
 #include "Space.h"					// Space
 #include "Level.h"					// Level
 #include "MemoryLeakGuard.h"		// Memory Leak Guard
+#include "LinearMath.h"				// Linear Math Help
 
-#include "Parser.h"
-#include "LinearMath.h"
+// Defines
+#define NUM_EEFAULT_SYSTEMS 4
 
 // Public Member Functions
 
 Junior::Application::Application(Junior::Level* startingLevel)
-	: currentLevel_(startingLevel), manager()
+	: currentLevel_(startingLevel), manager(), gameSystems_()
 {
+	// Pregister all the game systems need in this application
+	gameSystems_.reserve(NUM_EEFAULT_SYSTEMS);
+	AddGameSystem<Graphics>();
+	AddGameSystem<Time>();
+	AddGameSystem<Input>();
+	AddGameSystem<ResourceManager>();
 }
 
 Junior::Application::~Application()
@@ -48,7 +58,7 @@ bool Junior::Application::Load()
 	debug.PrintLn<std::string>("Debug Memory Management Enabled");
 #endif
 
-	if (!Graphics::GetInstance().Load())
+	/*if (!Graphics::GetInstance().Load())
 	{
 		debug.Print<std::string>(debug.GetDebugLevelName(Junior::DebugLevel::ERROR));
 		debug.PrintLn<std::string>("Graphics failed to load up!");
@@ -60,6 +70,15 @@ bool Junior::Application::Load()
 		debug.Print<std::string>(debug.GetDebugLevelName(Junior::DebugLevel::ERROR));
 		debug.PrintLn<std::string>("Input failed to load up!");
 		return false;
+	}*/
+	// Load all of the game systems
+	for (auto begin = gameSystems_.begin(); begin < gameSystems_.end(); ++begin)
+	{
+		if (!(*begin)->Load())
+		{
+			debug.Print(debug.GetDebugLevelName(Junior::DebugLevel::ERROR));
+			debug.PrintLn(std::string((*begin)->GetName()) + " failed to load!");
+		}
 	}
 
 	return true;
@@ -67,10 +86,16 @@ bool Junior::Application::Load()
 
 bool Junior::Application::Initialize()
 {
-	// Initialize the input, time and graphics
-	Graphics::GetInstance().Initialize();
-	Input::GetInstance().Initialize();
-	Time::GetInstance().Initialize();
+	// Initialize the game systems
+	Debug& debug = Debug::GetInstance();
+	for (auto begin = gameSystems_.begin(); begin < gameSystems_.end(); ++begin)
+	{
+		if (!(*begin)->Initialize())
+		{
+			debug.Print(debug.GetDebugLevelName(Junior::DebugLevel::ERROR));
+			debug.PrintLn(std::string((*begin)->GetName()) + " failed to initialize!");
+		}
+	}
 
 	// Load the space with the level
 	currentSpace_ = new Space("CurrentSpace");
@@ -95,24 +120,41 @@ void Junior::Application::Start()
 void Junior::Application::Update()
 {
 	currentSpace_->Update(Junior::Time::GetInstance().GetDeltaTime());
-	Graphics::GetInstance().Update(Junior::Time::GetInstance().GetDeltaTime());
-	Graphics::GetInstance().Render();
+	// Update all of the game systems
+	for (auto begin = gameSystems_.begin(); begin != gameSystems_.end(); ++begin)
+	{
+		(*begin)->Update(Time::GetInstance().GetDeltaTime());
+	}
+
+	// Render all of the game systems
+	for (auto begin = gameSystems_.begin(); begin != gameSystems_.end(); ++begin)
+	{
+		(*begin)->Render();
+	}
+	
 	Graphics::GetInstance().PollWindow();
 }
 
 void Junior::Application::Shutdown()
 {
 	currentSpace_->Shutdown();
-	Input::GetInstance().Shutdown();
-	Graphics::GetInstance().Shutdown();
-	currentSpace_->Shutdown();
+	// Shut down all the systems
+	// Render all of the game systems
+	for (auto begin = gameSystems_.begin(); begin != gameSystems_.end(); ++begin)
+	{
+		(*begin)->Shutdown();
+	}
 }
 
 void Junior::Application::Unload()
 {
 	GameObjectManager::GetInstance().CleanUp(&manager);
-	Input::GetInstance().Unload();
-	Graphics::GetInstance().Unload();
 	currentSpace_->Unload();
 	delete currentSpace_;
+
+	// Unload all of the game systems
+	for (auto begin = gameSystems_.begin(); begin != gameSystems_.end(); ++begin)
+	{
+		(*begin)->Unload();
+	}
 }
