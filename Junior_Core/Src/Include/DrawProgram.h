@@ -34,13 +34,15 @@ namespace Junior
 		// Constructors 
 		// Creates an empty Draw Program
 		DrawProgram();
+		// Copy Constructor
+		DrawProgram(DrawProgram& other);
 		// Creates a Draw Program from shader files
 		DrawProgram(std::string fileName);
 
 		// Loads a shader file from the disk
 		// Params:
 		//	fileDir: the directory where the shader files are found
-		void LoadFromDisk(std::string fileDir) override;
+		void LoadFromDisk(const std::string& fileDir) override;
 
 		// Cleans up any resources left in this shader
 		void CleanUp() override;

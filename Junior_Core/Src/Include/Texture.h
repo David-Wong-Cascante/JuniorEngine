@@ -34,8 +34,9 @@ namespace Junior
 		// The pixels of the image
 		unsigned char* pixels_ = nullptr;
 	public:
-		// Public Member Functions ///
-		// Creates an empty texture with the size specified
+		// Public Member Functions
+
+		// Constructor: Creates an empty texture with the size specified
 		// Params:
 		//	textureType: 1D, 2D, or 3D texture
 		//	generateMipMaps: Are we generating mipmaps for this texture
@@ -44,19 +45,18 @@ namespace Junior
 		//	textureHeight: height
 		//	textureDepth: Usually 1 if it is not a 3D texture, otherwise it is how big the texture is on the 3rd dimension
 		Texture(unsigned int textureType, bool generateMipMaps = true, unsigned int textureFormat = 0, unsigned int internalFormat = 0, int textureWidth = 1, int textureHeight = 1, int textureDepth = 0);
-
+		// Copy Constructor
+		Texture(Texture& other);
 		// Creates a empty texture
 		Texture();
 		// Deletes the texture
-		~Texture();
-
+		~Texture() override;
 		// Creates a texture from a file on disk
 		// Params:
 		//	resouceDir: The location the resource is located
-		void LoadFromDisk(std::string resourceDir) override;
+		void LoadFromDisk(const std::string& resourceDir) override;
 		// Cleans up the texture
 		void CleanUp() override;
-
 		// Returns: The ID OpenGL gave to this texture
 		const unsigned& GetOpenGLTextureID() const;
 		// Bind the texture to the current shader

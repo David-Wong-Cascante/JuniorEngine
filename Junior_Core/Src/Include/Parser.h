@@ -12,6 +12,7 @@
 #include <fstream>				// File Streams
 #include <exception>			// Exception
 #include <string>				// String
+#include "Resource.h"			// Resource
 
 namespace Junior
 {
@@ -21,7 +22,7 @@ namespace Junior
 		ParserException(const std::string& fileName, const std::string& what);
 	};
 
-	class Parser
+	class Parser : public Resource
 	{
 	private:
 		// Private Member Variables
@@ -29,21 +30,33 @@ namespace Junior
 		std::fstream file_;
 		// The file name
 		std::string fileName_;
-		// Tab
-		const char* tab_;
 		// How many tabs we accumulated
 		unsigned numTabs_;
+		// Tab
+		const char* tab_;
 
 	public:
 		// Public Member Variables
 
+		// Default Constructor
+		Parser();
 		// Constructor
 		// Params:
 		//	fileName: The file name we are parsing through
 		//	mode: The mode we are parsing file
 		Parser(const std::string& fileName, std::fstream::openmode mode = std::ios::in);
+		// Copy Constructor
+		// Params:
+		//	other: The other parser we are trying to copy from
+		Parser(Parser& other);
 		// Destructor
-		~Parser();
+		~Parser() override;
+		// Loads the file from a disk
+		// Params:
+		//	fileDir: Loads a resource from disk
+		void LoadFromDisk(const std::string& fileDir) override;
+		// Clean up the resource
+		void CleanUp() override;
 		// Prevents reading when the file is not open
 		// Throws: ParserException
 		void CheckIfOpen() const;
@@ -110,6 +123,10 @@ namespace Junior
 			// Write the value
 			file_ << value << std::endl;
 		};
+		// Opens a file
+		// Params:
+		//	mode: The mode we are using 
+		void Open(std::fstream::openmode mode);
 		// Params:
 		//	length: The expected length of the current line
 		// Returns: The current line the parser is reading through
@@ -123,6 +140,8 @@ namespace Junior
 		// Params:
 		//	skip: The text we want to skip
 		void Skip(const std::string& skip);
+		// Peeks the next character in the file stream
+		void Peek(char& character);
 		// Starts writing a scope and increases the indent level
 		// Returns: The amount of indents we have before making the scope
 		// Throws: ParserException
@@ -131,6 +150,9 @@ namespace Junior
 		// Returns: The number of indents we are after we closed the scope
 		// Throws: ParserException
 		void EndScope();
+		// Resets the parser's seeker to the beginning
+		// Throws: ParserException
+		void Reset();
 		// Returns: The current number of indents our scope has
 		unsigned GetCurrentIndents() const;
 	};

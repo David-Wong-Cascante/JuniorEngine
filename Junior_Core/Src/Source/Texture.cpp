@@ -64,6 +64,15 @@ Junior::Texture::Texture(unsigned int textureType, bool generateMipMaps, unsigne
 	glBindTexture(typeOfTexture_, 0);
 }
 
+Junior::Texture::Texture(Texture& other)
+	: Resource(other), typeOfTexture_(other.typeOfTexture_), arrayCount_(other.arrayCount_), formatOfTexture_(other.formatOfTexture_),
+	internalFormatOfTexture_(other.internalFormatOfTexture_), dimensions_{ other.dimensions_[0], other.dimensions_[1], other.dimensions_[2] }
+{
+	std::string fileDir = other.GetResourceDir();
+	if (fileDir != "")
+		pixels_ = GetPixelsFromFile(fileDir);
+}
+
 Junior::Texture::Texture()
 {
 }
@@ -83,8 +92,9 @@ void Junior::Texture::CleanUp()
 	textureID_ = 0;
 }
 
-void Junior::Texture::LoadFromDisk(std::string resourceDir)
+void Junior::Texture::LoadFromDisk(const std::string& resourceDir)
 {
+	Resource::LoadFromDisk(resourceDir);
 	int textureWidth, textureHeight, textureChannels;
 	unsigned char* pixels = GetPixelsFromFile(resourceDir, &textureWidth, &textureHeight, &textureChannels);
 
@@ -189,7 +199,7 @@ void Junior::Texture::AppendToArray2D(int width, int height, unsigned char* pixe
 	// If the texture is a 2D or 1D texture then ignore the function call as it only works for 3D texture arrays
 	if (typeOfTexture_ != GL_TEXTURE_2D_ARRAY)
 	{
-		std::cout << "[ERROR]: Attempted to append texture " << resourceDir << "into a texture that is not a 2D array" << std::endl;
+		std::cout << "[ERROR]: Attempted to append texture " << resourceDir_ << "into a texture that is not a 2D array" << std::endl;
 		return;
 	}
 	// Then check whether the texture count is not greater or equal to the texture depth

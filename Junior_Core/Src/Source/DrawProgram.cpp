@@ -56,7 +56,11 @@ int Junior::DrawProgram::CreateShader(int* id, int type, const char** source)
 // Public Member Functions //
 Junior::DrawProgram::DrawProgram()
 {
+}
 
+Junior::DrawProgram::DrawProgram(DrawProgram& other)
+	: Resource(other)
+{
 }
 
 Junior::DrawProgram::DrawProgram(std::string fileDir)
@@ -65,8 +69,9 @@ Junior::DrawProgram::DrawProgram(std::string fileDir)
 }
 
 
-void Junior::DrawProgram::LoadFromDisk(std::string fileDir)
+void Junior::DrawProgram::LoadFromDisk(const std::string& fileDir)
 {
+	Resource::LoadFromDisk(fileDir);
 	// Get the filepaths for the individual shader files
 	std::string vertexShaderLoc = fileDir + ".vs";
 	std::string fragmentShaderLoc = fileDir + ".fs";

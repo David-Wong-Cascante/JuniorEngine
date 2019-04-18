@@ -188,5 +188,8 @@
     <ClCompile Include="..\Junior_Core\Src\Source\Texture.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Resource.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

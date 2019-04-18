@@ -69,6 +69,7 @@
     <ClCompile Include="..\Junior_Core\Src\Source\Mat3.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\MemoryManager.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Parser.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\Source\Resource.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\ResourceManager.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Space.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Sprite.cpp" />

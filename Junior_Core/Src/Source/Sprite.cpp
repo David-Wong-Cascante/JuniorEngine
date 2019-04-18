@@ -18,19 +18,18 @@
 #include "Debug.h"				// Debug
 
 #include <iostream>				// IO STREAM
+#include "ResourceManager.h"	// Resource Manager
 
 // Public Member Functions
 Junior::Sprite::Sprite()
 	: Component(), path_(), texture_(nullptr), job_(nullptr), atlasNode_(nullptr)
 {
-	texture_ = new Texture;
 }
 
 Junior::Sprite::Sprite(const std::string& path)
 	: Component(), path_(path), texture_(nullptr), job_(nullptr), atlasNode_(nullptr)
 {
-	texture_ = new Texture;
-	texture_->LoadFromDisk(path);
+	texture_ = ResourceManager::GetInstance().GetResource<Texture>("path");
 }
 
 void Junior::Sprite::Initialize()
@@ -63,7 +62,10 @@ void Junior::Sprite::Initialize()
 Junior::Sprite::Sprite(const Sprite& sprite)
 	: Component("Sprite"), path_(sprite.path_), job_(nullptr), atlasNode_(nullptr)
 {
-	texture_ = new Texture;
+	if (path_ != "")
+	{
+		texture_ = ResourceManager::GetInstance().GetResource<Texture>(path_);
+	}
 }
 
 void Junior::Sprite::Update(double dt)
@@ -129,6 +131,5 @@ void Junior::Sprite::Deserialize(Parser& parser)
 	// Deserialize the path to the texture and load the sprite's texture
 	delete texture_;
 	parser.ReadVariable("texturePath", path_);
-	texture_ = new Texture;
-	texture_->LoadFromDisk(path_);
+	texture_ = ResourceManager::GetInstance().GetResource<Texture>(path_);
 }

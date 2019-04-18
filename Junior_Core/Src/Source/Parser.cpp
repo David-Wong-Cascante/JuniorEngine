@@ -15,16 +15,40 @@ Junior::ParserException::ParserException(const std::string& fileName, const std:
 {
 }
 
+Junior::Parser::Parser()
+{
+}
+
 Junior::Parser::Parser(const std::string& fileName, std::fstream::openmode mode)
 	: file_(), fileName_(fileName), tab_("   "), numTabs_(0)
 {
+	Resource::LoadFromDisk(fileName);
 	file_.open(fileName, mode);
+}
+
+Junior::Parser::Parser(Parser& other)
+	: file_(), fileName_(other.fileName_)
+{
 }
 
 Junior::Parser::~Parser()
 {
+	CleanUp();
+}
+
+void Junior::Parser::LoadFromDisk(const std::string& fileDir)
+{
+}
+
+void Junior::Parser::CleanUp()
+{
 	if (file_.is_open())
 		file_.close();
+}
+
+void Junior::Parser::Open(std::fstream::openmode  mode)
+{
+	file_.open(fileName_, mode);
 }
 
 void Junior::Parser::CheckIfOpen() const
@@ -59,6 +83,11 @@ void Junior::Parser::Skip(const std::string& skip)
 	}
 }
 
+void Junior::Parser::Peek(char& character)
+{
+	character = file_.peek();
+}
+
 void Junior::Parser::StarScope()
 {
 	CheckIfOpen();
@@ -75,6 +104,16 @@ void Junior::Parser::EndScope()
 	for (unsigned i = 0; i < numTabs_; ++i)
 		file_ << tab_;
 	file_ << '}' << std::endl;
+}
+
+void Junior::Parser::Reset()
+{
+	CheckIfOpen();
+	// Reset the file seeker
+	file_.clear();
+	file_.seekg(0, std::ios::beg);
+	// Reset the tabs
+	numTabs_ = 0;
 }
 
 unsigned Junior::Parser::GetCurrentIndents() const
