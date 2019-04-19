@@ -23,7 +23,13 @@ namespace Junior
 	{
 	private:
 		// Private Class Variables
+
+		// The resources that we are keeping track of
 		std::unordered_map<std::string, Resource*> resources_;
+		// The time it takes to check the resources as garbage
+		const double garbageCollectionDuration_;
+		// The timer that keeps the garbage collectiong going
+		double garbageCollectionTimer_;
 
 		// Hide the constructors
 		
@@ -53,10 +59,6 @@ namespace Junior
 		// Params:
 		//	resource: The resource we are adding
 		void AddResource(Resource* resource);
-		// Removes a resource from the manager
-		// Params:
-		//	resource: The resource we are removing
-		void RemoveResource(Resource const* resource);
 		// Removes a resource from the manager
 		// Params:
 		//	resourceDir: The directory of the resoruce we are trying to remove

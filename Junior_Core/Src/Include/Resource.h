@@ -32,9 +32,14 @@ namespace Junior
 		virtual ~Resource();
 		// Returns: The resource's directory
 		const std::string& GetResourceDir() const;
+		// Returns: How many other resources are using this original
+		unsigned GetResourceCount() const;
 	protected:
 		// Protected Member Variables
-		int resourceShareCount_;
+
+		// How many resources are using this
+		unsigned resourceShareCount_;
+		// The directory to the resource
 		std::string resourceDir_;
 		
 		// Protected Member Functions

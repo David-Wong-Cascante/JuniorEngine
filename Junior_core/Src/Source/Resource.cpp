@@ -40,3 +40,8 @@ const std::string& Junior::Resource::GetResourceDir() const
 {
 	return resourceDir_;
 }
+
+unsigned Junior::Resource::GetResourceCount() const
+{
+	return resourceShareCount_;
+}

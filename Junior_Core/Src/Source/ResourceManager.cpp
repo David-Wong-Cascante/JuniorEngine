@@ -10,15 +10,16 @@
 // Includes
 #include "ResourceManager.h"
 #include "Resource.h"			// Resource
+#include "Debug.h"				// Debug
 
 // Private Member Functions
 Junior::ResourceManager::ResourceManager()
-	: GameSystem("ResourceManager")
+	: GameSystem("ResourceManager"), garbageCollectionDuration_(3.0), garbageCollectionTimer_(0.0)
 {
 }
 
 Junior::ResourceManager::ResourceManager(const ResourceManager&)
-	: GameSystem("ResourceManager")
+	: GameSystem("ResourceManager"), garbageCollectionDuration_(3.0), garbageCollectionTimer_(0.0)
 {
 }
 
@@ -34,7 +35,26 @@ bool Junior::ResourceManager::Initialize()
 
 void Junior::ResourceManager::Update(double dt)
 {
-
+	garbageCollectionTimer_ += dt;
+	if (garbageCollectionTimer_ >= garbageCollectionDuration_)
+	{
+		Debug::GetInstance().PrintLn("RESOURCE GARBAGE COLLECTION TIME!!");
+		garbageCollectionTimer_ = 0.0;
+		// Check garbage resources
+		for (auto begin = resources_.begin(); begin != resources_.end(); )
+		{
+			if (begin->second->GetResourceCount() == 0)
+			{
+				// If we found a garbage resource, remove it
+				delete begin->second;
+				begin = resources_.erase(begin);
+			}
+			else
+			{
+				++begin;
+			}
+		}
+	}
 }
 
 void Junior::ResourceManager::Render()
@@ -66,18 +86,12 @@ Junior::ResourceManager::~ResourceManager()
 // Public Static Member Functions
 void Junior::ResourceManager::AddResource(Junior::Resource* resource)
 {
-	/*std::pair<std::string, Resource*> pair(resource->GetResourceDir(), resource);
-	resources_.insert(pair);*/
 	resources_[resource->GetResourceDir()] = resource;
-}
-
-void Junior::ResourceManager::RemoveResource(Junior::Resource const* resource)
-{
-	resources_.erase(resource->GetResourceDir());
 }
 
 void Junior::ResourceManager::RemoveResource(const std::string& resourceDir)
 {
+	delete resources_[resourceDir];
 	resources_.erase(resourceDir);
 }
 
