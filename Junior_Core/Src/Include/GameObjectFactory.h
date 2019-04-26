@@ -3,8 +3,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
-* Created: 9-Apr-2019
-* Last Modified: 9-Apr-2019
+* Created: 9 Apr 2019
+* Last Modified: 26 Apr 2019
 */
 
 // Includes
@@ -16,6 +16,7 @@ namespace Junior
 {
 	// Forward Declarations
 	class ComponentContainer;
+	class Level;
 	class GameObject;
 
 	class GameObjectFactory
@@ -24,11 +25,13 @@ namespace Junior
 		// Private Member Variables
 
 		// The vector containing all the prepared components for deserialization
-		std::vector<ComponentContainer*> preparedComponents;
+		std::vector<ComponentContainer*> preparedComponents_;
 		// The target file path
-		std::string filePath;
-		// File extention
-		std::string fileExtension;
+		std::string filePath_;
+		// File extention for objects
+		std::string objectFileExtension_;
+		// File extensions for levels
+		std::string levelFileExtenion_;
 
 		// Private Member Functions
 
@@ -43,7 +46,7 @@ namespace Junior
 		template <class T>
 		void RegisterComponent()
 		{
-			preparedComponents.push_back(new T);
+			preparedComponents_.push_back(new T);
 		}
 		// Creates a new component based the parser
 		// Params:
@@ -58,7 +61,11 @@ namespace Junior
 		// Saves an object to a file
 		// Params:
 		//	archetype: The object we are saving
-		void SaveObject(GameObject* archetype) const;
+		void SaveObject(const GameObject* archetype) const;
+		// Save a level to a file
+		// Params:
+		//	level: The level we are saving
+		void SaveLevel(const Level* level) const;
 		// Returns: The instance of the game object factory
 		static GameObjectFactory& GetInstance();
 	};

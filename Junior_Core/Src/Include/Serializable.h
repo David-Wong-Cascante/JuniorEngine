@@ -4,8 +4,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: Serializable.h
 * Description: Provides a template for object serialization and deserialization
-* Created: 8-Apr-2019
-* Last Modified: 8-Apr-2019
+* Created: 8 Apr 2019
+* Last Modified: 26 Apr 2019
 */
 
 // Includes
@@ -32,7 +32,7 @@ namespace Junior
 		// Params:
 		//	parser: The parser used to write the component
 		// Throws: ParserException
-		virtual void Serialize(Parser& parser) = 0;
+		virtual void Serialize(Parser& parser) const = 0;
 		// Reads and creates an object from a file
 		// Params:
 		//	parser: The parser used to r

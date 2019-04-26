@@ -72,6 +72,13 @@ void Junior::ResourceManager::Unload()
 	// Go through every resource and delete it
 	for (auto begin = resources_.begin(); begin != resources_.end(); ++begin)
 	{
+		if (begin->second->GetResourceCount() > 0)
+		{
+			// If we found a resource still sharing itself to other resources
+			Debug::GetInstance().Print(Debug::GetInstance().GetDebugLevelName(DebugLevel::WARNING));
+			Debug::GetInstance().Print(begin->second->GetResourceDir());
+			Debug::GetInstance().PrintLn(" still has resources attached to it!");
+		}
 		delete begin->second;
 	}
 

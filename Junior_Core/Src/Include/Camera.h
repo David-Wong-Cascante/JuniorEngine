@@ -5,7 +5,7 @@
 * File name: Camera.h
 * Description: Holds the data for camera transformations and such as a component so that it can look at the object's transform
 * Created: 18 Feb 2019
-* Last Modified: 18 Apr 2019
+* Last Modified: 26 Apr 2019
 */
 
 // Includes
@@ -93,7 +93,7 @@ namespace Junior
 		// Params:
 		//	parser: The parser used to write the component
 		// Throws: ParserException
-		void Serialize(Parser& parser) override;
+		void Serialize(Parser& parser) const override;
 		// Reads and creates an object from a file
 		// Params:
 		//	parser: The parser used to read the component from the file

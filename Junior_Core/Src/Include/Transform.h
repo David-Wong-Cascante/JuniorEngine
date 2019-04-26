@@ -3,7 +3,7 @@
  * Author: David Wong
  * Email: david.wongcascante@digipen.edu
  * Date Created: 1 May 2018
- * Last Modified: 19 Apr 2019
+ * Last Modified: 26 Apr 2019
  * File name: Transform.h
  * Description: Declare the transform component, which is in charge of defining the final dimensions of the vertices in the game object
 */
@@ -92,7 +92,7 @@ namespace Junior
 		// Params:
 		//	parser: The parser used to write the component
 		// Throws: ParserException
-		void Serialize(Parser& parser) override;
+		void Serialize(Parser& parser) const override;
 		// Reads and creates an object from a file
 		// Params:
 		//	parser: The parser used to read the component from the file

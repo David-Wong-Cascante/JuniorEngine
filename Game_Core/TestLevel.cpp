@@ -4,7 +4,7 @@
 * File name: TestLevel.cpp
 * Description: Test level for object management
 * Created: 20-Dec-2018
-* Last Modified: 11-Apr-2018
+* Last Modified: 26 Apr 2019
 */
 
 // Includes
@@ -128,6 +128,11 @@ void Junior::TestLevel::Update(double dt)
 			cog2_->Destroy();
 		}
 	}*/
+}
+
+void Junior::TestLevel::Shutdown()
+{
+	GameObjectFactory::GetInstance().SaveLevel(this);
 }
 
 void Junior::TestLevel::Unload()

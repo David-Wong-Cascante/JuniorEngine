@@ -4,8 +4,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: GameObject.h
 * Description: Define the Game Object functionality to get components, get its name, update, etc...
-* Created: 1-May-2018
-* Last Modified: Apr-8-2019
+* Created: 1 May 2018
+* Last Modified: Apr 8 2019
 */
 
 // Includes //
@@ -111,7 +111,7 @@ void Junior::GameObject::RemoveComponent(const std::string& type)
 	}
 }
 
-void Junior::GameObject::Serialize(Parser& parser)
+void Junior::GameObject::Serialize(Parser& parser) const
 {
 	// Serialize the name of the component
 	parser.WriteValue(name_);

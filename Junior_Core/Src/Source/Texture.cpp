@@ -18,9 +18,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-// Public Member Functions
-
-Junior::Texture::Texture(unsigned int textureType, bool generateMipMaps, unsigned int textureFormat, unsigned int internalFormat, int textureWidth, int textureHeight, int textureDepth)
+// Private Member Functions
+void Junior::Texture::CreateTexture(unsigned textureType, bool generateMipMaps, unsigned textureFormat, unsigned internalFormat,
+	int textureWidth, int textureHeight, int textureDepth)
 {
 	// Make sure that the texture's depth is never zero if the rest of the texture's components are indeed set
 	if ((textureWidth || textureHeight) && !textureDepth)
@@ -34,6 +34,7 @@ Junior::Texture::Texture(unsigned int textureType, bool generateMipMaps, unsigne
 	formatOfTexture_ = textureFormat;
 	internalFormatOfTexture_ = internalFormat;
 	typeOfTexture_ = textureType;
+	generateMipMaps_ = generateMipMaps;
 
 	// Create the texture within OpenGL and save its ID in the texture struct
 	glGenTextures(1, &textureID_);
@@ -56,21 +57,27 @@ Junior::Texture::Texture(unsigned int textureType, bool generateMipMaps, unsigne
 		break;
 	}
 
-	//glTextureParameteri(typeOfTexture_, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTextureParameteri(typeOfTexture_, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//glTextureParameteri(typeOfTexture_, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	//glTextureParameteri(typeOfTexture_, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
 	glBindTexture(typeOfTexture_, 0);
 }
 
-Junior::Texture::Texture(Texture& other)
-	: Resource(other), typeOfTexture_(other.typeOfTexture_), arrayCount_(other.arrayCount_), formatOfTexture_(other.formatOfTexture_),
-	internalFormatOfTexture_(other.internalFormatOfTexture_), dimensions_{ other.dimensions_[0], other.dimensions_[1], other.dimensions_[2] }
+// Public Member Functions
+
+Junior::Texture::Texture(unsigned int textureType, bool generateMipMaps, unsigned int textureFormat,
+				unsigned int internalFormat, int textureWidth, int textureHeight, int textureDepth)
+{
+	CreateTexture(textureType, generateMipMaps, textureFormat, internalFormat, textureWidth, textureHeight, textureDepth);
+}
+
+Junior::Texture::Texture(const Texture& other)
+	: Resource(other), typeOfTexture_(other.typeOfTexture_), generateMipMaps_(other.generateMipMaps_), 
+	arrayCount_(other.arrayCount_), formatOfTexture_(other.formatOfTexture_), internalFormatOfTexture_(other.internalFormatOfTexture_), 
+	dimensions_{ other.dimensions_[0], other.dimensions_[1], other.dimensions_[2] }
 {
 	std::string fileDir = other.GetResourceDir();
 	if (fileDir != "")
-		pixels_ = GetPixelsFromFile(fileDir);
+		LoadFromDisk(fileDir);
+	else
+		CreateTexture(typeOfTexture_, generateMipMaps_, formatOfTexture_, internalFormatOfTexture_, dimensions_[0], dimensions_[1], dimensions_[2]);
 }
 
 Junior::Texture::Texture()

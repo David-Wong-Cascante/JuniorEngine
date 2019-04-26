@@ -25,7 +25,7 @@
 #include "LinearMath.h"				// Linear Math Help
 
 // Defines
-#define NUM_EEFAULT_SYSTEMS 4
+#define NUM_DEFAULT_SYSTEMS 4
 
 // Public Member Functions
 
@@ -33,7 +33,7 @@ Junior::Application::Application(Junior::Level* startingLevel)
 	: currentLevel_(startingLevel), manager(), gameSystems_()
 {
 	// Pregister all the game systems need in this application
-	gameSystems_.reserve(NUM_EEFAULT_SYSTEMS);
+	gameSystems_.reserve(NUM_DEFAULT_SYSTEMS);
 	AddGameSystem<Graphics>();
 	AddGameSystem<Time>();
 	AddGameSystem<Input>();
@@ -58,19 +58,6 @@ bool Junior::Application::Load()
 	debug.PrintLn<std::string>("Debug Memory Management Enabled");
 #endif
 
-	/*if (!Graphics::GetInstance().Load())
-	{
-		debug.Print<std::string>(debug.GetDebugLevelName(Junior::DebugLevel::ERROR));
-		debug.PrintLn<std::string>("Graphics failed to load up!");
-		return false;
-	}
-
-	if (!Input::GetInstance().Load())
-	{
-		debug.Print<std::string>(debug.GetDebugLevelName(Junior::DebugLevel::ERROR));
-		debug.PrintLn<std::string>("Input failed to load up!");
-		return false;
-	}*/
 	// Load all of the game systems
 	for (auto begin = gameSystems_.begin(); begin < gameSystems_.end(); ++begin)
 	{

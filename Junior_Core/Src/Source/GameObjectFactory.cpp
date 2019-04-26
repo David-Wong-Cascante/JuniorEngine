@@ -3,14 +3,15 @@
 * Email: david.wongcascante@digipen.edu
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
-* Created: 9-Apr-2019
-* Last Modified: 9-Apr-2019
+* Created: 9 Apr 2019
+* Last Modified: 26 Apr 2019
 */
 
 // Includes
 #include "GameObjectFactory.h"			// Game Object Factory
 #include "ComponentContainer.h"			// Component Container
 #include "GameObject.h"					// Game Object
+#include "Level.h"						// Level
 #include "Debug.h"						// Debug
 // Includes for all the standard components
 #include "Transform.h"
@@ -24,9 +25,9 @@
 // Private Member Functions
 
 Junior::GameObjectFactory::GameObjectFactory()
-	: preparedComponents(), filePath("..//Assets//Objects//"), fileExtension(".juo")
+	: filePath_("..//Assets//Objects//"), objectFileExtension_(".juo"), levelFileExtenion_(".jlv")
 {
-	preparedComponents.reserve(NUM_STANDARD_COMPONENTS);
+	preparedComponents_.reserve(NUM_STANDARD_COMPONENTS);
 	RegisterComponent<Transform>();
 	RegisterComponent<Sprite>();
 	RegisterComponent<Animator>();
@@ -36,19 +37,19 @@ Junior::GameObjectFactory::GameObjectFactory()
 Junior::GameObjectFactory::~GameObjectFactory()
 {
 	// Delete all of the prepared components
-	for (auto cbegin = preparedComponents.cbegin(); cbegin < preparedComponents.cend(); ++cbegin)
+	for (auto cbegin = preparedComponents_.cbegin(); cbegin < preparedComponents_.cend(); ++cbegin)
 	{
 		(*cbegin)->Unload();
 		delete (*cbegin);
 	}
 
-	preparedComponents.clear();
+	preparedComponents_.clear();
 }
 
 Junior::ComponentContainer* Junior::GameObjectFactory::CreateComponent(const std::string& name) const
 {
 	// Traverse the entirety of the prepared components list and find the one with the correct name
-	for (auto cbegin = preparedComponents.cbegin(); cbegin < preparedComponents.cend(); ++cbegin)
+	for (auto cbegin = preparedComponents_.cbegin(); cbegin < preparedComponents_.cend(); ++cbegin)
 	{
 		// If we found the component we were looking for, then we need to clone it and return it
 		if ((*cbegin)->GetTypeName() == name)
@@ -63,7 +64,7 @@ Junior::GameObject* Junior::GameObjectFactory::CreateObject(const std::string& n
 {
 	// Find the name of the game object first
 	std::string objectName;
-	Parser parser(filePath + name + fileExtension);
+	Parser parser(filePath_ + name + objectFileExtension_, std::ios_base::in);
 	parser.ReadValue(objectName);
 	GameObject* gameObject = new GameObject(objectName);
 	try
@@ -81,10 +82,10 @@ Junior::GameObject* Junior::GameObjectFactory::CreateObject(const std::string& n
 	return gameObject;
 }
 
-void Junior::GameObjectFactory::SaveObject(GameObject* archetype) const
+void Junior::GameObjectFactory::SaveObject(const GameObject* archetype) const
 {
 	std::string objectName = archetype->GetName();
-	Parser parser(filePath + objectName + fileExtension, std::ios::out);
+	Parser parser(filePath_ + objectName + objectFileExtension_, std::ios::out);
 	try
 	{
 		archetype->Serialize(parser);
@@ -94,6 +95,23 @@ void Junior::GameObjectFactory::SaveObject(GameObject* archetype) const
 		Debug& debug = Debug::GetInstance();
 		debug.Print(debug.GetDebugLevelName(DebugLevel::ERROR));
 		debug.Print("Failed to serialize game object \"" + objectName + "\": ");
+		debug.PrintLn(e.what());
+	}
+}
+
+void Junior::GameObjectFactory::SaveLevel(const Level* level) const
+{
+	std::string levelName = level->GetName();
+	Parser parser(filePath_ + levelName + levelFileExtenion_, std::ios_base::out);
+	try
+	{
+		level->Serialize(parser);
+	}
+	catch (const ParserException& e)
+	{
+		Debug& debug = Debug::GetInstance();
+		debug.Print(debug.GetDebugLevelName(DebugLevel::ERROR));
+		debug.Print("Failed to serialize level \"" + levelName + "\": ");
 		debug.PrintLn(e.what());
 	}
 }

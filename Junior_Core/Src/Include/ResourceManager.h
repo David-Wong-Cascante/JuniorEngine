@@ -12,12 +12,12 @@
 // Includes
 #include <unordered_map>			// std::unordered_map
 #include "GameSystem.h"				// Game System
+#include <Resource.h>				// Resource
 
 
 namespace Junior
 {
 	// Forward Declarations
-	class Resource;
 
 	class ResourceManager : public GameSystem
 	{
@@ -66,7 +66,7 @@ namespace Junior
 		// Gets a resource from the manager
 		// Params:
 		//	resourceDir: The resource
-		template <typename T>
+		template <class T>
 		T* GetResource(const std::string& resourceDir)
 		{
 			// Attemmpting to find the resource
@@ -74,15 +74,10 @@ namespace Junior
 			T* typedResource;
 			if (iter != resources_.end())
 			{
-				Resource* resource = iter->second;
-				if(resource)
+				if(iter->second)
 				{
 					// We found a resource with that name, so we are going to attempt and cast it to T
-					typedResource = dynamic_cast<T*>(resource);
-					if (typedResource)
-					{
-						return new T(*typedResource);
-					}
+					return (iter->second->ShareResource<T>());
 				}
 			}
 			// Else we didn't find the map so we need to create it 

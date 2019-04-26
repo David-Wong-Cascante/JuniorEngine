@@ -4,7 +4,7 @@
 * File name: Camera.h
 * Description: Describes how the camera works
 * Created: 18 Feb 2019
-* Last Modified: 18 Apr 2019
+* Last Modified: 26 Apr 2019
 */
 
 // Includes
@@ -104,7 +104,7 @@ const Junior::Mat3 Junior::Camera::GetCameraMatrix()
 	return (projection_ * view_);
 }
 
-void Junior::Camera::Serialize(Parser& parser)
+void Junior::Camera::Serialize(Parser& parser) const
 {
 	parser.WriteVariable("projectionMode", mode_);
 	parser.WriteVariable("cameraWidth", cameraWidth_);

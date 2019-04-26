@@ -33,6 +33,22 @@ namespace Junior
 		unsigned dimensions_[3] = { 0, 0, 0 };
 		// The pixels of the image
 		unsigned char* pixels_ = nullptr;
+		// Whether we generate mip maps
+		bool generateMipMaps_;
+
+		// Private Member Functions
+
+		// Create texture
+		// Params:
+		//	textureType: The type of the texture
+		//	generateMipMaps: Whether we generate mip maps
+		//	textureFormat: The texture's format
+		//	internalFormat: The texture's internal format that OpenGL uses for rendering
+		//	textureWidth: The width of the texture
+		//	textureHeight: The height of the texture
+		//	textureDepth: The depth of the texture
+		void CreateTexture(unsigned textureType, bool generateMipMaps, unsigned textureFormat, unsigned internalFormat,
+			int textureWidth, int textureHeight, int textureDepth);
 	public:
 		// Public Member Functions
 
@@ -41,12 +57,13 @@ namespace Junior
 		//	textureType: 1D, 2D, or 3D texture
 		//	generateMipMaps: Are we generating mipmaps for this texture
 		//	textureFormat: The texture's format
+		//	internalFormat: The texture's internal format (used by OpenGL)
 		//	textureWidth: width
 		//	textureHeight: height
 		//	textureDepth: Usually 1 if it is not a 3D texture, otherwise it is how big the texture is on the 3rd dimension
 		Texture(unsigned int textureType, bool generateMipMaps = true, unsigned int textureFormat = 0, unsigned int internalFormat = 0, int textureWidth = 1, int textureHeight = 1, int textureDepth = 0);
 		// Copy Constructor
-		Texture(Texture& other);
+		Texture(const Texture& other);
 		// Creates a empty texture
 		Texture();
 		// Deletes the texture

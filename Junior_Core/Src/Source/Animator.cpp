@@ -4,7 +4,7 @@
  * File name: Animator.h
  * Description: Defines how the animator is going to work
  * Created: 14 Feb 2019
- * Last Modified: 18 Apr 2019
+ * Last Modified: 26 Apr 2019
 */
 
 // Includes
@@ -117,7 +117,7 @@ bool Junior::Animator::IsPlaying() const
 	return playing_;
 }
 
-void Junior::Animator::Serialize(Parser& parser)
+void Junior::Animator::Serialize(Parser& parser) const
 {
 	parser.WriteVariable("currentFrame", currentFrame_);
 	parser.WriteVariable("playing", playing_);

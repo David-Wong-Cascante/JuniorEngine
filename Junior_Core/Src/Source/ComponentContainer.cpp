@@ -4,8 +4,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: ComponentContainer.cpp
 * Description: Wraps around a component
-* Created: 8-Apr-2019
-* Last Modified: 8-Apr-2019
+* Created: 8 Apr 2019
+* Last Modified: 26 Apr 2019
 */
 
 // Includes
@@ -28,6 +28,16 @@ Junior::ComponentContainer::~ComponentContainer()
 void Junior::ComponentContainer::SetOwner(GameObject* cog)
 {
 	owner_ = cog;
+}
+
+void Junior::ComponentContainer::Serialize(Parser& parser) const
+{
+
+}
+
+void Junior::ComponentContainer::Deserialize(Parser& parser)
+{
+
 }
 
 const std::string Junior::ComponentContainer::GetTypeName() const

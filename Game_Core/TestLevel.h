@@ -3,8 +3,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: TestLevel.h
 * Description: Test level for object management
-* Created: 20-Dec-2018
-* Last Modified: 20-Dec-2018
+* Created: 20 Dec 2018
+* Last Modified: 26 Apr 2019
 */
 
 // Includes
@@ -37,6 +37,8 @@ namespace Junior
 		// Updates the level
 		//	dt: The time in between frames
 		void Update(double dt) override;
+		// Shutsdown the level
+		void Shutdown() override;
 		// Unloads the level
 		void Unload() override;
 	};

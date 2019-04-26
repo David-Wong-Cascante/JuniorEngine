@@ -2,7 +2,7 @@
 * Author: David Wong
 * Email: david.wongcascante@digipen.edu
 * Date Created: 17 Apr 2019
-* Last Modified: 17 Apr 2019
+* Last Modified: 26 Apr 2019
 * File Name: Resource.cpp
 * Description: Defines the resource struct so the Resource Manager can keep track of all of the resources used
 */
@@ -16,12 +16,6 @@
 Junior::Resource::Resource()
 	: resourceDir_(), resourceShareCount_(0), original_(nullptr)
 {
-}
-
-Junior::Resource::Resource(Resource& other)
-{
-	++other.resourceShareCount_;
-	original_ = &other;
 }
 
 Junior::Resource::~Resource()
@@ -44,4 +38,8 @@ const std::string& Junior::Resource::GetResourceDir() const
 unsigned Junior::Resource::GetResourceCount() const
 {
 	return resourceShareCount_;
+}
+
+void Junior::Resource::CleanUp()
+{
 }

@@ -4,7 +4,7 @@
  * File Name: Sprite.cpp
  * Description: Defines how Sprite works
  * Created: 13 Feb 2019
- * Last Modified: 18 Apr 2019
+ * Last Modified: 26 Apr 2019
 */
 
 // Includes
@@ -120,7 +120,7 @@ Junior::AtlasNode* Junior::Sprite::GetNode() const
 	return atlasNode_;
 }
 
-void Junior::Sprite::Serialize(Parser& parser)
+void Junior::Sprite::Serialize(Parser& parser) const
 {
 	// Only serialize the path to the texture
 	parser.WriteVariable("texturePath", path_);

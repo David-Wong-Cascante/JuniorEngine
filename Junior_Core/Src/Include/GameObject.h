@@ -4,8 +4,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: GameObject.h
 * Description: Define what a Game Object looks like
-* Created: 28-Apr-2018
-* Last Modified: 8-Apr-2019
+* Created: 28 Apr 2018
+* Last Modified: 26 Apr 2019
 */
 
 // Includes //
@@ -73,7 +73,7 @@ namespace Junior
 		// Params:
 		//	parser: The parser to serialize to
 		// Throws: ParserException
-		void Serialize(Parser& parser) override;
+		void Serialize(Parser& parser) const override;
 		// Deserializes the game object
 		// Params:
 		//	parser: The parser to deserialize to

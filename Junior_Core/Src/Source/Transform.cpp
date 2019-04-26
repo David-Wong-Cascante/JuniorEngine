@@ -2,7 +2,7 @@
 * Author: David Wong
 * Email: david.wongcascante@digipen.edu
 * Date Created: 1 May 2018
-* Last Modified: 18 Apr 2019
+* Last Modified: 26 Apr 2019
 * File name: Transform.cpp
 * Description: The Transform data type really just holds data about the Transform, we are going
 *	to define the constructor to 
@@ -131,7 +131,7 @@ const Junior::Mat3 Junior::Transform::GetGlobalTransformation() const
 	return totalTransformation;
 }
 
-void Junior::Transform::Serialize(Parser& parser)
+void Junior::Transform::Serialize(Parser& parser) const
 {
 	// Serialize transform components
 	// Not the matrix though, we just construct that

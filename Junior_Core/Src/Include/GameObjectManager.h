@@ -5,7 +5,7 @@
 * File name: GameObjectManager.h
 * Description: Takes care to initialize, update, and clean up all of the objects
 * Created: 11 Dec 2018
-* Last Modified: 18 Apr 2019
+* Last Modified: 26 Apr 2019
 */
 
 // Includes //
@@ -41,6 +41,9 @@ namespace Junior
 		// Params:
 		//	manager: The memory manager used to create all of these objects
 		void CleanUp(MemoryManager* manager);
+
+		// Returns: All of the objects in the manager
+		const std::vector<GameObject*>& GetAllObjects() const;
 
 		// Gets the classes' singleton
 		// Returns: The classes' singleton

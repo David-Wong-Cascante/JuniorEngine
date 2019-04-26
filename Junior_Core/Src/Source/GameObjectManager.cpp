@@ -4,7 +4,7 @@
 * File name: GameObjectManager.cpp
 * Description: Takes care to initialize, update, and clean up all of the objects
 * Created: 11 Dec 2018
-* Last Modified: 18 Apr 2019
+* Last Modified: 26 Apr 2019
 */
 
 // Includes
@@ -68,6 +68,11 @@ namespace Junior
 			gameObject->Unload();
 			delete gameObject;
 		}
+	}
+	
+	const std::vector<GameObject*>& Junior::GameObjectManager::GetAllObjects() const
+	{
+		return gameObjects_;
 	}
 
 	GameObjectManager& Junior::GameObjectManager::GetInstance()
