@@ -38,12 +38,18 @@ bool Junior::TestLevel::Load()
 
 bool Junior::TestLevel::Initialize()
 {
-	camera_ = GameObjectFactory::GetInstance().CreateObject("Camera");
+	GameObjectFactory::GetInstance().FillLevel("TestLevel");
+
+	/*camera_ = GameObjectFactory::GetInstance().CreateObject("Camera");
+	cog_ = GameObjectFactory::GetInstance().CreateObject("New Object");
+	cog2_ = GameObjectFactory::GetInstance().CreateObject("Second New Object");*/
+
+	camera_ = GameObjectManager::GetInstance().FindByName("Camera");
+	cog_ = GameObjectManager::GetInstance().FindByName("New_Object");
+	cog2_ = GameObjectManager::GetInstance().FindByName("Second_New_Object");
+
 	Camera* cameraComponent = camera_->GetComponent<Camera>();
 	Graphics::GetInstance().mainCamera_ = cameraComponent;
-
-	cog_ = GameObjectFactory::GetInstance().CreateObject("New Object");
-	cog2_ = GameObjectFactory::GetInstance().CreateObject("Second New Object");
 
 	transform_ = cog_->GetComponent<Transform>();
 	transform2_ = cog2_->GetComponent<Transform>();
@@ -51,11 +57,6 @@ bool Junior::TestLevel::Initialize()
 
 	cog_->GetRenderJob()->textureID_ = 0;
 	cog2_->GetRenderJob()->textureID_ = 0;
-
-	// Add the components
-	Junior::GameObjectManager::GetInstance().AddObject(cog_);
-	Junior::GameObjectManager::GetInstance().AddObject(cog2_);
-	Junior::GameObjectManager::GetInstance().AddObject(camera_);
 
 	return true;
 }
@@ -83,8 +84,8 @@ void Junior::TestLevel::Update(double dt)
 		}
 		else
 		{
-			/*animator->Stop();
-			animator->SetFrame(0);*/
+			animator->Stop();
+			animator->SetFrame(0);
 		}
 	}
 	else

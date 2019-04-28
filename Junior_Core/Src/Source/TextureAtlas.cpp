@@ -17,8 +17,8 @@
 // Public Member Functions
 
 // Atlas Node
-Junior::AtlasNode::AtlasNode(int width, int height)
-	: parent_(nullptr), children_{ nullptr, nullptr }, used_(false), offset_(nullptr), width_(width), height_(height), xPos_(0), yPos_(0)
+Junior::AtlasNode::AtlasNode(int width, int height, const std::string& name)
+	: parent_(nullptr), children_{ nullptr, nullptr }, used_(false), offset_(nullptr), width_(width), height_(height), xPos_(0), yPos_(0), nodeName_(name)
 {
 }
 
@@ -96,9 +96,35 @@ inline void Junior::TextureAtlas::SetOffset(Junior::AtlasNode* node)
 	node->offset_ = pixels_ + totalWidth_ * node->yPos_ + node->xPos_;
 }
 
+Junior::AtlasNode* Junior::TextureAtlas::FindNode(Junior::AtlasNode* node, const std::string& name) const
+{
+	// Check if the current node has the name we are looking for
+	if (!node)
+		return nullptr;
+
+	if (node->nodeName_ == name)
+	{
+		return node;
+	}
+	
+	// Otherwise, check its children
+	for (size_t i = 0; i < NUM_NODE_CHILDREN; ++i)
+	{
+		AtlasNode* children = FindNode(node->children_[i], name);
+		if (children)
+		{
+			return children;
+		}
+	}
+
+	// Otherwise, we didn't find anything and we return a nullptr
+	return nullptr;
+}
+
 // Public Member Functions
+
 Junior::TextureAtlas::TextureAtlas(int width, int height, int numChannels)
-	: pixels_(nullptr), head_(nullptr), totalWidth_(width), totalHeight_(height), numChannels_(numChannels)
+	: pixels_(nullptr), head_(nullptr), totalWidth_(width), totalHeight_(height), numChannels_(numChannels), mapChildren_()
 {
 	// Make the texture array
 	pixels_ = new unsigned char[width * height * numChannels];
@@ -384,7 +410,12 @@ void Junior::TextureAtlas::Push(AtlasNode** node)
 		delete *node;
 		(*node) = nullptr;
 	}
-		
+}
+
+Junior::AtlasNode* Junior::TextureAtlas::Find(const std::string& name) const
+{
+	// Find a node with the correct name
+	return FindNode(head_, name);
 }
 
 void Junior::TextureAtlas::Reset(AtlasNode* node)

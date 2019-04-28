@@ -44,7 +44,11 @@ namespace Junior
 		// Params:
 		//	name: The name of the game object
 		//	rendered: Whether the object is going to be rendered or not
-		GameObject(const std::string& name, bool rendered = true);
+		GameObject(const std::string& name = "Object", bool rendered = true);
+		// Copy Constructor - Copies the game object and its components
+		// Params:
+		//	other: The other game object we are copying from
+		GameObject(const GameObject& other);
 		// Destructor destroys the game object
 		~GameObject();
 		// Initalizes all of the components inside of it

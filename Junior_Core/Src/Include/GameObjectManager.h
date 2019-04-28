@@ -5,7 +5,7 @@
 * File name: GameObjectManager.h
 * Description: Takes care to initialize, update, and clean up all of the objects
 * Created: 11 Dec 2018
-* Last Modified: 26 Apr 2019
+* Last Modified: 27 Apr 2019
 */
 
 // Includes //
@@ -26,22 +26,24 @@ namespace Junior
 		// Default Constructor
 		GameObjectManager();
 	public:
-		// Public Member Functions //
+		// Public Member Functions
 		// Adds the game object to the manager and initializes it
 		// Params:
 		//	object: The object to initialize
 		void AddObject(GameObject* const object);
-
+		// Finds an object by name
+		// Params:
+		//	name: The name of the object we are looking for
+		// Returns: The object with the same name
+		GameObject* FindByName(const std::string& name) const;
 		// Updates the game object manager, and updates all of the other objects inside
 		// Params:
 		//	manager: The memory manger used to create all of the objects
 		void Update(MemoryManager* manager);
-
 		// Cleans up all of the objects and deletes them
 		// Params:
 		//	manager: The memory manager used to create all of these objects
 		void CleanUp(MemoryManager* manager);
-
 		// Returns: All of the objects in the manager
 		const std::vector<GameObject*>& GetAllObjects() const;
 

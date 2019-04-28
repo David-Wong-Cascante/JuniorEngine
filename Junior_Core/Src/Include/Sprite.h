@@ -25,6 +25,8 @@ namespace Junior
 	private:
 		// Private Member Variables
 
+		// Whether we already have a spot on the texture atlas
+		bool isOnAtlas_;
 		// The path to the texture
 		std::string path_;
 		// The sprite's texture

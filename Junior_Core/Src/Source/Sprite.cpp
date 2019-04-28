@@ -44,11 +44,17 @@ void Junior::Sprite::Initialize()
 		Graphics& graphics = Graphics::GetInstance();
 		TextureAtlas* atlas = graphics.GetTextureAtlas();
 		// Create the node to store inside the tree
-		atlasNode_ = new AtlasNode(texture_->GetDimension(0), texture_->GetDimension(1));
-		atlas->Push(&atlasNode_);
-		atlas->UpdateNodePixels(atlasNode_, texture_->GetPixels());
-		graphics.UpdateTextureAtlas();
-		// TODO: Update the sprite's texture coordinates
+		const std::string& textureDir = texture_->GetResourceDir();
+		atlasNode_ = atlas->Find(textureDir);
+		// If we found the node, then we skip creating the node
+		if (!atlasNode_)
+		{
+			// Otherwise, we need to create it
+			atlasNode_ = new AtlasNode(texture_->GetDimension(0), texture_->GetDimension(1), textureDir);
+			atlas->Push(&atlasNode_);
+			atlas->UpdateNodePixels(atlasNode_, texture_->GetPixels());
+			graphics.UpdateTextureAtlas();
+		}
 		// X offset, Y offset and uniform scale
 		// Scale
 		job_->uvTranslationAndScale_.z_ = static_cast<float>(atlasNode_->width_) / static_cast<float>(atlas->GetWidth());

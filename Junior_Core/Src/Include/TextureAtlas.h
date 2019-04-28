@@ -8,6 +8,9 @@
  * Last Modified: 14-Feb-2019
 */
 
+// Defines
+#define NUM_NODE_CHILDREN 2
+
 // Includes
 #include <vector>
 
@@ -15,10 +18,6 @@ namespace Junior
 {
 	struct AtlasNode
 	{
-		// The parent of the node (if null, then this node is the head of the tree)
-		AtlasNode* parent_;
-		// The children of this AtlasNode
-		AtlasNode* children_[2];
 		// Whether the node is being used or not
 		bool used_ = false;
 		// The offset to start drawing the pixels
@@ -31,12 +30,18 @@ namespace Junior
 		unsigned xPos_;
 		// The y-coordinates of the top left corner of the plot
 		unsigned yPos_;
+		// The parent of the node (if null, then this node is the head of the tree)
+		AtlasNode* parent_;
+		// The children of this AtlasNode
+		AtlasNode* children_[2];
+		// The name of the node
+		std::string nodeName_;
 		
 		// Constructs a pre-push node
 		// Params:
 		//	width: The width of the node
 		//	height: The height of the node
-		AtlasNode(int width, int height);
+		AtlasNode(int width, int height, const std::string& name = "");
 	};
 
 	class TextureAtlas
@@ -76,7 +81,11 @@ namespace Junior
 		//	xPos: The x position of top left corner of the plot
 		//	yPos: The y position of the top left corner of the plot
 		inline void SetOffset(AtlasNode* node);
-
+		// Finds the first node with the same name recursively
+		// Params:
+		//	node: The node we are currently checkinng
+		//	name: The name we are checking for
+		AtlasNode* FindNode(AtlasNode* node, const std::string& name) const;
 	public:
 		// Public Member Functions
 		// Constructs a ready texture map
@@ -109,6 +118,10 @@ namespace Junior
 		// Params:
 		//	node: The child to be pushed into the tree
 		void Push(AtlasNode** node);
+		// Attempts to find a node with the same name
+		// Params:
+		//	name: The name of the node
+		AtlasNode* Find(const std::string& name) const;
 		// Resets a node (clears all of its children)
 		// Params:
 		//	node: The node we are going to use for recursion

@@ -4,7 +4,7 @@
 * File name: GameObjectManager.cpp
 * Description: Takes care to initialize, update, and clean up all of the objects
 * Created: 11 Dec 2018
-* Last Modified: 26 Apr 2019
+* Last Modified: 27 Apr 2019
 */
 
 // Includes
@@ -22,7 +22,21 @@ namespace Junior
 
 	void GameObjectManager::AddObject(GameObject* const object)
 	{
+		object->Initialize();
 		gameObjects_.push_back(object);
+	}
+
+	GameObject* GameObjectManager::FindByName(const std::string& name) const
+	{
+		for (auto begin = gameObjects_.cbegin(); begin != gameObjects_.cend(); ++begin)
+		{
+			if ((*begin)->GetName() == name)
+			{
+				return *begin;
+			}
+		}
+
+		return nullptr;
 	}
 
 	void GameObjectManager::Update(MemoryManager* manager)

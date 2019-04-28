@@ -6,7 +6,7 @@ TestLevel
       numComponents : 3
       Junior::Transform
       {
-         localTranslation : [ -0.25, 0, 0, 1 ]
+         localTranslation : [ -111.255, 0, 0, 1 ]
          localRotation : 0
          localScaling : [ 128, 128, 1, 1 ]
       }
@@ -16,14 +16,14 @@ TestLevel
       }
       Junior::Animator
       {
-         currentFrame : 0
+         currentFrame : 1
          playing : 0
-         loop : 0
+         loop : 1
          animStart : 0
-         animEnd : 0
+         animEnd : 3
          numColumns : 2
          numRows : 4
-         timePerFrame : 0.3
+         timePerFrame : 0.15
       }
    }
    Second_New_Object
@@ -31,7 +31,7 @@ TestLevel
       numComponents : 2
       Junior::Transform
       {
-         localTranslation : [ -14.1262, -300, 0.998891, 1 ]
+         localTranslation : [ -299.801, -300, -0.0364598, 1 ]
          localRotation : 0
          localScaling : [ 256, 128, 1, 1 ]
       }
@@ -47,13 +47,13 @@ TestLevel
       {
          projectionMode : Orthographic
          cameraWidth : 1920
-         cameraHeight : 1080
+         cameraHeight : 1017
          nearPlane : -5
          farPlane : 5
       }
       Junior::Transform
       {
-         localTranslation : [ -0.249886, 0, 0, 1 ]
+         localTranslation : [ -111.255, 0, 0, 1 ]
          localRotation : 0
          localScaling : [ 1, 1, 1, 0 ]
       }

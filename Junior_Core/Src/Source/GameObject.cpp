@@ -28,6 +28,28 @@ Junior::GameObject::GameObject(const std::string& name, bool rendered)
 		renderJob_ = graphics.GetNewRenderJob();
 }
 
+Junior::GameObject::GameObject(const GameObject& other)
+	: name_(other.name_), parent_(other.parent_), destroyed(false), renderJob_(nullptr)
+{
+	Graphics& graphics = Graphics::GetInstance();
+	// Create a render job if the other did have one
+	if (other.renderJob_)
+		renderJob_ = graphics.GetNewRenderJob();
+	// Then copy its components
+	for (auto componentsBegin = other.components_.cbegin(); componentsBegin != other.components_.cend(); ++componentsBegin)
+	{
+		ComponentContainer* container = (*componentsBegin)->Clone();
+		container->SetOwner(this);
+		components_.push_back(container);
+	}
+	// Then copy its children
+	for (auto childrenBegin = other.children_.cbegin(); childrenBegin != other.children_.cend(); ++childrenBegin)
+	{
+		GameObject* other = new GameObject(**childrenBegin);
+		children_.push_back(other);
+	}
+}
+
 Junior::GameObject::~GameObject()
 {
 	Destroy();

@@ -4,11 +4,12 @@
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
 * Created: 9 Apr 2019
-* Last Modified: 26 Apr 2019
+* Last Modified: 27 Apr 2019
 */
 
 // Includes
 #include "GameObjectFactory.h"			// Game Object Factory
+#include "GameObjectManager.h"			// Game Object Manager
 #include "ComponentContainer.h"			// Component Container
 #include "GameObject.h"					// Game Object
 #include "Level.h"						// Level
@@ -115,6 +116,46 @@ void Junior::GameObjectFactory::SaveLevel(const Level* level) const
 		debug.PrintLn(e.what());
 	}
 }
+
+void Junior::GameObjectFactory::FillLevel(const std::string& levelName) const
+{
+	Parser parser(filePath_ + levelName + levelFileExtenion_, std::ios_base::in);
+	// When we start reading objects, keep track of the current one we are reading so that we can release it in case things go wrong
+	GameObject* current = nullptr;
+	std::string name;
+	try
+	{
+		// Skip the name of the file
+		parser.Skip(levelName);
+		// Skip the openning bracket
+		parser.Skip("{");
+		// Start reading objects
+		unsigned numObjects;
+		parser.ReadVariable("numGameObjects", numObjects);
+		for (unsigned i = 0; i < numObjects; ++i)
+		{
+			// Start reading objects
+			// Read the name of the game object
+			parser.ReadValue(name);
+			current = new GameObject(name);
+			current->Deserialize(parser);
+			// Put the game object into the manager
+			GameObjectManager::GetInstance().AddObject(current);
+		}
+	}
+	catch (const ParserException& e)
+	{
+		// Delete the object that went wrong
+		delete current;
+		// Print out the debug error
+		Debug& debug = Debug::GetInstance();
+		debug.Print(debug.GetDebugLevelName(DebugLevel::ERROR));
+		debug.Print("Failed to load level \"" + name + "\": ");
+		debug.PrintLn(e.what());
+	}
+}
+
+
 
 Junior::GameObjectFactory& Junior::GameObjectFactory::GetInstance()
 {

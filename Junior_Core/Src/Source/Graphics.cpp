@@ -69,8 +69,8 @@ bool Junior::Graphics::Load()
 	// Initialize GLFW so that we can use its library
 	if (!glfwInit())
 	{
-		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::ERROR));
-		debug.PrintLn<std::string>("Failed to create the window");
+		debug.Print(debug.GetDebugLevelName(DebugLevel::ERROR));
+		debug.PrintLn("Failed to create the window");
 		return 0;
 	}
 
@@ -83,8 +83,8 @@ bool Junior::Graphics::Load()
 	windowHandle_ = glfwCreateWindow(windowWidth_, windowHeight_, "Junior Game Engine", NULL, NULL);
 	if (!windowHandle_)
 	{
-		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::ERROR));
-		debug.PrintLn<std::string>("Failed to create the window handle");
+		debug.Print(debug.GetDebugLevelName(DebugLevel::ERROR));
+		debug.PrintLn("Failed to create the window handle");
 		return 0;
 	}
 
@@ -136,14 +136,14 @@ bool Junior::Graphics::Load()
 
 	// defaultProgram_ = 0;
 	// Set up the draw program used to draw the triangle
-	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
-	debug.PrintLn<std::string>("Creating the default shading program");
+	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.PrintLn("Creating the default shading program");
 
 	defaultProgram_ = new Junior::DrawProgram;
 	defaultProgram_->LoadFromDisk("..//Assets//Shaders//starter");
 	// Generate the texture 
-	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
-	debug.PrintLn<std::string>("Creating the texture atlas");
+	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.PrintLn("Creating the texture atlas");
 
 	atlas_ = new TextureAtlas(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 4);
 	// Generate some pixels
@@ -175,8 +175,8 @@ bool Junior::Graphics::Initialize()
 {
 	// Debug printing
 	Debug& debug = Debug::GetInstance();
-	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
-	debug.PrintLn<std::string>("Initialize general vertex data for graphics");
+	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.PrintLn("Initialize general vertex data for graphics");
 	// Delete any previous data if it existed
 	glDeleteBuffers(1, &renderJobBuffer_);
 	glDeleteBuffers(1, &vbo_);
@@ -373,8 +373,8 @@ void Junior::Graphics::Unload()
 {
 	// Debug printing
 	Debug& debug = Debug::GetInstance();
-	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
-	debug.PrintLn<std::string>("Unloading Graphics");
+	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.PrintLn("Unloading Graphics");
 	// Delete the texture atlas
 	delete atlas_;
 	// Delete the shader program
@@ -493,7 +493,7 @@ void GLAPIENTRY Junior::MessageCallback(GLenum source, GLenum type, GLuint id, G
 	const char* severityName = IdentifyGLSeverity(severity);
 
 	// Print the error message
-	debug.Print<std::string>("GL CALLBACK -> ");
+	debug.Print("GL CALLBACK -> ");
 	if (type == GL_DEBUG_TYPE_ERROR)
 	{
 		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::ERROR));
@@ -503,11 +503,11 @@ void GLAPIENTRY Junior::MessageCallback(GLenum source, GLenum type, GLuint id, G
 		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
 	}
 
-	debug.Print<std::string>("Type: ");
-	debug.Print<const char*>(errorName);
-	debug.Print<std::string>(", Severity: ");
-	debug.PrintLn<const char*>(severityName);
-	debug.Print<std::string>("\"");
-	debug.Print<const char*>(message);
-	debug.PrintLn<std::string>("\"");
+	debug.Print("Type: ");
+	debug.Print(errorName);
+	debug.Print(", Severity: ");
+	debug.PrintLn(severityName);
+	debug.Print("\"");
+	debug.Print(message);
+	debug.PrintLn("\"");
 }
