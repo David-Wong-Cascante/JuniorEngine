@@ -3,8 +3,8 @@
  * Email: david.wongcascante@digipen.edu
  * File name: TextureAtlasTree.cpp
  * Description: Shows how TextureAtlasMap works
- * Created: 12-Feb-2019
- * Last Modified: 14-Feb-2019
+ * Created: 12 Feb 2019
+ * Last Modified: 27 Apr 2019
 */
 
 // Includes

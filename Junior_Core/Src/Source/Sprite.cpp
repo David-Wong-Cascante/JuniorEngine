@@ -4,7 +4,7 @@
  * File Name: Sprite.cpp
  * Description: Defines how Sprite works
  * Created: 13 Feb 2019
- * Last Modified: 26 Apr 2019
+ * Last Modified: 27 Apr 2019
 */
 
 // Includes

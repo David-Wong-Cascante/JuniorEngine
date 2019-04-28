@@ -5,7 +5,7 @@
  * File Name: Sprite.h
  * Description: Sprites manage the raw data that comes from textures and updates the texture coordinates for texture maps
  * Created: 13 Feb 2019
- * Last Modified: 26 Apr 2019
+ * Last Modified: 27 Apr 2019
 */
 
 // Includes

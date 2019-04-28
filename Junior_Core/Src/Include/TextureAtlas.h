@@ -4,8 +4,8 @@
  * Email: david.wongcascante@digipen.edu
  * File name: TextureAtlasTree.h
  * Description: Declares the texture atlas' functionality
- * Created: 12-Feb-2019
- * Last Modified: 14-Feb-2019
+ * Created: 12 Feb 2019
+ * Last Modified: 27 Apr 2019
 */
 
 // Defines
