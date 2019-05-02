@@ -10,6 +10,7 @@
 
 // Includes //
 #include <vector>
+#include <string>
 
 namespace Junior
 {

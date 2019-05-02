@@ -94,6 +94,9 @@
     <ClInclude Include="..\Junior_Core\Src\Include\Texture.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Mesh.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -189,6 +192,9 @@
       <Filter>Game Systems</Filter>
     </ClCompile>
     <ClCompile Include="..\Junior_Core\Src\Source\Texture.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Mesh.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>

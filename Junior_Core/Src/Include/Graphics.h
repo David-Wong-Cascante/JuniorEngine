@@ -4,8 +4,8 @@
  * Email: david.wongcascante@digipen.edu
  * File name: Graphics.h
  * Description: Declare the functionality of the window and the renderer under the same class
- * Created: 20-Apr-2018
- * Last Modified: 18-Feb-2019
+ * Created: 20 Apr 2018
+ * Last Modified: 18 Feb 2019
 */
 
 // Includes //
@@ -58,8 +58,8 @@ namespace Junior
 		// Private Member Functions
 		// Hidden Constructors and Assigment Operators
 		Graphics();
-		Graphics(const Graphics& graphics);
-		Graphics& operator=(const Graphics& other);
+		Graphics(const Graphics& graphics) = delete;
+		Graphics& operator=(const Graphics& other) = delete;
 	public:
 		// Public Member Functions
 		// Loads any assets

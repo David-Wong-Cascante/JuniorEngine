@@ -3,8 +3,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: Graphics.cpp
 * Description: Write the functionality of the window and the renderer under the same class
-* Created: 20-Apr-2018
-* Last Modified: 18-Feb-2019
+* Created: 20 Apr 2018
+* Last Modified: 18 Feb 2019
 */
 
 
@@ -44,16 +44,6 @@ void Junior::KeyCallback(GLFWwindow* window, int key, int scancode, int action, 
 Junior::Graphics::Graphics()
 	: GameSystem("Graphics")
 {
-}
-
-Junior::Graphics::Graphics(const Graphics& graphics)
-	: GameSystem("Graphics")
-{
-}
-
-Junior::Graphics& Junior::Graphics::operator=(const Graphics& other)
-{
-	return *this;
 }
 
 // Public Member Functions
