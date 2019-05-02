@@ -25,6 +25,7 @@
     <ClInclude Include="..\Junior_Core\Src\Include\Component.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\ComponentContainer.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\Debug.h" />
+    <ClInclude Include="..\Junior_Core\Src\Include\DefaultMesh.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\DrawProgram.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\GameObject.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\GameObjectFactory.h" />
@@ -58,6 +59,7 @@
     <ClCompile Include="..\Junior_Core\Src\Source\Camera.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\ComponentContainer.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Debug.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\Source\DefaultMesh.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\DrawProgram.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\GameObject.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\GameObjectFactory.cpp" />
@@ -92,26 +94,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

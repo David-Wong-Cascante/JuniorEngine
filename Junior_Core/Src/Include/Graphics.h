@@ -27,6 +27,7 @@ namespace Junior
 	class Texture;
 	class TextureAtlas;
 	class Input;
+	class DefaultMesh;
 
 	class Graphics : public GameSystem
 	{
@@ -38,22 +39,21 @@ namespace Junior
 	private:
 		// Private Class Variables
 
-		int windowWidth_ = 0, windowHeight_ = 0;
-		int openGLVersionMajor_ = 0, openGLVersionMinor_ = 0;
-		unsigned int vao_ = 0, vbo_ = 0;
-		unsigned int renderJobBuffer_;
+		int windowWidth_, windowHeight_;
+		int openGLVersionMajor_, openGLVersionMinor_;
 		
 		// Texture array
 		Texture* textureBank_;
 		// Let the jank ensue (texture atlas)
 		TextureAtlas* atlas_;
-
-		GLFWwindow* windowHandle_ = nullptr;
-		DrawProgram* defaultProgram_ = nullptr;
+		// The window handle
+		GLFWwindow* windowHandle_;
+		// Default Program
+		DrawProgram* defaultProgram_;
+		// Default mesh
+		DefaultMesh* defaultMesh_;
+		// Orthographic Matrix
 		Mat3 orthographicMatrix_;
-
-		std::vector<RenderJob*> renderJobs_;
-		std::vector<RenderJob> readyToRenderJobs_;
 		
 		// Private Member Functions
 		// Hidden Constructors and Assigment Operators

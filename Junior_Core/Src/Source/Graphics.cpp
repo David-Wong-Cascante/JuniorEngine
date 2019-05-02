@@ -19,6 +19,7 @@
 #include <random>
 
 #include "DrawProgram.h"			// Draw Program
+#include "DefaultMesh.h"			// Default Mesh
 #include "RenderJob.h"				// Render Jobs
 #include "LinearMath.h"				// Linear Math Helper Functions
 #include "Input.h"					// Class Input
@@ -42,7 +43,8 @@ void Junior::KeyCallback(GLFWwindow* window, int key, int scancode, int action, 
 
 // Private Member Functions
 Junior::Graphics::Graphics()
-	: GameSystem("Graphics")
+	: GameSystem("Graphics"), windowWidth_(0), windowHeight_(0), openGLVersionMajor_(0), openGLVersionMinor_(0),
+							  windowHandle_(nullptr), defaultProgram_(nullptr), defaultMesh_(nullptr)
 {
 }
 
@@ -93,9 +95,9 @@ bool Junior::Graphics::Load()
 	
 	// Check OpenGL's version
 	char* openGLVersion = (char*)(glGetString(GL_VERSION));
-	debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
-	debug.Print<std::string>("Running OpenGL version ");
-	debug.PrintLn<char*>(openGLVersion);
+	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+	debug.Print("Running OpenGL version ");
+	debug.PrintLn(openGLVersion);
 
 	glGetIntegerv(GL_MAJOR_VERSION, &openGLVersionMajor_);
 	glGetIntegerv(GL_MINOR_VERSION, &openGLVersionMinor_);
@@ -158,6 +160,9 @@ bool Junior::Graphics::Load()
 	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, false, GL_RGBA, GL_RGB8, MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 2);
 	textureBank_->AppendToArray2D(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, atlas_->GetPixels());
 
+	// Generate the mesh
+	defaultMesh_ = new DefaultMesh;
+
 	return true;
 }
 
@@ -167,71 +172,6 @@ bool Junior::Graphics::Initialize()
 	Debug& debug = Debug::GetInstance();
 	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
 	debug.PrintLn("Initialize general vertex data for graphics");
-	// Delete any previous data if it existed
-	glDeleteBuffers(1, &renderJobBuffer_);
-	glDeleteBuffers(1, &vbo_);
-	glDeleteVertexArrays(1, &vao_);
-
-	// Set up the Vertex Array Object to draw a single triangle
-	glGenVertexArrays(1, &vao_);
-
-	glGenBuffers(1, &vbo_);
-	glGenBuffers(1, &renderJobBuffer_);
-
-	glBindVertexArray(vao_);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-
-	float randomVertices[] = {
-		// Vertices,			Texture Coords
-		-0.5f,-0.5f, 0.0f,		0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f,		0.0f, 1.0f,
-		0.5f, -0.5f, 0.0f,		1.0f, 0.0f,
-		0.5f, 0.5f, 0.0f,		1.0f, 1.0f,
-	};
-	
-	// The buffer for all vertex data
-	glBufferData(GL_ARRAY_BUFFER, sizeof(randomVertices), randomVertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, reinterpret_cast<void*>(3 * sizeof(float)));
-
-	glVertexAttribDivisor(0, 0);
-	glVertexAttribDivisor(1, 0);
-
-	// The buffer for all render job data
-	glBindBuffer(GL_ARRAY_BUFFER, renderJobBuffer_);
-	glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STREAM_DRAW);
-
-	// Transformation Matrix
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(RenderJob), 0);
-	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 1 * 4));
-	glEnableVertexAttribArray(4);
-	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 2 * 4));
-	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 3 * 4));
-
-	// UV Coordinate Modification Data
-	glEnableVertexAttribArray(6);
-	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 4 * 4));
-
-	// Texture Selection Data
-	glEnableVertexAttribArray(7);
-	glVertexAttribPointer(7, 1, GL_UNSIGNED_INT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 5 * 4));
-
-	glVertexAttribDivisor(2, 1);
-	glVertexAttribDivisor(3, 1);
-	glVertexAttribDivisor(4, 1);
-	glVertexAttribDivisor(5, 1);
-	glVertexAttribDivisor(6, 1);
-	glVertexAttribDivisor(7, 1);
-
-	CHECK_GL_ERROR();
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
 
 	return true;
 }
@@ -286,23 +226,6 @@ void Junior::Graphics::Render()
 	{
 		defaultProgram_->Bind();
 		// Do the instanced rendering
-		glBindVertexArray(vao_);
-
-		// Fill in the render job data
-		size_t renderJobBufferSize = sizeof(RenderJob) * renderJobs_.size();
-		readyToRenderJobs_.clear();
-		readyToRenderJobs_.reserve(renderJobs_.size());
-		for (unsigned i = 0; i < renderJobs_.size(); ++i)
-		{
-			readyToRenderJobs_.push_back(*renderJobs_[i]);
-		}
-
-		glBindBuffer(GL_ARRAY_BUFFER, renderJobBuffer_);
-		glBufferData(GL_ARRAY_BUFFER, renderJobBufferSize, nullptr, GL_STREAM_DRAW);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, renderJobBufferSize, readyToRenderJobs_.data());
-		CHECK_GL_ERROR();
-
-		// Render the all of the render jobs (instanced)
 		GLuint projLoc = glGetUniformLocation(defaultProgram_->programID_, "camera");
 		//glUniformMatrix4fv(projLoc, 1, GL_TRUE, orthographicMatrix_.m_);
 		if(mainCamera_)
@@ -316,26 +239,10 @@ void Junior::Graphics::Render()
 		glActiveTexture(GL_TEXTURE0);
 		textureBank_->BindTexture();
 		glUniform1i(textureLoc, 0);
-		
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glEnableVertexAttribArray(2);
-		glEnableVertexAttribArray(3);
-		glEnableVertexAttribArray(4);
-		glEnableVertexAttribArray(5);
-		glEnableVertexAttribArray(6);
-		glEnableVertexAttribArray(7);
-
-		glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, static_cast<GLsizei>(renderJobs_.size()));
-
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(2);
-		glDisableVertexAttribArray(3);
-		glDisableVertexAttribArray(4);
-		glDisableVertexAttribArray(5);
-		glDisableVertexAttribArray(6);
-		glDisableVertexAttribArray(7);
+	
+		// Draw the instanced mesh
+		defaultMesh_->UpdateExtraData();
+		defaultMesh_->Draw();
 
 		textureBank_->UnbindTexture();
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -353,10 +260,6 @@ void Junior::Graphics::PollWindow()
 
 void Junior::Graphics::Shutdown()
 {
-	// Delete all the Vertex Buffer stuff
-	glDeleteBuffers(1, &renderJobBuffer_);
-	glDeleteBuffers(1, &vbo_);
-	glDeleteVertexArrays(1, &vao_);
 }
 
 void Junior::Graphics::Unload()
@@ -365,6 +268,8 @@ void Junior::Graphics::Unload()
 	Debug& debug = Debug::GetInstance();
 	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
 	debug.PrintLn("Unloading Graphics");
+	// Delete the default mesh
+	delete defaultMesh_;
 	// Delete the texture atlas
 	delete atlas_;
 	// Delete the shader program
@@ -386,8 +291,11 @@ void Junior::Graphics::UpdateTextureAtlas()
 
 Junior::RenderJob * Junior::Graphics::GetNewRenderJob()
 {
-	RenderJob* newJob = new /*(manager_->Allocate(sizeof(RenderJob)))*/ RenderJob();
-	renderJobs_.push_back(newJob);
+	RenderJob* newJob = nullptr;
+	if (defaultMesh_)
+	{
+		newJob = defaultMesh_->GetNewRenderJob();
+	}
 	return newJob;
 }
 
@@ -398,12 +306,9 @@ Junior::TextureAtlas* Junior::Graphics::GetTextureAtlas()
 
 void Junior::Graphics::RemoveRenderJob(RenderJob* renderJob)
 {
-	for (unsigned i = 0; i < renderJobs_.size(); ++i)
+	if (defaultMesh_)
 	{
-		if (renderJobs_[i] == renderJob)
-		{
-			renderJobs_.erase(renderJobs_.begin() + i);
-		}
+		defaultMesh_->RemoveRenderJob(renderJob);
 	}
 }
 

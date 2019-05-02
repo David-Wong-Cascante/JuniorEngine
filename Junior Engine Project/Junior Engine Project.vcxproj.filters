@@ -58,9 +58,6 @@
     <ClInclude Include="..\Junior_Core\Src\Include\Level.h">
       <Filter>Game Systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Include\RenderJob.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Junior_Core\Src\Include\DrawProgram.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -94,8 +91,14 @@
     <ClInclude Include="..\Junior_Core\Src\Include\Texture.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\RenderJob.h">
+      <Filter>Graphics\RenderData</Filter>
+    </ClInclude>
     <ClInclude Include="..\Junior_Core\Src\Include\Mesh.h">
-      <Filter>Graphics</Filter>
+      <Filter>Graphics\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\DefaultMesh.h">
+      <Filter>Graphics\Meshes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +116,12 @@
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{1aaf2a9e-1f7c-4865-a5a5-18bd54c43e0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\RenderData">
+      <UniqueIdentifier>{c03efa2c-977f-4ac2-a81a-606854cc86f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Meshes">
+      <UniqueIdentifier>{3e9c9b32-1cad-4bcc-a45a-fb8dae9334a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +204,10 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\Junior_Core\Src\Source\Mesh.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Graphics\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\DefaultMesh.cpp">
+      <Filter>Graphics\Meshes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
