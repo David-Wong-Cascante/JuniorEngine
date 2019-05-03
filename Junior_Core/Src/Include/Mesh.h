@@ -76,7 +76,7 @@ namespace Junior
 		// Public Static Members
 
 		// Returns a mesh object constructor with a default mesh
-		static Mesh CreateQuadMesh();
+		static BasicData CreateQuadMeshData();
 
 		// Public Member Functions
 
@@ -98,18 +98,23 @@ namespace Junior
 		//	basicData: The data we are passing into the mesh
 		Mesh(const std::string& name, const BasicData& basicData);
 
+		// Binds the vertex array object to OpenGL so that we can start updating the mesh in OpenGL
+		void StartBinding();
+		// Ends binding the mesh
+		inline void EndBinding();
+
 		// Virtual Functions
 
 		// Virtual destructor because polymorphism
 		virtual ~Mesh();
-		// Updates the data for the mesh
-		virtual void UpdateExtraData();
 		// Draws the mesh to OpenGL
 		virtual void Draw();
 
 	protected:
 		// Protected Member Functions
 
+		// Cleans up the basic buffer and vertex objects
+		void DeleteBufferData();
 		// Sets the name of the mesh
 		// Params:
 		//	name: The name of the mesh
@@ -118,9 +123,5 @@ namespace Junior
 		// Params:
 		//	enabled: Whether the attributes are enabled
 		void SetBasicVertexAttribsEnabled(bool enabled) const;
-		// Binds the vertex array object to OpenGL so that we can start updating the mesh in OpenGL
-		void StartBinding();
-		// Ends binding the mesh
-		inline void EndBinding();
 	};
 }

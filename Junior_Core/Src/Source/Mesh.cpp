@@ -37,7 +37,8 @@ void Junior::Mesh::SetUpInitialData()
 
 	// The buffer for all vertex data
 	StartBinding();
-	glBufferData(GL_ARRAY_BUFFER, basicData_.data_.size() / 5, basicData_.data_.data(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, meshBasicBuffer_);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * basicData_.data_.size(), basicData_.data_.data(), GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
 	glEnableVertexAttribArray(1);
@@ -52,7 +53,7 @@ void Junior::Mesh::SetUpInitialData()
 
 // Public Static Functions
 
-Junior::Mesh Junior::Mesh::CreateQuadMesh()
+Junior::BasicData Junior::Mesh::CreateQuadMeshData()
 {
 	// Vertices
 	float quadVertices[] = {
@@ -70,8 +71,8 @@ Junior::Mesh Junior::Mesh::CreateQuadMesh()
 		1.0f, 1.0f,
 	};
 
-	BasicData basic(sizeof(quadTexCoords) / sizeof(quadTexCoords[0]), quadVertices, quadTexCoords);
-	return Mesh("BasicQuadMesh", basic);
+	BasicData basic(4, quadVertices, quadTexCoords);
+	return basic;
 }
 
 // Public Member Functions
@@ -123,9 +124,8 @@ Junior::Mesh::Mesh(const std::string& name)
 }
 
 Junior::Mesh::Mesh(const Mesh& other)
-	: name_(other.name_), basicData_(other.basicData_), meshVertexArray_(0), meshBasicBuffer_(0)
+	: name_(other.name_), basicData_(other.basicData_), meshVertexArray_(other.meshVertexArray_), meshBasicBuffer_(other.meshBasicBuffer_)
 {
-	SetUpInitialData();
 }
 
 Junior::Mesh::Mesh(const std::string& name, unsigned count, const float* vertices, const float* textureCoordinates)
@@ -142,10 +142,15 @@ Junior::Mesh::Mesh(const std::string& name, const BasicData& other)
 
 Junior::Mesh::~Mesh()
 {
+	DeleteBufferData();
 }
 
-void Junior::Mesh::UpdateExtraData()
+// Protected Member Functions
+
+void Junior::Mesh::DeleteBufferData()
 {
+	glDeleteBuffers(1, &meshBasicBuffer_);
+	glDeleteVertexArrays(1, &meshVertexArray_);
 }
 
 void Junior::Mesh::SetBasicVertexAttribsEnabled(bool enabled) const

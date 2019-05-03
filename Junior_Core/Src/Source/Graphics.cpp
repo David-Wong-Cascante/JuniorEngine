@@ -226,27 +226,27 @@ void Junior::Graphics::Render()
 	{
 		defaultProgram_->Bind();
 		// Do the instanced rendering
+		defaultMesh_->StartBinding();
+
+		// Update the camera
 		GLuint projLoc = glGetUniformLocation(defaultProgram_->programID_, "camera");
-		//glUniformMatrix4fv(projLoc, 1, GL_TRUE, orthographicMatrix_.m_);
 		if(mainCamera_)
 			glUniformMatrix4fv(projLoc, 1, GL_FALSE, mainCamera_->GetCameraMatrix().m_);
 		else
 			glUniformMatrix4fv(projLoc, 1, GL_FALSE, Identity().m_);
 
-
-		// Set the temporal texture
+		// Set the texture atlas
 		GLuint textureLoc = glGetUniformLocation(defaultProgram_->programID_, "diffuse");
 		glActiveTexture(GL_TEXTURE0);
 		textureBank_->BindTexture();
 		glUniform1i(textureLoc, 0);
 	
 		// Draw the instanced mesh
-		defaultMesh_->UpdateExtraData();
 		defaultMesh_->Draw();
 
 		textureBank_->UnbindTexture();
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
+		defaultMesh_->EndBinding();
 	}
 
 	// And swap the buffers
@@ -295,6 +295,7 @@ Junior::RenderJob * Junior::Graphics::GetNewRenderJob()
 	if (defaultMesh_)
 	{
 		newJob = defaultMesh_->GetNewRenderJob();
+		memset(newJob, 0, sizeof(RenderJob));
 	}
 	return newJob;
 }
@@ -388,14 +389,13 @@ void GLAPIENTRY Junior::MessageCallback(GLenum source, GLenum type, GLuint id, G
 	const char* severityName = IdentifyGLSeverity(severity);
 
 	// Print the error message
-	debug.Print("GL CALLBACK -> ");
 	if (type == GL_DEBUG_TYPE_ERROR)
 	{
-		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::ERROR));
+		debug.Print(debug.GetDebugLevelName(DebugLevel::ERROR));
 	}
 	else
 	{
-		debug.Print<std::string>(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
+		debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
 	}
 
 	debug.Print("Type: ");

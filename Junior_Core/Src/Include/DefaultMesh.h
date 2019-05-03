@@ -9,12 +9,10 @@
 
 // Includes
 #include <Mesh.h>
+#include "RenderJob.h"			// Render Job
 
 namespace Junior
 {
-	// Forward Declarations
-	struct RenderJob;
-
 	class DefaultMesh : public Mesh
 	{
 	private:
@@ -28,6 +26,8 @@ namespace Junior
 		unsigned jobsBufferObject_;
 		// A vector that holds the extra data of all of the objects that are using it
 		std::vector<RenderJob*> renderJobs_;
+		// The vector that translates our render jobs from poiners to actual data
+		std::vector<RenderJob> readyToRenderJobs_;
 
 	public:
 		// Public Member Functions
@@ -36,8 +36,6 @@ namespace Junior
 		DefaultMesh();
 		// Virtual Destructor
 		~DefaultMesh() override;
-		// Updates the extra data into the mesh
-		void UpdateExtraData() override;
 		// Draws the mesh to OpenGL
 		void Draw() override;
 		// Assigns a new render job

@@ -14,19 +14,24 @@
 // Public Member Functions
 
 Junior::DefaultMesh::DefaultMesh()
-	: Mesh(Mesh::CreateQuadMesh())
+	: Mesh("DefaultMesh", Mesh::CreateQuadMeshData())
 {
+	// The buffer for all render job data
+	glGenBuffers(1, &jobsBufferObject_);
+	StartBinding();
+
 	// The buffer for all render job data
 	glBindBuffer(GL_ARRAY_BUFFER, jobsBufferObject_);
 	glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STREAM_DRAW);
-
 	// Transformation Matrix
 	// We have four vectors per matrix, so we are setting one vector per time
 	for (unsigned matrixPart = 0; matrixPart < 4; ++matrixPart)
 	{
-		glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + matrixPart);
-		glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX, 4, GL_FLOAT, GL_FALSE, 
-			sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * (matrixPart + 1) * 4));
+		int currentMatrixAttrib = Mesh::ATTRIBUTE_START_INDEX + matrixPart;
+		size_t currentOffset = sizeof(float) * matrixPart * 4;
+		glEnableVertexAttribArray(currentMatrixAttrib);
+		glVertexAttribPointer(currentMatrixAttrib, 4, GL_FLOAT, GL_FALSE,
+			sizeof(RenderJob), reinterpret_cast<void*>(currentOffset));
 	}
 
 	// UV Coordinate Modification Data
@@ -35,7 +40,7 @@ Junior::DefaultMesh::DefaultMesh()
 
 	// Texture Selection Data
 	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 5);
-	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 4, 1, GL_UNSIGNED_INT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 5 * 4));
+	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 5, 1, GL_UNSIGNED_INT, GL_FALSE, sizeof(RenderJob), reinterpret_cast<void*>(sizeof(float) * 5 * 4));
 
 	// Set the attribute divisors
 	for (unsigned i = 0; i <= NUM_ATTRIBUTES; ++i)
@@ -49,22 +54,34 @@ Junior::DefaultMesh::DefaultMesh()
 
 Junior::DefaultMesh::~DefaultMesh()
 {
+	DeleteBufferData();
 	ClearJobs();
+	glDeleteBuffers(1, &jobsBufferObject_);
 }
 
-void Junior::DefaultMesh::UpdateExtraData()
-{
-	// Fill in the render job data
-	glBindBuffer(GL_ARRAY_BUFFER, jobsBufferObject_);
-	glBufferData(GL_ARRAY_BUFFER, jobsBufferObject_, nullptr, GL_STREAM_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, renderJobs_.size(), renderJobs_.data());
-}
 
 void Junior::DefaultMesh::Draw()
 {
 	// Bind the mesh to OpenGL
 	StartBinding();
+	// Fill in the render job data
+	// Fill the data
+	size_t renderJobSize = sizeof(RenderJob) * renderJobs_.size();
+	readyToRenderJobs_.clear();
+	readyToRenderJobs_.reserve(renderJobs_.size());
+	for (size_t i = 0; i < renderJobs_.size(); ++i)
+	{
+		readyToRenderJobs_.push_back(*renderJobs_[i]);
+	}
+
+	StartBinding();
+	glBindBuffer(GL_ARRAY_BUFFER, jobsBufferObject_);
+	glBufferData(GL_ARRAY_BUFFER, renderJobSize, nullptr, GL_STREAM_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, renderJobSize, readyToRenderJobs_.data());
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	// Enable all of the attributes
+
 	SetBasicVertexAttribsEnabled(true);
 	for (unsigned i = 0; i <= NUM_ATTRIBUTES; ++i)
 	{
@@ -81,6 +98,7 @@ void Junior::DefaultMesh::Draw()
 		glDisableVertexAttribArray(i);
 	}
 	// End the binding
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	EndBinding();
 }
 
