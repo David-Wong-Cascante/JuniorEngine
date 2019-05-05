@@ -4,7 +4,7 @@
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
 * Created: 9 Apr 2019
-* Last Modified: 27 Apr 2019
+* Last Modified: 4 May 2019
 */
 
 // Includes
@@ -19,9 +19,10 @@
 #include "Sprite.h"
 #include "Animator.h"
 #include "Camera.h"
+#include "DefaultMeshLink.h"
 
 // Defines
-#define NUM_STANDARD_COMPONENTS 4
+#define NUM_STANDARD_COMPONENTS 5
 
 // Private Member Functions
 
@@ -33,6 +34,7 @@ Junior::GameObjectFactory::GameObjectFactory()
 	RegisterComponent<Sprite>();
 	RegisterComponent<Animator>();
 	RegisterComponent<Camera>();
+	RegisterComponent<DefaultMeshLink>();
 }
 
 Junior::GameObjectFactory::~GameObjectFactory()

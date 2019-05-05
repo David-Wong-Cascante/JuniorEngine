@@ -10,6 +10,7 @@
 */
 
 // Includes
+#include "Resource.h"		// Resources
 #include <vector>			// Vector
 #include <string>			// Strings
 

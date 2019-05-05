@@ -34,8 +34,10 @@ Junior::Application::Application(Junior::Level* startingLevel)
 {
 	// Pregister all the game systems need in this application
 	gameSystems_.reserve(NUM_DEFAULT_SYSTEMS);
-	AddGameSystem<Graphics>();
+	// Time always goes first because it doesn't matter what dt it updates to while
+	// the rest of the systems do care what the dt is
 	AddGameSystem<Time>();
+	AddGameSystem<Graphics>();
 	AddGameSystem<Input>();
 	AddGameSystem<ResourceManager>();
 }
@@ -94,7 +96,6 @@ void Junior::Application::Start()
 {
 	while (!Graphics::GetInstance().WindowRequestClosed())
 	{
-		Junior::Time::GetInstance().Update(0);
 		if (Input::GetInstance().GetKeyState(GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		{
 			break;
@@ -106,12 +107,14 @@ void Junior::Application::Start()
 
 void Junior::Application::Update()
 {
-	currentSpace_->Update(Junior::Time::GetInstance().GetDeltaTime());
 	// Update all of the game systems
 	for (auto begin = gameSystems_.begin(); begin != gameSystems_.end(); ++begin)
 	{
 		(*begin)->Update(Time::GetInstance().GetDeltaTime());
 	}
+
+	// Then, update the space
+	currentSpace_->Update(Time::GetInstance().GetDeltaTime());
 
 	// Render all of the game systems
 	for (auto begin = gameSystems_.begin(); begin != gameSystems_.end(); ++begin)

@@ -9,11 +9,13 @@
 */
 
 // Includes //
-#include "RenderJob.h"		// Render Job
 #include <vector>			// Vector
+#include <typeinfo>			// Type Info
+#include "RenderJob.h"		// Render Job
 #include "OpenGLBundle.h"	// OpenGL Bundle
 #include "Mat3.h"			// Mat3
 #include "GameSystem.h"		// Game System
+#include "Mesh.h"			// Meshes
 
 // Forward Declarations
 struct GLFWwindow;
@@ -51,7 +53,7 @@ namespace Junior
 		// Default Program
 		DrawProgram* defaultProgram_;
 		// Default mesh
-		DefaultMesh* defaultMesh_;
+		std::vector<Mesh*> meshes_;
 		// Orthographic Matrix
 		Mat3 orthographicMatrix_;
 		
@@ -89,20 +91,30 @@ namespace Junior
 		void SetDimensions(int width, int height);
 		// Poll the window so it actually responds
 		void PollWindow();
+		// Gets a specfic mesh from the mesh pool
+		template <class T>
+		T* GetMesh()
+		{
+			// First attempt to find the mesh
+			for (auto citer = meshes_.cbegin(); citer != meshes_.cend(); ++citer)
+			{
+				if (typeid((*citer)) == typeid(T) || dynamic_cast<T*>(*citer))
+				{
+					return static_cast<T*>(*citer);
+				}
+			}
 
+			// Else, create the mesh
+			T* mesh = new T;
+			meshes_.push_back(mesh);
+			return mesh;
+		}
 		// Returns: The window's with
 		int GetWindowWidth() const;
 		// Returns: The window's height
 		int GetWindowHeight() const;
-		// Gets a new render job from the memory manager of the graphics instance
-		// Returns: A new pointer to the render job
-		RenderJob* GetNewRenderJob();
 		// Returns: The texture atlas
 		TextureAtlas* GetTextureAtlas();
-		// Removes a RenderJob from the list of rendering
-		// Params:
-		//	renderJob: The render job to remove
-		void RemoveRenderJob(RenderJob* renderJob);
 		// Returns: The singleton instance of this class
 		static Graphics& GetInstance();
 	};

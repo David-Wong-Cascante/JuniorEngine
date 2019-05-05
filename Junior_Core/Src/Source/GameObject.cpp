@@ -5,7 +5,7 @@
 * File name: GameObject.h
 * Description: Define the Game Object functionality to get components, get its name, update, etc...
 * Created: 1 May 2018
-* Last Modified: Apr 8 2019
+* Last Modified: 4 May 2019
 */
 
 // Includes //
@@ -21,20 +21,16 @@
 // Public Member Functions //
 
 Junior::GameObject::GameObject(const std::string& name, bool rendered)
-	: name_(name), components_(), children_(), parent_(nullptr), destroyed(false), renderJob_(nullptr)
+	: name_(name), components_(), children_(), parent_(nullptr), destroyed(false)
 {
 	Graphics& graphics = Graphics::GetInstance();
-	if(rendered)
-		renderJob_ = graphics.GetNewRenderJob();
 }
 
 Junior::GameObject::GameObject(const GameObject& other)
-	: name_(other.name_), parent_(other.parent_), destroyed(false), renderJob_(nullptr)
+	: name_(other.name_), parent_(other.parent_), destroyed(false)
 {
 	Graphics& graphics = Graphics::GetInstance();
 	// Create a render job if the other did have one
-	if (other.renderJob_)
-		renderJob_ = graphics.GetNewRenderJob();
 	// Then copy its components
 	for (auto componentsBegin = other.components_.cbegin(); componentsBegin != other.components_.cend(); ++componentsBegin)
 	{
@@ -99,14 +95,6 @@ void Junior::GameObject::Unload()
 				component = 0;
 			}
 		}
-	}
-
-	if (renderJob_)
-	{
-		Graphics& graphics = Graphics::GetInstance();
-		graphics.RemoveRenderJob(renderJob_);
-		delete renderJob_;
-		renderJob_ = nullptr;
 	}
 }
 
@@ -209,11 +197,6 @@ Junior::GameObject* Junior::GameObject::GetParent() const
 const std::vector<Junior::GameObject*>& Junior::GameObject::GetChildren() const
 {
 	return children_;
-}
-
-Junior::RenderJob* Junior::GameObject::GetRenderJob() const
-{
-	return renderJob_;
 }
 
 // Get the first component it finds based on on the component's id

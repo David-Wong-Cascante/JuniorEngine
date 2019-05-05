@@ -3,8 +3,8 @@
  * Email: david.wongcascante@digipen.edu
  * File Name: Texture.cpp
  * Description: Code that helps the game engine with textures
- * Created: 18-Aug-2018
- * Last Modified: 13-Feb-2019
+ * Created: 18 Aug 2018
+ * Last Modified: 4 May 2019
 */
 
 // Includes
@@ -101,7 +101,6 @@ void Junior::Texture::CleanUp()
 
 void Junior::Texture::LoadFromDisk(const std::string& resourceDir)
 {
-	Resource::LoadFromDisk(resourceDir);
 	int textureWidth, textureHeight, textureChannels;
 	unsigned char* pixels = GetPixelsFromFile(resourceDir, &textureWidth, &textureHeight, &textureChannels);
 

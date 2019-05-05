@@ -1,3 +1,4 @@
+#pragma once
 /*
  * Author: David Wong
  * Email: david.wongcascante@digipen.edu

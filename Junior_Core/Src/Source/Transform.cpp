@@ -38,7 +38,6 @@ void Junior::Transform::Initialize()
 	isDirty_ = true;
 	// Find the owner's camera
 	camera_ = owner_->GetComponent<Camera>();
-	job_ = owner_->GetRenderJob();
 	ReconstructTransformation();
 }
 
@@ -47,11 +46,6 @@ void Junior::Transform::Update(double ms)
 	// Reconstruct the matrix if necessary
 	ReconstructTransformation();
 	Mat3 transformation = GetGlobalTransformation();
-	if (job_)
-	{
-		// Set the render jobs matrix pointer
-		job_->transformation_ = transformation;
-	}
 }
 
 void Junior::Transform::Unload()

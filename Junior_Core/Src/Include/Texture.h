@@ -4,8 +4,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: Texture.h
 * Description: Describe and write the functionality of the Texture data used by the Junior game Engine
-* Created: 5-Aug-2018
-* Last Modified: 13-Feb-2019
+* Created: 5 Aug 2018
+* Last Modified: 13 Feb 2019
 */
 
 // Includes //

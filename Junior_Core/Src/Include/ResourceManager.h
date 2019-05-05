@@ -67,7 +67,7 @@ namespace Junior
 		// Params:
 		//	resourceDir: The resource
 		template <class T>
-		T* GetResource(const std::string& resourceDir)
+		T* GetResource(const std::string& resourceDir = "")
 		{
 			// Attemmpting to find the resource
 			auto iter = resources_.find(resourceDir);
@@ -82,10 +82,10 @@ namespace Junior
 			}
 			// Else we didn't find the map so we need to create it 
 			typedResource = new T;
-			typedResource->LoadFromDisk(resourceDir);
+			typedResource->Load(resourceDir);
 			AddResource(typedResource);
 
-			return new T(*typedResource);
+			return typedResource->ShareResource<T>();
 		}
 
 		// Returns: The instance of the resource manager

@@ -14,7 +14,7 @@
 // Public Member Functions
 
 Junior::DefaultMesh::DefaultMesh()
-	: Mesh("DefaultMesh", Mesh::CreateQuadMeshData())
+	: Mesh("DefaultMesh", Mesh::CreateQuadMeshData()), renderJobs_()
 {
 	// The buffer for all render job data
 	glGenBuffers(1, &jobsBufferObject_);
@@ -62,8 +62,6 @@ Junior::DefaultMesh::~DefaultMesh()
 
 void Junior::DefaultMesh::Draw()
 {
-	// Bind the mesh to OpenGL
-	StartBinding();
 	// Fill in the render job data
 	// Fill the data
 	size_t renderJobSize = sizeof(RenderJob) * renderJobs_.size();
@@ -74,7 +72,6 @@ void Junior::DefaultMesh::Draw()
 		readyToRenderJobs_.push_back(*renderJobs_[i]);
 	}
 
-	StartBinding();
 	glBindBuffer(GL_ARRAY_BUFFER, jobsBufferObject_);
 	glBufferData(GL_ARRAY_BUFFER, renderJobSize, nullptr, GL_STREAM_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, renderJobSize, readyToRenderJobs_.data());
@@ -85,7 +82,7 @@ void Junior::DefaultMesh::Draw()
 	SetBasicVertexAttribsEnabled(true);
 	for (unsigned i = 0; i <= NUM_ATTRIBUTES; ++i)
 	{
-		glEnableVertexAttribArray(i);
+		glEnableVertexAttribArray(i + Mesh::ATTRIBUTE_START_INDEX);
 	}
 
 	// Draw all of the objects sharing this mesh
@@ -95,11 +92,10 @@ void Junior::DefaultMesh::Draw()
 	SetBasicVertexAttribsEnabled(false);
 	for (unsigned i = 0; i <= NUM_ATTRIBUTES; ++i)
 	{
-		glDisableVertexAttribArray(i);
+		glDisableVertexAttribArray(i + Mesh::ATTRIBUTE_START_INDEX);
 	}
 	// End the binding
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	EndBinding();
 }
 
 Junior::RenderJob* Junior::DefaultMesh::GetNewRenderJob()
@@ -111,6 +107,9 @@ Junior::RenderJob* Junior::DefaultMesh::GetNewRenderJob()
 
 void Junior::DefaultMesh::RemoveRenderJob(const RenderJob* renderJob)
 {
+	if (!renderJob)
+		return;
+
 	for (auto iter = renderJobs_.cbegin(); iter != renderJobs_.cend(); ++iter)
 	{
 		if ((*iter) == renderJob)

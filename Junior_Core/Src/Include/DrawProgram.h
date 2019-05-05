@@ -1,9 +1,9 @@
 /*
 * Author: David Wong
 * Email: david.wongcascante@digipen.edu
-* Date CreateDd: 26-Apr-18
-* Last Modified: 29-Oct-18
 * File name: DrawProgram.h
+* Date Created: 26 Apr 2018
+* Last Modified: 4 May 2019
 * Description: Declare what a Draw Program is
 */
 
@@ -13,7 +13,7 @@
 
 namespace Junior
 {
-	class DrawProgram : Resource
+	class DrawProgram : public Resource
 	{
 	private:
 		// Private Class Variables //
@@ -28,16 +28,15 @@ namespace Junior
 	public:
 		// Public Class Variables //
 		int programID_ = -1;
-		std::map<const char*, int> uniforms_;
 		
 		// Public Member Functions //
 		// Constructors 
 		// Creates an empty Draw Program
 		DrawProgram();
 		// Copy Constructor
-		DrawProgram(DrawProgram& other);
+		DrawProgram(const DrawProgram& other);
 		// Creates a Draw Program from shader files
-		DrawProgram(std::string fileName);
+		DrawProgram(const std::string& fileName);
 
 		// Loads a shader file from the disk
 		// Params:

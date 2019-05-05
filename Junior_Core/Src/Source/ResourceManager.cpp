@@ -14,12 +14,12 @@
 
 // Private Member Functions
 Junior::ResourceManager::ResourceManager()
-	: GameSystem("ResourceManager"), garbageCollectionDuration_(3.0), garbageCollectionTimer_(0.0)
+	: GameSystem("ResourceManager"), garbageCollectionDuration_(30.0), garbageCollectionTimer_(0.0)
 {
 }
 
 Junior::ResourceManager::ResourceManager(const ResourceManager&)
-	: GameSystem("ResourceManager"), garbageCollectionDuration_(3.0), garbageCollectionTimer_(0.0)
+	: GameSystem("ResourceManager"), garbageCollectionDuration_(30.0), garbageCollectionTimer_(0.0)
 {
 }
 
@@ -38,7 +38,8 @@ void Junior::ResourceManager::Update(double dt)
 	garbageCollectionTimer_ += dt;
 	if (garbageCollectionTimer_ >= garbageCollectionDuration_)
 	{
-		Debug::GetInstance().PrintLn("RESOURCE GARBAGE COLLECTION TIME!!");
+		Debug::GetInstance().Print(Debug::GetInstance().GetDebugLevelName(DebugLevel::NOTIFICATION));
+		Debug::GetInstance().PrintLn("Collecting any garbage resources");
 		garbageCollectionTimer_ = 0.0;
 		// Check garbage resources
 		for (auto begin = resources_.begin(); begin != resources_.end(); )
@@ -79,6 +80,7 @@ void Junior::ResourceManager::Unload()
 			Debug::GetInstance().Print(begin->second->GetResourceDir());
 			Debug::GetInstance().PrintLn(" still has resources attached to it!");
 		}
+		begin->second->CleanUp();
 		delete begin->second;
 	}
 

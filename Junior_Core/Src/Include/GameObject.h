@@ -5,7 +5,7 @@
 * File name: GameObject.h
 * Description: Define what a Game Object looks like
 * Created: 28 Apr 2018
-* Last Modified: 26 Apr 2019
+* Last Modified: 4 May 2019
 */
 
 // Includes //
@@ -36,8 +36,6 @@ namespace Junior
 		std::vector<ComponentContainer*> components_;
 		// The children of this game object
 		std::vector<GameObject*> children_;
-		// This game object's render job
-		RenderJob* renderJob_;
 	public:
 		// Public Member Functions //
 		// Constructor
@@ -94,8 +92,6 @@ namespace Junior
 		GameObject* GetParent() const;
 		// Returns: The children in a list
 		const std::vector<GameObject*>& GetChildren() const;
-		// Returns: The render job of this game component
-		RenderJob* GetRenderJob() const;
 
 		// Gives a pointer to a selected component
 		// Params:

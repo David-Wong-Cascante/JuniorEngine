@@ -3,12 +3,12 @@ TestLevel
    numGameObjects : 3
    New_Object
    {
-      numComponents : 3
+      numComponents : 4
       Junior::Transform
       {
-         localTranslation : [ -202.283, 0, 0, 1 ]
+         localTranslation : [ -83.0272, 0, 0, 1 ]
          localRotation : 0
-         localScaling : [ 128, 128, 1, 1 ]
+         localScaling : [ -128, 128, 1, 1 ]
       }
       Junior::Sprite
       {
@@ -16,7 +16,7 @@ TestLevel
       }
       Junior::Animator
       {
-         currentFrame : 3
+         currentFrame : 0
          playing : 0
          loop : 1
          animStart : 0
@@ -25,19 +25,25 @@ TestLevel
          numRows : 4
          timePerFrame : 0.15
       }
+      Junior::DefaultMeshLink
+      {
+      }
    }
    Second_New_Object
    {
-      numComponents : 2
+      numComponents : 3
       Junior::Transform
       {
-         localTranslation : [ -171.108, -300, -0.821394, 1 ]
+         localTranslation : [ 298.689, -300, -0.0933823, 1 ]
          localRotation : 0
          localScaling : [ 256, 128, 1, 1 ]
       }
       Junior::Sprite
       {
          texturePath : ..//Assets//Images//WideTestImage1.png
+      }
+      Junior::DefaultMeshLink
+      {
       }
    }
    Camera
@@ -53,7 +59,7 @@ TestLevel
       }
       Junior::Transform
       {
-         localTranslation : [ -207.627, 0, 0, 1 ]
+         localTranslation : [ -83.0087, 0, 0, 1 ]
          localRotation : 0
          localScaling : [ 1, 1, 1, 0 ]
       }

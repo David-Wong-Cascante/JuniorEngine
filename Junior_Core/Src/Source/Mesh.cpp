@@ -167,9 +167,7 @@ void Junior::Mesh::SetBasicVertexAttribsEnabled(bool enabled) const
 void Junior::Mesh::Draw()
 {
 	// For this class, draw the singular mesh
-	StartBinding();
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, static_cast<unsigned>(basicData_.data_.size() / 5));
-	EndBinding();
 }
 
 void Junior::Mesh::SetName(const std::string& name)

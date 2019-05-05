@@ -18,16 +18,30 @@ Junior::Resource::Resource()
 {
 }
 
+Junior::Resource::Resource(const Resource& other)
+	: resourceDir_(other.resourceDir_), resourceShareCount_(0), original_(nullptr)
+{
+}
+
 Junior::Resource::~Resource()
 {
 	if (original_)
 		--original_->resourceShareCount_;
 }
 
-void Junior::Resource::LoadFromDisk(const std::string& fileDir)
+void Junior::Resource::Load(const std::string& fileDir)
 {
 	resourceShareCount_ = 0;
 	resourceDir_ = fileDir;
+	LoadFromDisk(fileDir);
+}
+
+void Junior::Resource::LoadFromDisk(const std::string& fileDir)
+{
+}
+
+void Junior::Resource::CleanUp()
+{
 }
 
 const std::string& Junior::Resource::GetResourceDir() const
@@ -38,8 +52,4 @@ const std::string& Junior::Resource::GetResourceDir() const
 unsigned Junior::Resource::GetResourceCount() const
 {
 	return resourceShareCount_;
-}
-
-void Junior::Resource::CleanUp()
-{
 }

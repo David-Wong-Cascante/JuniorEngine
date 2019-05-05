@@ -3,7 +3,7 @@
  * Author: David Wong
  * Email: david.wongcascante@digipen.edu
  * Date Created: 1 May 2018
- * Last Modified: 26 Apr 2019
+ * Last Modified: 4 May 2019
  * File name: Transform.h
  * Description: Declare the transform component, which is in charge of defining the final dimensions of the vertices in the game object
 */
@@ -15,8 +15,7 @@
 
 namespace Junior
 {
-	// Forward Declarations //
-	struct RenderJob;
+	// Forward Declarations
 	class Camera;
 
 	class Transform : public Component<Transform>
@@ -35,16 +34,13 @@ namespace Junior
 		bool isDirty_;
 		// The object's camera
 		Camera* camera_;
-		// The game object's render job
-		RenderJob* job_;
 
-		// Private Member Functions //
+		// Private Member Functions
 		// Constructs a new transformation matrix based on the
 		// local translation, scaling, and rotation
 		void ReconstructTransformation();
 	public:
-		// Public Class Variables //
-		// Public Member Functions //
+		// Public Member Functions
 
 		// Constructor
 		Transform();

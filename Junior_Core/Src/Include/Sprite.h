@@ -5,12 +5,13 @@
  * File Name: Sprite.h
  * Description: Sprites manage the raw data that comes from textures and updates the texture coordinates for texture maps
  * Created: 13 Feb 2019
- * Last Modified: 27 Apr 2019
+ * Last Modified: 4 May 2019
 */
 
 // Includes
 #include "Component.h"				// Component
 #include <string>					// Strings
+#include <Vec3.h>					// Vec3
 
 namespace Junior
 {
@@ -18,7 +19,6 @@ namespace Junior
 	class MemoryManager;
 	class Texture;
 	struct AtlasNode;
-	struct RenderJob;
 
 	class Sprite : public Component<Sprite>
 	{
@@ -27,14 +27,16 @@ namespace Junior
 
 		// Whether we already have a spot on the texture atlas
 		bool isOnAtlas_;
+		// The texture atlas offset
+		Vec3 atlasOffset_;
+		// The texture atlas scale
+		Vec3 atlasScale_;
 		// The path to the texture
 		std::string path_;
 		// The sprite's texture
 		Texture* texture_;
 		// The node of the texture atlas we are using
 		AtlasNode* atlasNode_;
-		// The object's render job
-		RenderJob* job_;
 
 	public:
 		// Public Member Functions
@@ -80,6 +82,12 @@ namespace Junior
 		Texture* GetTexture() const;
 		// Returns: The atlas node used to store this sprite's subtexture
 		AtlasNode* GetNode() const;
+		// Gets the atlas offset from Sprite
+		// Returns: The sprite's offset from the atlas
+		const Vec3& GetAtlasOffset() const;
+		// Gets the atlas scale from Sprite
+		// Returns: The sprite's scale from the atlas
+		const Vec3& GetAtlasScale() const;
 		// Writes the component to a file
 		// Params:
 		//	parser: The parser used to write the component

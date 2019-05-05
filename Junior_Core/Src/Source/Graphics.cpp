@@ -44,7 +44,7 @@ void Junior::KeyCallback(GLFWwindow* window, int key, int scancode, int action, 
 // Private Member Functions
 Junior::Graphics::Graphics()
 	: GameSystem("Graphics"), windowWidth_(0), windowHeight_(0), openGLVersionMajor_(0), openGLVersionMinor_(0),
-							  windowHandle_(nullptr), defaultProgram_(nullptr), defaultMesh_(nullptr)
+							  windowHandle_(nullptr), defaultProgram_(nullptr)
 {
 }
 
@@ -160,9 +160,6 @@ bool Junior::Graphics::Load()
 	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, false, GL_RGBA, GL_RGB8, MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 2);
 	textureBank_->AppendToArray2D(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, atlas_->GetPixels());
 
-	// Generate the mesh
-	defaultMesh_ = new DefaultMesh;
-
 	return true;
 }
 
@@ -225,28 +222,32 @@ void Junior::Graphics::Render()
 	if (defaultProgram_)
 	{
 		defaultProgram_->Bind();
-		// Do the instanced rendering
-		defaultMesh_->StartBinding();
+		// Do the instanced rendering for every mesh
+		for (auto iter = meshes_.begin(); iter != meshes_.end(); ++iter)
+		{
+			Mesh* current = *iter;
+			current->StartBinding();
 
-		// Update the camera
-		GLuint projLoc = glGetUniformLocation(defaultProgram_->programID_, "camera");
-		if(mainCamera_)
-			glUniformMatrix4fv(projLoc, 1, GL_FALSE, mainCamera_->GetCameraMatrix().m_);
-		else
-			glUniformMatrix4fv(projLoc, 1, GL_FALSE, Identity().m_);
+			// Update the camera
+			GLuint projLoc = glGetUniformLocation(defaultProgram_->programID_, "camera");
+			if(mainCamera_)
+				glUniformMatrix4fv(projLoc, 1, GL_FALSE, mainCamera_->GetCameraMatrix().m_);
+			else
+				glUniformMatrix4fv(projLoc, 1, GL_FALSE, Identity().m_);
 
-		// Set the texture atlas
-		GLuint textureLoc = glGetUniformLocation(defaultProgram_->programID_, "diffuse");
-		glActiveTexture(GL_TEXTURE0);
-		textureBank_->BindTexture();
-		glUniform1i(textureLoc, 0);
+			// Set the texture atlas
+			GLuint textureLoc = glGetUniformLocation(defaultProgram_->programID_, "diffuse");
+			glActiveTexture(GL_TEXTURE0);
+			textureBank_->BindTexture();
+			glUniform1i(textureLoc, 0);
 	
-		// Draw the instanced mesh
-		defaultMesh_->Draw();
+			// Draw the instanced mesh
+			current->Draw();
 
-		textureBank_->UnbindTexture();
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		defaultMesh_->EndBinding();
+			textureBank_->UnbindTexture();
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			current->EndBinding();
+		}
 	}
 
 	// And swap the buffers
@@ -268,8 +269,11 @@ void Junior::Graphics::Unload()
 	Debug& debug = Debug::GetInstance();
 	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
 	debug.PrintLn("Unloading Graphics");
-	// Delete the default mesh
-	delete defaultMesh_;
+	// Delete the meshes
+	for (auto citer = meshes_.cbegin(); citer != meshes_.cend(); ++citer)
+	{
+		delete (*citer);
+	}
 	// Delete the texture atlas
 	delete atlas_;
 	// Delete the shader program
@@ -289,28 +293,9 @@ void Junior::Graphics::UpdateTextureAtlas()
 	textureBank_->ModifyTextureArray(TEXTURE_ATLAS_POS, atlas_->GetPixels());
 }
 
-Junior::RenderJob * Junior::Graphics::GetNewRenderJob()
-{
-	RenderJob* newJob = nullptr;
-	if (defaultMesh_)
-	{
-		newJob = defaultMesh_->GetNewRenderJob();
-		memset(newJob, 0, sizeof(RenderJob));
-	}
-	return newJob;
-}
-
 Junior::TextureAtlas* Junior::Graphics::GetTextureAtlas()
 {
 	return atlas_;
-}
-
-void Junior::Graphics::RemoveRenderJob(RenderJob* renderJob)
-{
-	if (defaultMesh_)
-	{
-		defaultMesh_->RemoveRenderJob(renderJob);
-	}
 }
 
 int Junior::Graphics::GetWindowWidth() const

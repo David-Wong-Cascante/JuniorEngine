@@ -92,7 +92,6 @@ bool Junior::Input::Initialize()
 
 void Junior::Input::Update(double dt)
 {
-	// TODO: Update joystick data here
 }
 
 void Junior::Input::Render()

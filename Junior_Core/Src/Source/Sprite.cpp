@@ -4,7 +4,7 @@
  * File Name: Sprite.cpp
  * Description: Defines how Sprite works
  * Created: 13 Feb 2019
- * Last Modified: 27 Apr 2019
+ * Last Modified: 4 May 2019
 */
 
 // Includes
@@ -22,12 +22,12 @@
 
 // Public Member Functions
 Junior::Sprite::Sprite()
-	: Component(), path_(), texture_(nullptr), job_(nullptr), atlasNode_(nullptr)
+	: Component(), path_(), texture_(nullptr), atlasNode_(nullptr)
 {
 }
 
 Junior::Sprite::Sprite(const std::string& path)
-	: Component(), path_(path), texture_(nullptr), job_(nullptr), atlasNode_(nullptr)
+	: Component(), path_(path), texture_(nullptr), atlasNode_(nullptr)
 {
 	texture_ = ResourceManager::GetInstance().GetResource<Texture>("path");
 }
@@ -36,8 +36,6 @@ void Junior::Sprite::Initialize()
 {
 	// Debug printing
 	Debug& debug = Debug::GetInstance();
-	// Update the render job we are going to use
-	job_ = owner_->GetRenderJob();
 	if (texture_)
 	{
 		// Get the texture inside the texture atlas
@@ -56,17 +54,15 @@ void Junior::Sprite::Initialize()
 			graphics.UpdateTextureAtlas();
 		}
 		// X offset, Y offset and uniform scale
-		// Scale
-		job_->uvTranslationAndScale_.z_ = static_cast<float>(atlasNode_->width_) / static_cast<float>(atlas->GetWidth());
-		job_->uvTranslationAndScale_.w_ = static_cast<float>(atlasNode_->height_) / static_cast<float>(atlas->GetHeight());
-		// Offset
-		job_->uvTranslationAndScale_.x_ = static_cast<float>(atlasNode_->xPos_) / static_cast<float>(atlas->GetWidth());
-		job_->uvTranslationAndScale_.y_ = static_cast<float>(atlasNode_->yPos_) / static_cast<float>(atlas->GetHeight());
+		atlasScale_.x_ = static_cast<float>(atlasNode_->width_) / static_cast<float>(atlas->GetWidth());
+		atlasScale_.y_ = static_cast<float>(atlasNode_->height_) / static_cast<float>(atlas->GetHeight());
+		atlasOffset_.x_ = static_cast<float>(atlasNode_->xPos_) / static_cast<float>(atlas->GetWidth());
+		atlasOffset_.y_ = static_cast<float>(atlasNode_->yPos_) / static_cast<float>(atlas->GetHeight());
 	}
 }
 
 Junior::Sprite::Sprite(const Sprite& sprite)
-	: Component("Sprite"), path_(sprite.path_), job_(nullptr), atlasNode_(nullptr)
+	: Component("Sprite"), path_(sprite.path_), atlasNode_(nullptr)
 {
 	if (path_ != "")
 	{
@@ -96,10 +92,8 @@ void Junior::Sprite::SetUVModifications(float xOffset, float yOffset)
 
 void Junior::Sprite::SetUVModifications(float xOffset, float yOffset, float xScale, float yScale)
 {
-	job_->uvTranslationAndScale_.x_ = xOffset;
-	job_->uvTranslationAndScale_.y_ = yOffset;
-	job_->uvTranslationAndScale_.z_ = xScale;
-	job_->uvTranslationAndScale_.w_ = yScale;
+	atlasScale_ = Vec3(xScale, yScale);
+	atlasOffset_ = Vec3(xOffset, yOffset);
 }
 
 void Junior::Sprite::LoadFromDisk(const std::string& path)
@@ -124,6 +118,16 @@ Junior::Texture* Junior::Sprite::GetTexture() const
 Junior::AtlasNode* Junior::Sprite::GetNode() const
 {
 	return atlasNode_;
+}
+
+const Junior::Vec3& Junior::Sprite::GetAtlasOffset() const
+{
+	return atlasOffset_;
+}
+
+const Junior::Vec3& Junior::Sprite::GetAtlasScale() const
+{
+	return atlasScale_;
 }
 
 void Junior::Sprite::Serialize(Parser& parser) const

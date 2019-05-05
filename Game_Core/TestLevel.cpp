@@ -55,9 +55,6 @@ bool Junior::TestLevel::Initialize()
 	transform2_ = cog2_->GetComponent<Transform>();
 	cameraTransform_ = camera_->GetComponent<Transform>();
 
-	cog_->GetRenderJob()->textureID_ = 0;
-	cog2_->GetRenderJob()->textureID_ = 0;
-
 	return true;
 }
 

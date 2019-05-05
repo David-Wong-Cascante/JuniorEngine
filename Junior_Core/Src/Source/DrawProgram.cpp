@@ -1,9 +1,9 @@
 /*
  * Author: David Wong
  * Email: david.wongcascante@digipen.edu
- * Date CreateDd: 26-Apr-18
- * Last Modified: 22-Jan-2019
  * File name: DrawProgram.cpp
+ * Date CreateDd: 26 Apr 2018
+ * Last Modified: 4 May 2019
  * Description: Write the definition for the shade functionality, especially for the functions that create and destroy said program
 */
 
@@ -58,12 +58,12 @@ Junior::DrawProgram::DrawProgram()
 {
 }
 
-Junior::DrawProgram::DrawProgram(DrawProgram& other)
-	: Resource(other)
+Junior::DrawProgram::DrawProgram(const DrawProgram& other)
+	: Resource(other), programID_(other.programID_)
 {
 }
 
-Junior::DrawProgram::DrawProgram(std::string fileDir)
+Junior::DrawProgram::DrawProgram(const std::string& fileDir)
 {
 	LoadFromDisk(fileDir);
 }
@@ -71,7 +71,6 @@ Junior::DrawProgram::DrawProgram(std::string fileDir)
 
 void Junior::DrawProgram::LoadFromDisk(const std::string& fileDir)
 {
-	Resource::LoadFromDisk(fileDir);
 	// Get the filepaths for the individual shader files
 	std::string vertexShaderLoc = fileDir + ".vs";
 	std::string fragmentShaderLoc = fileDir + ".fs";
