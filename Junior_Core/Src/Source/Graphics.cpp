@@ -18,7 +18,6 @@
 // Testing
 #include <random>
 
-#include "DrawProgram.h"			// Draw Program
 #include "DefaultMesh.h"			// Default Mesh
 #include "RenderJob.h"				// Render Jobs
 #include "LinearMath.h"				// Linear Math Helper Functions
@@ -44,7 +43,7 @@ void Junior::KeyCallback(GLFWwindow* window, int key, int scancode, int action, 
 // Private Member Functions
 Junior::Graphics::Graphics()
 	: GameSystem("Graphics"), windowWidth_(0), windowHeight_(0), openGLVersionMajor_(0), openGLVersionMinor_(0),
-							  windowHandle_(nullptr), defaultProgram_(nullptr)
+							  windowHandle_(nullptr)
 {
 }
 
@@ -131,8 +130,8 @@ bool Junior::Graphics::Load()
 	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
 	debug.PrintLn("Creating the default shading program");
 
-	defaultProgram_ = new Junior::DrawProgram;
-	defaultProgram_->LoadFromDisk("..//Assets//Shaders//starter");
+	//defaultProgram_ = new Junior::DrawProgram;
+	//defaultProgram_->LoadFromDisk("..//Assets//Shaders//starter");
 	// Generate the texture 
 	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
 	debug.PrintLn("Creating the texture atlas");
@@ -217,37 +216,29 @@ void Junior::Graphics::Render()
 	// Which for now, its pretty much always
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	// Bind the program and draw the triangle
-	
-	if (defaultProgram_)
+	// Bind each program and draw the meshes
+	for (auto program = programs_.cbegin(); program != programs_.end(); ++program)
 	{
-		defaultProgram_->Bind();
-		// Do the instanced rendering for every mesh
-		for (auto iter = meshes_.begin(); iter != meshes_.end(); ++iter)
-		{
-			Mesh* current = *iter;
-			current->StartBinding();
+		(*program)->Bind();
+		// Update the camera
+		GLuint projLoc = glGetUniformLocation((*program)->programID_, "camera");
+		if (mainCamera_)
+			glUniformMatrix4fv(projLoc, 1, GL_FALSE, mainCamera_->GetCameraMatrix().m_);
+		else
+			glUniformMatrix4fv(projLoc, 1, GL_FALSE, Identity().m_);
 
-			// Update the camera
-			GLuint projLoc = glGetUniformLocation(defaultProgram_->programID_, "camera");
-			if(mainCamera_)
-				glUniformMatrix4fv(projLoc, 1, GL_FALSE, mainCamera_->GetCameraMatrix().m_);
-			else
-				glUniformMatrix4fv(projLoc, 1, GL_FALSE, Identity().m_);
+		// Set the texture atlas
+		GLuint textureLoc = glGetUniformLocation((*program)->programID_, "diffuse");
+		glActiveTexture(GL_TEXTURE0);
+		textureBank_->BindTexture();
+		glUniform1i(textureLoc, 0);
 
-			// Set the texture atlas
-			GLuint textureLoc = glGetUniformLocation(defaultProgram_->programID_, "diffuse");
-			glActiveTexture(GL_TEXTURE0);
-			textureBank_->BindTexture();
-			glUniform1i(textureLoc, 0);
-	
-			// Draw the instanced mesh
-			current->Draw();
+		// Draw the instanced meshes
+		(*program)->Draw();
 
-			textureBank_->UnbindTexture();
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			current->EndBinding();
-		}
+		textureBank_->UnbindTexture();
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		(*program)->UnBind();
 	}
 
 	// And swap the buffers
@@ -270,15 +261,13 @@ void Junior::Graphics::Unload()
 	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
 	debug.PrintLn("Unloading Graphics");
 	// Delete the meshes
-	for (auto citer = meshes_.cbegin(); citer != meshes_.cend(); ++citer)
+	for (auto citer = programs_.cbegin(); citer != programs_.cend(); ++citer)
 	{
+		(*citer)->CleanUp();
 		delete (*citer);
 	}
 	// Delete the texture atlas
 	delete atlas_;
-	// Delete the shader program
-	defaultProgram_->CleanUp();
-	delete defaultProgram_;
 	//manager_->DeAllocate(defaultProgram_);
 	// Delete the texture
 	delete textureBank_;

@@ -4,7 +4,7 @@
 * File name: DefaultMeshLink.cpp
 * Description: Links this game object to the DefaultMesh to render it on screen
 * Created: 4 May 2018
-* Last Modified: May 4 2019
+* Last Modified: 4 May 2019
 */
 
 // Includes
@@ -18,22 +18,22 @@
 // Public Member Functions
 
 Junior::DefaultMeshLink::DefaultMeshLink(bool loadMeshData)
-	: renderJob_(nullptr)
+	: defaultProgramDir("..//Assets//Shaders//starter"), renderJob_(nullptr)
 {
 	// Get a new render job
 	if (loadMeshData)
 	{
 		Graphics& graphics = Graphics::GetInstance();
-		renderJob_ = graphics.GetMesh<DefaultMesh>()->GetNewRenderJob();
+		renderJob_ = graphics.GetMesh<DefaultMesh>(defaultProgramDir)->GetNewRenderJob();
 	}
 }
 
 Junior::DefaultMeshLink::DefaultMeshLink(const DefaultMeshLink& other)
-	: renderJob_(nullptr), transform_(nullptr), sprite_(nullptr)
+	: defaultProgramDir("..//Assets//Shaders//starter"), renderJob_(nullptr), transform_(nullptr), sprite_(nullptr)
 {
 	// Get a new render job
 	Graphics& graphics = Graphics::GetInstance();
-	renderJob_ = graphics.GetMesh<DefaultMesh>()->GetNewRenderJob();
+	renderJob_ = graphics.GetMesh<DefaultMesh>(defaultProgramDir)->GetNewRenderJob();
 }
 
 void Junior::DefaultMeshLink::Initialize()
@@ -64,7 +64,7 @@ void Junior::DefaultMeshLink::Unload()
 	if (renderJob_)
 	{
 		Graphics& graphics = Graphics::GetInstance();
-		graphics.GetMesh<DefaultMesh>()->RemoveRenderJob(renderJob_);
+		graphics.GetMesh<DefaultMesh>(defaultProgramDir)->RemoveRenderJob(renderJob_);
 		delete renderJob_;
 	}
 }

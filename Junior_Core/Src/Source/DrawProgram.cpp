@@ -3,7 +3,7 @@
  * Email: david.wongcascante@digipen.edu
  * File name: DrawProgram.cpp
  * Date CreateDd: 26 Apr 2018
- * Last Modified: 4 May 2019
+ * Last Modified: 6 May 2019
  * Description: Write the definition for the shade functionality, especially for the functions that create and destroy said program
 */
 
@@ -14,7 +14,8 @@
 #include <stdlib.h>			// FILE
 #include <sstream>			// StringStream
 #include <string>			// String functionality
-#include <iostream>			// Printing stuff
+#include "Debug.h"			// Debug Info
+#include "Mesh.h"			// Mesh
 
 // Private Member Functions //
 int Junior::DrawProgram::CreateShader(int* id, int type, const char** source)
@@ -47,13 +48,18 @@ int Junior::DrawProgram::CreateShader(int* id, int type, const char** source)
 			break;
 		}
 		shaderName += " SHADER";
-		std::cout << "Failed to compile the " << shaderName << ":\n" << errorInfoLog << std::endl;
+		Debug& debug = Debug::GetInstance();
+		debug.Print(debug.GetDebugLevelName(DebugLevel::ERROR));
+		debug.Print("Failed to compile ");
+		debug.Print(shaderName);
+		debug.PrintLn(":");
+		debug.PrintLn(errorInfoLog);
 	}
 
 	return success;
 }
 
-// Public Member Functions //
+// Public Member Functions
 Junior::DrawProgram::DrawProgram()
 {
 }
@@ -68,9 +74,21 @@ Junior::DrawProgram::DrawProgram(const std::string& fileDir)
 	LoadFromDisk(fileDir);
 }
 
+Junior::DrawProgram::~DrawProgram()
+{
+	// Remove all of the meshes and delete them
+	for (auto citer = meshes_.begin(); citer != meshes_.cend(); ++citer)
+	{
+		delete *citer;
+	}
+
+	meshes_.clear();
+}
 
 void Junior::DrawProgram::LoadFromDisk(const std::string& fileDir)
 {
+	// Debug logging
+	Debug& debug = Debug::GetInstance();
 	// Get the filepaths for the individual shader files
 	std::string vertexShaderLoc = fileDir + ".vs";
 	std::string fragmentShaderLoc = fileDir + ".fs";
@@ -85,7 +103,9 @@ void Junior::DrawProgram::LoadFromDisk(const std::string& fileDir)
 	vertexFile = fopen(vertexShaderLoc.c_str(), "rt");
 	if (!vertexFile)
 	{
-		std::cout << "Failed to open the vertex shader: " << vertexShaderLoc << std::endl;
+		debug.Print(DebugLevel::ERROR);
+		debug.Print("Failed to open the vertex shader: ");
+		debug.PrintLn(vertexShaderLoc);
 		return;
 	}
 
@@ -104,7 +124,9 @@ void Junior::DrawProgram::LoadFromDisk(const std::string& fileDir)
 	fragmentFile = fopen(fragmentShaderLoc.c_str(), "rt");
 	if (!fragmentFile)
 	{
-		std::cout << "Failed to open the fragment shader: " << fragmentShaderLoc << std::endl;
+		debug.Print(DebugLevel::ERROR);
+		debug.Print("Failed to open the fragment shader: ");
+		debug.PrintLn(fragmentShaderLoc);
 		return;
 	}
 
@@ -145,8 +167,9 @@ void Junior::DrawProgram::LoadFromDisk(const std::string& fileDir)
 	if (!success)
 	{
 		glGetProgramInfoLog(programID_, sizeof(errorInfoLog), NULL, errorInfoLog);
-		std::cout << "Failed to link the program together:\n" << errorInfoLog << std::endl;
-
+		debug.Print(DebugLevel::ERROR);
+		debug.PrintLn("Failed to link the program together: ");
+		debug.PrintLn(errorInfoLog);
 		return;
 	}
 
@@ -159,11 +182,27 @@ void Junior::DrawProgram::LoadFromDisk(const std::string& fileDir)
 	// return 1;
 }
 
+void Junior::DrawProgram::Draw()
+{
+	// Draw every mesh
+	for (auto iter = meshes_.begin(); iter != meshes_.end(); ++iter)
+	{
+		(*iter)->StartBinding();
+		(*iter)->Draw();
+		(*iter)->EndBinding();
+	}
+}
+
 void Junior::DrawProgram::CleanUp()
 {
 		// Destroy all the components in the program
 		glDeleteProgram(programID_);
 		programID_ = -1;
+}
+
+void Junior::DrawProgram::AddMesh(Mesh* mesh)
+{
+	meshes_.push_back(mesh);
 }
 
 void Junior::DrawProgram::Bind() const
@@ -174,7 +213,7 @@ void Junior::DrawProgram::Bind() const
 	}
 }
 
-void Junior::DrawProgram::UnBind()
+void Junior::DrawProgram::UnBind() const
 {
 	glUseProgram(0);
 }

@@ -103,6 +103,12 @@
     <ClInclude Include="..\Junior_Core\Src\Include\DefaultMeshLink.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Particle.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\ParticleEmitter.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -213,6 +219,9 @@
       <Filter>Graphics\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="..\Junior_Core\Src\Source\DefaultMeshLink.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\ParticleEmitter.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>

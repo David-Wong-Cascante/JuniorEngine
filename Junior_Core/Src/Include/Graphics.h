@@ -11,11 +11,13 @@
 // Includes //
 #include <vector>			// Vector
 #include <typeinfo>			// Type Info
+
 #include "RenderJob.h"		// Render Job
 #include "OpenGLBundle.h"	// OpenGL Bundle
 #include "Mat3.h"			// Mat3
 #include "GameSystem.h"		// Game System
-#include "Mesh.h"			// Meshes
+#include "DrawProgram.h"	// The Drawing Programs
+#include "ResourceManager.h"// Resource Manager
 
 // Forward Declarations
 struct GLFWwindow;
@@ -25,11 +27,9 @@ namespace Junior
 
 	// Foward Declarations
 	class Camera;
-	class DrawProgram;
 	class Texture;
 	class TextureAtlas;
 	class Input;
-	class DefaultMesh;
 
 	class Graphics : public GameSystem
 	{
@@ -50,10 +50,8 @@ namespace Junior
 		TextureAtlas* atlas_;
 		// The window handle
 		GLFWwindow* windowHandle_;
-		// Default Program
-		DrawProgram* defaultProgram_;
-		// Default mesh
-		std::vector<Mesh*> meshes_;
+		// All of the shaders
+		std::vector<DrawProgram*> programs_;
 		// Orthographic Matrix
 		Mat3 orthographicMatrix_;
 		
@@ -92,22 +90,33 @@ namespace Junior
 		// Poll the window so it actually responds
 		void PollWindow();
 		// Gets a specfic mesh from the mesh pool
+		// Params:
+		//	resourceDir: The shader's directory
 		template <class T>
-		T* GetMesh()
+		T* GetMesh(const std::string& resourceDir)
 		{
-			// First attempt to find the mesh
-			for (auto citer = meshes_.cbegin(); citer != meshes_.cend(); ++citer)
+			// First attempt to find the program with the same name
+			DrawProgram* program = nullptr;
+			for (auto citer = programs_.cbegin(); citer != programs_.cend(); ++citer)
 			{
-				if (typeid((*citer)) == typeid(T) || dynamic_cast<T*>(*citer))
+				if ((*citer)->GetResourceDir() == resourceDir)
 				{
-					return static_cast<T*>(*citer);
+					// We found a shader with the same directory, save it for later
+					program = *citer;
+					break;
 				}
 			}
 
-			// Else, create the mesh
-			T* mesh = new T;
-			meshes_.push_back(mesh);
-			return mesh;
+			// If we didn't find the program, then get it from the ResourceManager
+			if (!program)
+			{
+				program = ResourceManager::GetInstance().GetResource<DrawProgram>(resourceDir);
+				// and add it to the programs
+				programs_.push_back(program);
+			}
+
+			// Then try getting the mesh from the program
+			return program->GetMesh<T>();
 		}
 		// Returns: The window's with
 		int GetWindowWidth() const;

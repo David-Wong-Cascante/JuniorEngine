@@ -6,9 +6,9 @@ TestLevel
       numComponents : 4
       Junior::Transform
       {
-         localTranslation : [ -83.0272, 0, 0, 1 ]
+         localTranslation : [ -227.272, 0, 0, 1 ]
          localRotation : 0
-         localScaling : [ -128, 128, 1, 1 ]
+         localScaling : [ 128, 128, 1, 1 ]
       }
       Junior::Sprite
       {
@@ -16,7 +16,7 @@ TestLevel
       }
       Junior::Animator
       {
-         currentFrame : 0
+         currentFrame : 3
          playing : 0
          loop : 1
          animStart : 0
@@ -34,7 +34,7 @@ TestLevel
       numComponents : 3
       Junior::Transform
       {
-         localTranslation : [ 298.689, -300, -0.0933823, 1 ]
+         localTranslation : [ 124.298, -300, -0.910128, 1 ]
          localRotation : 0
          localScaling : [ 256, 128, 1, 1 ]
       }
@@ -59,7 +59,7 @@ TestLevel
       }
       Junior::Transform
       {
-         localTranslation : [ -83.0087, 0, 0, 1 ]
+         localTranslation : [ -229.187, 0, 0, 1 ]
          localRotation : 0
          localScaling : [ 1, 1, 1, 0 ]
       }
