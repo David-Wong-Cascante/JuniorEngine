@@ -13,7 +13,7 @@
 #include "ParticleEmitter.h"		// Get the particle emitter
 
 Junior::ParticleMesh::ParticleMesh()
-	: Mesh("ParticleMesh", CreateQuadMeshData()), particleBuffer_(0), numParticleAttribs_(8)
+	: Mesh("ParticleMesh", CreateQuadMeshData()), particleBuffer_(0), numParticleAttribs_(7)
 {
 	// Create the buffer for all the particle data
 	glGenBuffers(1, &particleBuffer_);
@@ -44,10 +44,7 @@ Junior::ParticleMesh::ParticleMesh()
 	// The particle's age
 	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 6);
 	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 6, 1, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 4 + sizeof(float) * 2));
-	// The texture atlas we are using
-	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 7);
-	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 7, 1, GL_UNSIGNED_INT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 4 + sizeof(float) * 3));
-
+	
 	// Set all of these particle properties to be used per particle, not per fragment/pixel
 	for (size_t i = 0; i < numParticleAttribs_; ++i)
 	{
@@ -65,7 +62,7 @@ Junior::ParticleMesh::~ParticleMesh()
 	glDeleteBuffers(1, &particleBuffer_);
 }
 
-void Junior::ParticleMesh::Draw()
+void Junior::ParticleMesh::Draw(unsigned shaderID)
 {
 	// Bind the mesh we are about to draw
 	StartBinding();
@@ -88,6 +85,9 @@ void Junior::ParticleMesh::Draw()
 
 		glBindBuffer(GL_ARRAY_BUFFER, particleBuffer_);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Particle) * (*currEmitter)->GetNumParticlesAlive(), particleData.data(), GL_STREAM_DRAW);
+		// Set the uniform for the texture atlas
+		GLuint atlasID = glGetUniformLocation(shaderID, "textureAtlas");
+		glUniform1i(atlasID, (*currEmitter)->textureAtlas_);
 		// And DRAW
 		glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, static_cast<GLsizei>(particleData.size()));
 	}

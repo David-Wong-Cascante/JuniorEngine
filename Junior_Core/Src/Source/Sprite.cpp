@@ -22,12 +22,12 @@
 
 // Public Member Functions
 Junior::Sprite::Sprite()
-	: Component(), path_(), texture_(nullptr), atlasNode_(nullptr)
+	: Component(), path_(), texture_(nullptr), atlasNode_(nullptr), atlas_(nullptr)
 {
 }
 
 Junior::Sprite::Sprite(const std::string& path)
-	: Component(), path_(path), texture_(nullptr), atlasNode_(nullptr)
+	: Component(), path_(path), texture_(nullptr), atlasNode_(nullptr), atlas_(nullptr)
 {
 	texture_ = ResourceManager::GetInstance().GetResource<Texture>("path");
 }
@@ -40,24 +40,24 @@ void Junior::Sprite::Initialize()
 	{
 		// Get the texture inside the texture atlas
 		Graphics& graphics = Graphics::GetInstance();
-		TextureAtlas* atlas = graphics.GetTextureAtlas();
+		atlas_ = graphics.GetTextureAtlas();
 		// Create the node to store inside the tree
 		const std::string& textureDir = texture_->GetResourceDir();
-		atlasNode_ = atlas->Find(textureDir);
+		atlasNode_ = atlas_->Find(textureDir);
 		// If we found the node, then we skip creating the node
 		if (!atlasNode_)
 		{
 			// Otherwise, we need to create it
 			atlasNode_ = new AtlasNode(texture_->GetDimension(0), texture_->GetDimension(1), textureDir);
-			atlas->Push(&atlasNode_);
-			atlas->UpdateNodePixels(atlasNode_, texture_->GetPixels());
+			atlas_->Push(&atlasNode_);
+			atlas_->UpdateNodePixels(atlasNode_, texture_->GetPixels());
 			graphics.UpdateTextureAtlas();
 		}
 		// X offset, Y offset and uniform scale
-		atlasScale_.x_ = static_cast<float>(atlasNode_->width_) / static_cast<float>(atlas->GetWidth());
-		atlasScale_.y_ = static_cast<float>(atlasNode_->height_) / static_cast<float>(atlas->GetHeight());
-		atlasOffset_.x_ = static_cast<float>(atlasNode_->xPos_) / static_cast<float>(atlas->GetWidth());
-		atlasOffset_.y_ = static_cast<float>(atlasNode_->yPos_) / static_cast<float>(atlas->GetHeight());
+		atlasScale_.x_ = static_cast<float>(atlasNode_->width_) / static_cast<float>(atlas_->GetWidth());
+		atlasScale_.y_ = static_cast<float>(atlasNode_->height_) / static_cast<float>(atlas_->GetHeight());
+		atlasOffset_.x_ = static_cast<float>(atlasNode_->xPos_) / static_cast<float>(atlas_->GetWidth());
+		atlasOffset_.y_ = static_cast<float>(atlasNode_->yPos_) / static_cast<float>(atlas_->GetHeight());
 	}
 }
 
@@ -81,12 +81,11 @@ void Junior::Sprite::Unload()
 
 void Junior::Sprite::SetUVModifications(float xOffset, float yOffset)
 {
-	TextureAtlas* atlas = Graphics::GetInstance().GetTextureAtlas();
 	SetUVModifications(
 		xOffset, 
 		yOffset, 
-		static_cast<float>(texture_->GetDimension(0)) / static_cast<float>(atlas->GetWidth()),
-		static_cast<float>(texture_->GetDimension(1)) / static_cast<float>(atlas->GetHeight())
+		static_cast<float>(texture_->GetDimension(0)) / static_cast<float>(atlas_->GetWidth()),
+		static_cast<float>(texture_->GetDimension(1)) / static_cast<float>(atlas_->GetHeight())
 	);
 }
 
@@ -128,6 +127,11 @@ const Junior::Vec3& Junior::Sprite::GetAtlasOffset() const
 const Junior::Vec3& Junior::Sprite::GetAtlasScale() const
 {
 	return atlasScale_;
+}
+
+unsigned Junior::Sprite::GetAtlasID() const
+{
+	return atlas_->GetID();
 }
 
 void Junior::Sprite::Serialize(Parser& parser) const

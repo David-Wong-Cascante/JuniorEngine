@@ -12,6 +12,7 @@
 #include <vector>					// Vector
 #include "Component.h"				// Component
 #include "Particle.h"				// Particle
+#include "Random.h"					// Random
 
 namespace Junior
 {
@@ -57,6 +58,8 @@ namespace Junior
 		float particleSpawnTimer_;
 		// The number of particles that are currently alive
 		unsigned numParticles_;
+		// RNG
+		Random random_;
 
 		// Private Member Functions
 
@@ -92,6 +95,8 @@ namespace Junior
 		float particleSpawnWait_;
 		// Whether the emitter loops
 		bool loop_;
+		// The texture atlas we are using
+		unsigned textureAtlas_;
 
 		// Public Member Functions
 

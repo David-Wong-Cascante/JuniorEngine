@@ -44,8 +44,8 @@ void Junior::ParticleEmitter::SpawnParticles()
 		// TODO: Make the initial properties random
 		// TODO: Create dedicated random class
 		// Source: https://stackoverflow.com/questions/686353/random-float-number-generation
-		particle.lifeTime_ = particle.age_ = minLifeTime_ + static_cast<float>(rand()) / static_cast<float>(RAND_MAX/(maxLifeTime_ - minLifeTime_));
-		particle.velocity_ = Vec3((static_cast<float>(rand()) / static_cast<float>(RAND_MAX)-0.5f) * 25, 75);
+		particle.lifeTime_ = particle.age_ = random_.RandomFloat(minLifeTime_, maxLifeTime_);
+		particle.velocity_ = Vec3(random_.RandomFloat(-0.5f, 0.5f) * 25, 75);
 		particle.color_ = startColor_;
 		particle.size_ = startSize_;
 		particle.position_ = transform_->GetLocalTranslation();
@@ -58,7 +58,7 @@ void Junior::ParticleEmitter::SpawnParticles()
 Junior::ParticleEmitter::ParticleEmitter()
 	: particleSpawnTimer_(0.0f), maxLifeTime_(0), minLifeTime_(0),
 	  maxParticles_(0), numParticles_(0), particleSpawnCount_(0), particleSpawnWait_(0), loop_(false), particles_(),
-	  startSize_(20), endingSize_(50), colorInterpolate_(Lerp), sizeInterpolate_(Lerp)
+	  startSize_(20), endingSize_(50), colorInterpolate_(Lerp), sizeInterpolate_(Lerp), random_(), textureAtlas_(0)
 {
 }
 
@@ -67,7 +67,7 @@ Junior::ParticleEmitter::ParticleEmitter(const ParticleEmitter& other)
 	maxParticles_(other.maxParticles_), numParticles_(other.numParticles_), particleSpawnWait_(other.particleSpawnWait_),
 	startSize_(other.startSize_), endingSize_(other.endingSize_),
 	particleSpawnTimer_(0.0f), loop_(other.loop_), particles_(), colorInterpolate_(other.colorInterpolate_),
-	sizeInterpolate_(other.sizeInterpolate_)
+	sizeInterpolate_(other.sizeInterpolate_), random_(), textureAtlas_(0)
 {
 }
 

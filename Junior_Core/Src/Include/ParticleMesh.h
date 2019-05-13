@@ -40,7 +40,9 @@ namespace Junior
 		// Virtual Destructor
 		~ParticleMesh() override;
 		// Draws the mesh into graphics
-		void Draw() override;
+		// Params:
+		//	shaderID: The shader id we are using to render
+		void Draw(unsigned shaderID) override;
 		// Adds a list to the emitter list
 		// Params:
 		//	emitterList: The particles we want to add to this list

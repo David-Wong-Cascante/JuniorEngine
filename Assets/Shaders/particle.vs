@@ -16,10 +16,10 @@ layout (location = 5) in vec4 texCoordMods;
 layout (location = 6) in float particleSize;
 layout (location = 7) in float particleLifeTime;
 layout (location = 8) in float particleAge;
-layout (location = 9) in uint textureAtlas;
 
 // Uniforms
 uniform mat4 camera;
+uniform int textureAtlas;
 
 // Out variables
 out vec4 color;

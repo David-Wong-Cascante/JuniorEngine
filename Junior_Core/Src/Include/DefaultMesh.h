@@ -38,7 +38,9 @@ namespace Junior
 		// Virtual Destructor
 		~DefaultMesh() override;
 		// Draws the mesh to OpenGL
-		void Draw() override;
+		// Params:
+		//	shaderID: The shader id we are using
+		void Draw(unsigned shaderID) override;
 		// Assigns a new render job
 		// Returns: The new render job we just assigned
 		RenderJob* GetNewRenderJob();

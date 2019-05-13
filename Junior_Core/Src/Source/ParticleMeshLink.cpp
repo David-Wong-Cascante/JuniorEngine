@@ -35,6 +35,8 @@ void Junior::ParticleMeshLink::Initialize()
 		emitter_ = owner_->GetComponent<ParticleEmitter>();
 		// Get the game object's sprite
 		sprite_ = owner_->GetComponent<Sprite>();
+		// Set the correct texture atlas
+		emitter_->textureAtlas_ = sprite_->GetAtlasID();
 		// Send the data to the Particle Mesh
 		ParticleMesh* particleMesh = Graphics::GetInstance().GetMesh<ParticleMesh>(shaderDir_);
 		particleMesh->AddList(emitter_);

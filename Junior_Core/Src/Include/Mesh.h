@@ -109,7 +109,9 @@ namespace Junior
 		// Virtual destructor because polymorphism
 		virtual ~Mesh();
 		// Draws the mesh to OpenGL
-		virtual void Draw();
+		// Params:
+		//	shaderID: The shader's id
+		virtual void Draw(unsigned shaderID);
 
 	protected:
 		// Protected Member Functions

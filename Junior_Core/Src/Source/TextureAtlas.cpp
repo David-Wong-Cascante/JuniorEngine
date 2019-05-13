@@ -4,7 +4,7 @@
  * File name: TextureAtlasTree.cpp
  * Description: Shows how TextureAtlasMap works
  * Created: 12 Feb 2019
- * Last Modified: 27 Apr 2019
+ * Last Modified: 13 May 2019
 */
 
 // Includes
@@ -123,8 +123,8 @@ Junior::AtlasNode* Junior::TextureAtlas::FindNode(Junior::AtlasNode* node, const
 
 // Public Member Functions
 
-Junior::TextureAtlas::TextureAtlas(int width, int height, int numChannels)
-	: pixels_(nullptr), head_(nullptr), totalWidth_(width), totalHeight_(height), numChannels_(numChannels), mapChildren_()
+Junior::TextureAtlas::TextureAtlas(int width, int height, int numChannels, unsigned id)
+	: pixels_(nullptr), head_(nullptr), totalWidth_(width), totalHeight_(height), numChannels_(numChannels), id_(id), mapChildren_()
 {
 	// Make the texture array
 	pixels_ = new unsigned char[width * height * numChannels];
@@ -133,12 +133,11 @@ Junior::TextureAtlas::TextureAtlas(int width, int height, int numChannels)
 }
 
 Junior::TextureAtlas::TextureAtlas(const TextureAtlas& other)
+	: totalWidth_(other.totalWidth_), totalHeight_(other.totalHeight_), numChannels_(other.numChannels_), id_(other.id_)
 {
 	// Copy over the elements of other into this one
 	// Copying is super slow because we got to copy a tree over
-	totalWidth_ = other.totalWidth_;
-	totalHeight_ = other.totalHeight_;
-	numChannels_ = other.numChannels_;
+
 	unsigned size = totalWidth_ * totalHeight_ * numChannels_;
 	pixels_ = new unsigned char[size];
 	for (unsigned i = 0; i < size; ++i)
@@ -487,6 +486,11 @@ unsigned Junior::TextureAtlas::GetWidth() const
 unsigned Junior::TextureAtlas::GetHeight() const
 {
 	return totalHeight_;
+}
+
+unsigned Junior::TextureAtlas::GetID() const
+{
+	return id_;
 }
 
 std::ostream& Junior::operator<<(std::ostream& stream, const TextureAtlas& atlas)

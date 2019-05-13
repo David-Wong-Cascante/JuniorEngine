@@ -103,9 +103,6 @@
     <ClInclude Include="..\Junior_Core\Src\Include\DefaultMeshLink.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Include\Particle.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\Junior_Core\Src\Include\ParticleEmitter.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -114,6 +111,12 @@
     </ClInclude>
     <ClInclude Include="..\Junior_Core\Src\Include\ParticleMesh.h">
       <Filter>Graphics\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Random.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Particle.h">
+      <Filter>Graphics\RenderData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="..\Junior_Core\Src\Source\ParticleMesh.cpp">
       <Filter>Graphics\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Randon.cpp">
+      <Filter>Game Systems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

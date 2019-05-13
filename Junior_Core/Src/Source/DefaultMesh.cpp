@@ -60,7 +60,7 @@ Junior::DefaultMesh::~DefaultMesh()
 }
 
 
-void Junior::DefaultMesh::Draw()
+void Junior::DefaultMesh::Draw(unsigned)
 {
 	// Fill in the render job data
 	// Fill the data

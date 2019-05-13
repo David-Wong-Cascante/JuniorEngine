@@ -5,7 +5,7 @@
  * File Name: Sprite.h
  * Description: Sprites manage the raw data that comes from textures and updates the texture coordinates for texture maps
  * Created: 13 Feb 2019
- * Last Modified: 4 May 2019
+ * Last Modified: 13 May 2019
 */
 
 // Includes
@@ -18,6 +18,7 @@ namespace Junior
 	// Forward Declarations
 	class MemoryManager;
 	class Texture;
+	class TextureAtlas;
 	struct AtlasNode;
 
 	class Sprite : public Component<Sprite>
@@ -37,6 +38,8 @@ namespace Junior
 		Texture* texture_;
 		// The node of the texture atlas we are using
 		AtlasNode* atlasNode_;
+		// The texture atlas we are using
+		TextureAtlas* atlas_;
 
 	public:
 		// Public Member Functions
@@ -88,6 +91,8 @@ namespace Junior
 		// Gets the atlas scale from Sprite
 		// Returns: The sprite's scale from the atlas
 		const Vec3& GetAtlasScale() const;
+		// Gets the atlas' id
+		unsigned GetAtlasID() const;
 		// Writes the component to a file
 		// Params:
 		//	parser: The parser used to write the component

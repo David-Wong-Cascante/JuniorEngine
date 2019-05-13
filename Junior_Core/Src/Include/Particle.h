@@ -17,6 +17,8 @@ namespace Junior
 	{
 		// Public Member Variables
 
+		// ATTRIBUTES
+
 		// The particle's position
 		Vec3 position_;
 		// The particle's velocity
@@ -31,13 +33,11 @@ namespace Junior
 		float lifeTime_;
 		// The particle's age compared to the life time
 		float age_;
-		// The current texture atlas we are using
-		unsigned currAtlas_;
 
 		// Constructor
 		Particle()
 			: position_(0.0f, 0.0f, 0.0f), velocity_(0.0f, 0.0f, 0.0f), color_(0.0f, 0.0f, 0.0f), 
-			  uvTranslationAndScale_(0.0f, 0.0f, 1.0f, 1.0f), size_(0), lifeTime_(0), age_(0), currAtlas_(0)
+			  uvTranslationAndScale_(0.0f, 0.0f, 1.0f, 1.0f), size_(0), lifeTime_(0), age_(0)
 		{
 		}
 	};

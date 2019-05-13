@@ -188,7 +188,7 @@ void Junior::DrawProgram::Draw()
 	for (auto iter = meshes_.begin(); iter != meshes_.end(); ++iter)
 	{
 		(*iter)->StartBinding();
-		(*iter)->Draw();
+		(*iter)->Draw(programID_);
 		(*iter)->EndBinding();
 	}
 }

@@ -136,7 +136,7 @@ bool Junior::Graphics::Load()
 	debug.Print(debug.GetDebugLevelName(DebugLevel::NOTIFICATION));
 	debug.PrintLn("Creating the texture atlas");
 
-	atlas_ = new TextureAtlas(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 4);
+	atlas_ = new TextureAtlas(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 4, 0);
 	// Generate some pixels
 	unsigned char* pixels = new unsigned char[MAX_ATLAS_SIZE * MAX_ATLAS_SIZE * 4];
 	for (int y = 0; y >= MAX_ATLAS_SIZE; ++y)

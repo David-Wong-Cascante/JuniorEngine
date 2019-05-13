@@ -164,7 +164,7 @@ void Junior::Mesh::SetBasicVertexAttribsEnabled(bool enabled) const
 	}
 }
 
-void Junior::Mesh::Draw()
+void Junior::Mesh::Draw(unsigned)
 {
 	// For this class, draw the singular mesh
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, static_cast<unsigned>(basicData_.data_.size() / 5));

@@ -5,7 +5,7 @@
  * File name: TextureAtlasTree.h
  * Description: Declares the texture atlas' functionality
  * Created: 12 Feb 2019
- * Last Modified: 27 Apr 2019
+ * Last Modified: 13 May 2019
 */
 
 // Defines
@@ -60,6 +60,8 @@ namespace Junior
 		unsigned totalHeight_;
 		// The number of channels we have
 		unsigned numChannels_;
+		// The ID of the texture atlas
+		unsigned id_;
 		// The vector of the map's children
 		std::vector<AtlasNode*> mapChildren_;
 
@@ -94,7 +96,8 @@ namespace Junior
 		//	width: The max width of the map
 		//	height: The max height of the map
 		//	numChannels: The number of channels this texture has
-		TextureAtlas(int width, int height, int numChannels);
+		//	id: The texture atlas' id in the shader array
+		TextureAtlas(int width, int height, int numChannels, unsigned id);
 		// Oops, forgot the copy constructor
 		//  Params:
 		//	other: The other texture atlas we are trying to copy from
@@ -144,6 +147,8 @@ namespace Junior
 		unsigned GetWidth() const;
 		// Returns: total height of the tree's texture
 		unsigned GetHeight() const;
+		// Returns: The atlas' id
+		unsigned GetID() const;
 
 		// Print this tree!
 		// Params:
