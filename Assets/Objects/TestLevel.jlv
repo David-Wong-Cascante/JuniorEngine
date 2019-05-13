@@ -1,14 +1,14 @@
 TestLevel
 {
-   numGameObjects : 3
+   numGameObjects : 4
    New_Object
    {
       numComponents : 4
       Junior::Transform
       {
-         localTranslation : [ -227.272, 0, 0, 1 ]
+         localTranslation : [ 208.933, 0, 0, 1 ]
          localRotation : 0
-         localScaling : [ 128, 128, 1, 1 ]
+         localScaling : [ -128, 128, 1, 1 ]
       }
       Junior::Sprite
       {
@@ -16,7 +16,7 @@ TestLevel
       }
       Junior::Animator
       {
-         currentFrame : 3
+         currentFrame : 0
          playing : 0
          loop : 1
          animStart : 0
@@ -34,7 +34,7 @@ TestLevel
       numComponents : 3
       Junior::Transform
       {
-         localTranslation : [ 124.298, -300, -0.910128, 1 ]
+         localTranslation : [ -130.704, -300, 0.900102, 1 ]
          localRotation : 0
          localScaling : [ 256, 128, 1, 1 ]
       }
@@ -59,9 +59,39 @@ TestLevel
       }
       Junior::Transform
       {
-         localTranslation : [ -229.187, 0, 0, 1 ]
+         localTranslation : [ 208.933, 0, 0, 1 ]
          localRotation : 0
          localScaling : [ 1, 1, 1, 0 ]
+      }
+   }
+   Particle_Effect
+   {
+      numComponents : 4
+      Junior::Transform
+      {
+         localTranslation : [ 0, 0, 0, 1 ]
+         localRotation : 0
+         localScaling : [ -64, 64, 1, 1 ]
+      }
+      Junior::Sprite
+      {
+         texturePath : ..//Assets//Images//WideTestImage1.png
+      }
+      Junior::ParticleEmitter
+      {
+         maxLifetime : 5
+         minLifetime : 1
+         maxParticles : 500
+         particleSpawnCount : 25
+         particleSpawnWait : 0.4
+         startColor : [ 0, 1, 0, 1 ]
+         endColor : [ 0, 0, 0.3, 0 ]
+         startSize : 50
+         endingSize : 5
+         loop : 1
+      }
+      Junior::ParticleMeshLink
+      {
       }
    }
 }

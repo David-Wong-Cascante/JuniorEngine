@@ -19,10 +19,12 @@
 #include "Sprite.h"
 #include "Animator.h"
 #include "Camera.h"
+#include "ParticleEmitter.h"
 #include "DefaultMeshLink.h"
+#include "ParticleMeshLink.h"
 
 // Defines
-#define NUM_STANDARD_COMPONENTS 5
+#define NUM_STANDARD_COMPONENTS 7
 
 // Private Member Functions
 
@@ -34,6 +36,8 @@ Junior::GameObjectFactory::GameObjectFactory()
 	RegisterComponent<Sprite>();
 	RegisterComponent<Animator>();
 	RegisterComponent<Camera>();
+	RegisterComponent<ParticleEmitter>();
+	RegisterComponent<ParticleMeshLink>();
 	RegisterComponent<DefaultMeshLink>();
 }
 

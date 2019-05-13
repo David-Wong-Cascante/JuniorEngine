@@ -23,18 +23,21 @@ namespace Junior
 		Vec3 velocity_;
 		// Color of particle
 		Vec3 color_;
+		// Where x and y are the translation and (z, w) is the scale
+		Vec3 uvTranslationAndScale_;
 		// Size of particle
 		float size_;
 		// The particle's lifetime
 		float lifeTime_;
 		// The particle's age compared to the life time
 		float age_;
-		// The particle's mass
-		float mass_;
+		// The current texture atlas we are using
+		unsigned currAtlas_;
 
 		// Constructor
 		Particle()
-			: position_(), velocity_(), color_(), size_(0), lifeTime_(0), age_(0), mass_(0)
+			: position_(0.0f, 0.0f, 0.0f), velocity_(0.0f, 0.0f, 0.0f), color_(0.0f, 0.0f, 0.0f), 
+			  uvTranslationAndScale_(0.0f, 0.0f, 1.0f, 1.0f), size_(0), lifeTime_(0), age_(0), currAtlas_(0)
 		{
 		}
 	};

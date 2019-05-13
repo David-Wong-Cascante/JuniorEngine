@@ -109,6 +109,12 @@
     <ClInclude Include="..\Junior_Core\Src\Include\ParticleEmitter.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\ParticleMeshLink.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\ParticleMesh.h">
+      <Filter>Graphics\Meshes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -223,6 +229,12 @@
     </ClCompile>
     <ClCompile Include="..\Junior_Core\Src\Source\ParticleEmitter.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\ParticleMeshLink.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\ParticleMesh.cpp">
+      <Filter>Graphics\Meshes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

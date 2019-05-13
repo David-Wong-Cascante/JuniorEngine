@@ -1,0 +1,33 @@
+Particle_Effect
+{
+	numComponents : 4
+	Junior::Transform
+	{
+		localTranslation : [ -80, 0, 0, 1 ]
+		localRotation : 0
+		localScaling : [ -64, 64, 1, 1 ]
+	}
+	
+	Junior::Sprite
+	{
+		texturePath : ..//Assets//Images//GoldenAnim.png
+	}
+	
+	Junior::ParticleEmitter
+	{
+		maxLifetime : 2
+		minLifetime : 1
+		maxParticles : 20
+		particleSpawnCount : 1
+		particleSpawnWait : 0.2
+		startColor : [ 1, 1, 1, 1 ]
+		endColor : [ 0, 0, 0, 1 ]
+		startSize : 100
+		endingSize : 50
+		loop : 1
+	}
+	
+	Junior::ParticleMeshLink
+	{
+	}
+}

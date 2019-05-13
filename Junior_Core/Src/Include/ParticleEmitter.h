@@ -30,6 +30,21 @@ namespace Junior
 	// Forward Declarations
 	class Transform;
 
+	// Global Functions
+
+	// Linearly interpolates between two values
+	// Params:
+	//	start: The start of the linear interpolation
+	//	end: The end of the linear interpolation
+	// Returns: A value between the start and end at point t
+	Vec3 Lerp(const Vec3& start, const Vec3& end, float t);
+	// Linearly interpolates between two values
+	// Params:
+	//	start: The start of the linear interpolation
+	//	end: The end of the linear interpolation
+	// Returns: A value between the start and end at point t
+	float Lerp(const float& start, const float& end, float t);
+
 	// ParticleEmitter
 	class ParticleEmitter : public Component<ParticleEmitter>
 	{
@@ -40,6 +55,8 @@ namespace Junior
 		std::vector<Particle> particles_;
 		// The timer that keeps track of when to spawn the particles
 		float particleSpawnTimer_;
+		// The number of particles that are currently alive
+		unsigned numParticles_;
 
 		// Private Member Functions
 
@@ -65,8 +82,6 @@ namespace Junior
 		float endingSize_;
 		// The maximum amount of particles we can have
 		unsigned maxParticles_;
-		// The number of particles that are currently alive
-		unsigned numParticles_;
 		// How many particles we spawn per burst
 		unsigned particleSpawnCount_;
 		// The max lifetime
@@ -95,5 +110,17 @@ namespace Junior
 		void Update(double dt) override;
 		// Unloads the component
 		void Unload() override;
+		// Writes this particle emitter to a file
+		// Params:
+		//	parser: The parser we are using to write to the file
+		void Serialize(Parser& parser) const override;
+		// Reads this particle emitter from a file
+		// Params:
+		//	parser: The parser we are using to read this file
+		void Deserialize(Parser& parser) override;
+		// Returns: The list of particles in this system
+		std::vector<Particle>& GetParticleList();
+		// Returns: The number of particles alive in the system
+		unsigned GetNumParticlesAlive() const;
 	};
 }
