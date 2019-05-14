@@ -10,12 +10,11 @@
 layout (location = 0) in vec3 vertexPos;
 layout (location = 1) in vec2 texCoords;
 layout (location = 2) in vec4 particlePos;
-layout (location = 3) in vec4 particleVel;
-layout (location = 4) in vec4 particleColor;
-layout (location = 5) in vec4 texCoordMods;
-layout (location = 6) in float particleSize;
-layout (location = 7) in float particleLifeTime;
-layout (location = 8) in float particleAge;
+layout (location = 3) in vec4 particleColor;
+layout (location = 4) in vec4 texCoordMods;
+layout (location = 5) in float particleSize;
+layout (location = 6) in float particleLifeTime;
+layout (location = 7) in float particleAge;
 
 // Uniforms
 uniform mat4 camera;

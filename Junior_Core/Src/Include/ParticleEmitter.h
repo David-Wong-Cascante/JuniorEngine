@@ -79,6 +79,10 @@ namespace Junior
 		Vec3 startColor_;
 		// The ending color of the particles
 		Vec3 endColor_;
+		// The initial spawning velocity
+		Vec3 initialVelocity_;
+		// The "minimum" acceleration
+		Vec3 startAcceleration_;
 		// The starting size of the particles
 		float startSize_;
 		// The ending size of the particles
@@ -97,6 +101,8 @@ namespace Junior
 		bool loop_;
 		// The texture atlas we are using
 		unsigned textureAtlas_;
+		// The spawn random angle from where we start. The angle can be from [-angle/2.0f, angle/2.0f] in degrees
+		float randomVelocityAngle_;
 
 		// Public Member Functions
 

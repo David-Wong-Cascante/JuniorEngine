@@ -6,9 +6,9 @@ TestLevel
       numComponents : 4
       Junior::Transform
       {
-         localTranslation : [ 108.754, 0, 0, 1 ]
+         localTranslation : [ 178.936, 0, 0, 1 ]
          localRotation : 0
-         localScaling : [ -128, 128, 1, 1 ]
+         localScaling : [ 128, 128, 1, 1 ]
       }
       Junior::Sprite
       {
@@ -16,7 +16,7 @@ TestLevel
       }
       Junior::Animator
       {
-         currentFrame : 0
+         currentFrame : 1
          playing : 0
          loop : 1
          animStart : 0
@@ -34,7 +34,7 @@ TestLevel
       numComponents : 3
       Junior::Transform
       {
-         localTranslation : [ 299.5, -300, -0.0577096, 1 ]
+         localTranslation : [ -9.48899, -300, -0.9995, 1 ]
          localRotation : 0
          localScaling : [ 256, 128, 1, 1 ]
       }
@@ -59,7 +59,7 @@ TestLevel
       }
       Junior::Transform
       {
-         localTranslation : [ 108.754, 0, 0, 1 ]
+         localTranslation : [ 178.936, 0, 0, 1 ]
          localRotation : 0
          localScaling : [ 1, 1, 1, 0 ]
       }
@@ -81,13 +81,16 @@ TestLevel
       {
          maxLifetime : 5
          minLifetime : 1
-         maxParticles : 500
-         particleSpawnCount : 25
-         particleSpawnWait : 0.4
+         maxParticles : 1000
+         particleSpawnCount : 20
+         particleSpawnWait : 0.05
          startColor : [ 0, 1, 0, 1 ]
          endColor : [ 0, 0, 0.3, 0 ]
-         startSize : 50
-         endingSize : 5
+         startSize : 25
+         endingSize : 1
+         initialVelocity : [ 0, 100, 0, 1 ]
+         randomVelocityAngle : 260
+         startAcceleration : [ 0, -50, 0, 1 ]
          loop : 1
       }
       Junior::ParticleMeshLink

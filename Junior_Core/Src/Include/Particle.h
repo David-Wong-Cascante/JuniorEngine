@@ -23,6 +23,8 @@ namespace Junior
 		Vec3 position_;
 		// The particle's velocity
 		Vec3 velocity_;
+		// The particle's acceleration
+		Vec3 acceleration_;
 		// Color of particle
 		Vec3 color_;
 		// Where x and y are the translation and (z, w) is the scale

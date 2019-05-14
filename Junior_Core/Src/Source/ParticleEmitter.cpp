@@ -10,7 +10,8 @@
 // Includes
 #include "ParticleEmitter.h"
 
-#include <random>					// Random
+#include <math.h>					// atan2
+#include "LinearMath.h"				// Linear Math
 #include "GameObject.h"				// Game Object
 #include "Transform.h"				// Transform
 #include "Parser.h"					// Parser
@@ -41,11 +42,20 @@ void Junior::ParticleEmitter::SpawnParticles()
 
 		// Otherwise, update the data
 		Particle& particle = particles_.at(numParticles_);
+		// The random angle to rotate the intial velocity
+		float randVelAngle = random_.RandomFloat(-randomVelocityAngle_ / 2.0f, randomVelocityAngle_ / 2.0f);
+		// Find the random velocity that we will spawn these particles at
+		Vec3 rotatedVelocity = Vec3(
+									initialVelocity_.x_ * cosf(randVelAngle * static_cast<float>(DEG_TO_RAD)) - 
+														initialVelocity_.y_ * sinf(randVelAngle * static_cast<float>(DEG_TO_RAD)), 
+									initialVelocity_.y_ * cosf(randVelAngle * static_cast<float>(DEG_TO_RAD)) + 
+														initialVelocity_.x_ * sinf(randVelAngle * static_cast<float>(DEG_TO_RAD))
+								);
 		// TODO: Make the initial properties random
-		// TODO: Create dedicated random class
 		// Source: https://stackoverflow.com/questions/686353/random-float-number-generation
 		particle.lifeTime_ = particle.age_ = random_.RandomFloat(minLifeTime_, maxLifeTime_);
-		particle.velocity_ = Vec3(random_.RandomFloat(-0.5f, 0.5f) * 25, 75);
+		particle.velocity_ = rotatedVelocity;
+		particle.acceleration_ = startAcceleration_;
 		particle.color_ = startColor_;
 		particle.size_ = startSize_;
 		particle.position_ = transform_->GetLocalTranslation();
@@ -56,8 +66,9 @@ void Junior::ParticleEmitter::SpawnParticles()
 // Public Member Functions
 
 Junior::ParticleEmitter::ParticleEmitter()
-	: particleSpawnTimer_(0.0f), maxLifeTime_(0), minLifeTime_(0),
+	: particleSpawnTimer_(0.0f), maxLifeTime_(0), minLifeTime_(0), initialVelocity_(0, 0, 0), randomVelocityAngle_(0),
 	  maxParticles_(0), numParticles_(0), particleSpawnCount_(0), particleSpawnWait_(0), loop_(false), particles_(),
+	  startAcceleration_(0, 0, 0),
 	  startSize_(20), endingSize_(50), colorInterpolate_(Lerp), sizeInterpolate_(Lerp), random_(), textureAtlas_(0)
 {
 }
@@ -65,9 +76,10 @@ Junior::ParticleEmitter::ParticleEmitter()
 Junior::ParticleEmitter::ParticleEmitter(const ParticleEmitter& other)
 	: particleSpawnCount_(other.particleSpawnCount_), maxLifeTime_(other.maxLifeTime_), minLifeTime_(other.minLifeTime_),
 	maxParticles_(other.maxParticles_), numParticles_(other.numParticles_), particleSpawnWait_(other.particleSpawnWait_),
-	startSize_(other.startSize_), endingSize_(other.endingSize_),
-	particleSpawnTimer_(0.0f), loop_(other.loop_), particles_(), colorInterpolate_(other.colorInterpolate_),
-	sizeInterpolate_(other.sizeInterpolate_), random_(), textureAtlas_(0)
+	startSize_(other.startSize_), endingSize_(other.endingSize_), initialVelocity_(other.initialVelocity_),
+	randomVelocityAngle_(0), particleSpawnTimer_(0.0f), loop_(other.loop_), random_(), textureAtlas_(0),
+	startAcceleration_(other.startAcceleration_),
+	particles_(), colorInterpolate_(other.colorInterpolate_), sizeInterpolate_(other.sizeInterpolate_)
 {
 }
 
@@ -81,7 +93,7 @@ void Junior::ParticleEmitter::Initialize()
 	// Reset the spawn timer
 	particleSpawnTimer_ = 0.0f;
 	// Seed the random number generator
-	srand(0);
+	random_.Seed(0);
 	// Spawn particles
 	SpawnParticles();
 }
@@ -122,6 +134,8 @@ void Junior::ParticleEmitter::Update(double dt)
 		else
 		{
 			// Otherwise, update it and move on
+			// Update the velocity
+			current.velocity_ += current.acceleration_ * static_cast<float>(dt);
 			// Update the current position
 			current.position_ += current.velocity_ * static_cast<float>(dt);
 			// Change the color of the particle
@@ -150,6 +164,9 @@ void Junior::ParticleEmitter::Serialize(Parser& parser) const
 	parser.WriteVariable("endColor", endColor_);
 	parser.WriteVariable("startSize", startSize_);
 	parser.WriteVariable("endingSize", endingSize_);
+	parser.WriteVariable("initialVelocity", initialVelocity_);
+	parser.WriteVariable("randomVelocityAngle", randomVelocityAngle_);
+	parser.WriteVariable("startAcceleration", startAcceleration_);
 	parser.WriteVariable("loop", loop_);
 }
 
@@ -164,6 +181,9 @@ void Junior::ParticleEmitter::Deserialize(Parser& parser)
 	parser.ReadVariable("endColor", endColor_);
 	parser.ReadVariable("startSize", startSize_);
 	parser.ReadVariable("endingSize", endingSize_);
+	parser.ReadVariable("initialVelocity", initialVelocity_);
+	parser.ReadVariable("randomVelocityAngle", randomVelocityAngle_);
+	parser.ReadVariable("startAcceleration", startAcceleration_);
 	parser.ReadVariable("loop", loop_);
 }
 

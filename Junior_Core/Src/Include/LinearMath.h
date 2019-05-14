@@ -7,11 +7,11 @@
 * File Name: LinearMath.h
 */
 
-// Includes //
+// Includes
 //#include "Vec3.h"
 //#include "Mat3.h"
 
-// DEFINES //
+// DEFINES
 // Define the conversion between Radians and Degrees
 #define PI 3.14159
 #define DEG_TO_RAD PI / 180.0
@@ -23,7 +23,7 @@ namespace Junior
 	union Vec3;
 	union Mat3;
 
-	// Global Functions //
+	// Global Functions
 	// Gives the dot product between two vectors
 	// Params:
 	//	lhs: One of the vectors
@@ -57,7 +57,6 @@ namespace Junior
 	//	to: The vector we are projecting into
 	// Returns: The projected point
 	Vec3 Project(const Vec3& from, const Vec3& to);
-
 	// Creates an orthographic projection matrix
 	// Params:
 	//	left: Distance in pixels towards the left of the screen from the middle
@@ -92,7 +91,6 @@ namespace Junior
 	//	angle: The angle we want to rotate by
 	// Returns: The rotation matrix around the Z axis by the provided angle
 	Mat3 Rotation(float angle);
-	
 	// Transposes the matrix
 	// Params:
 	//	mat: The matrix we want to transpose

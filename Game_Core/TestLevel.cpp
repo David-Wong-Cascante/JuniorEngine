@@ -130,7 +130,7 @@ void Junior::TestLevel::Update(double dt)
 
 void Junior::TestLevel::Shutdown()
 {
-	GameObjectFactory::GetInstance().SaveLevel(this);
+	//GameObjectFactory::GetInstance().SaveLevel(this);
 }
 
 void Junior::TestLevel::Unload()

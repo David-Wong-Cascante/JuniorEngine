@@ -13,7 +13,7 @@
 #include "ParticleEmitter.h"		// Get the particle emitter
 
 Junior::ParticleMesh::ParticleMesh()
-	: Mesh("ParticleMesh", CreateQuadMeshData()), particleBuffer_(0), numParticleAttribs_(7)
+	: Mesh("ParticleMesh", CreateQuadMeshData()), particleBuffer_(0), numParticleAttribs_(6)
 {
 	// Create the buffer for all the particle data
 	glGenBuffers(1, &particleBuffer_);
@@ -26,24 +26,21 @@ Junior::ParticleMesh::ParticleMesh()
 	// The position of the particle
 	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX);
 	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX, 4, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 0));
-	// The velocity of the particle
-	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 1);
-	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 1, 4, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 1));
 	// The color of the particle
-	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 2);
-	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 2, 4, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 2));
+	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 1);
+	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 1, 4, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 3));
 	// The uv and scale of the particle
-	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 3);
-	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 3, 4, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 3));
+	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 2);
+	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 2, 4, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 4));
 	// The size of the particle
-	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 4);
-	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 4, 1, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 4));
+	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 3);
+	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 3, 1, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 5));
 	// The lifetime of thte particle
-	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 5);
-	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 5, 1, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 4 + sizeof(float) * 1));
+	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 4);
+	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 4, 1, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 5 + sizeof(float) * 1));
 	// The particle's age
-	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 6);
-	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 6, 1, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 4 + sizeof(float) * 2));
+	glEnableVertexAttribArray(Mesh::ATTRIBUTE_START_INDEX + 5);
+	glVertexAttribPointer(Mesh::ATTRIBUTE_START_INDEX + 5, 1, GL_FLOAT, false, sizeof(Particle), reinterpret_cast<void*>(sizeof(Vec3) * 5 + sizeof(float) * 2));
 	
 	// Set all of these particle properties to be used per particle, not per fragment/pixel
 	for (size_t i = 0; i < numParticleAttribs_; ++i)
