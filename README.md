@@ -1,6 +1,6 @@
 # JuniorEngine
 ## Purpose
-I belief that I don't appreciate things until I do things myself. I wanted to appreciate how games are made, therefore I decided to create my own game engine and
+I believe that I don't appreciate things until I do things myself. I wanted to appreciate how games are made, therefore I decided to create my own game engine and
 hopefully finish it.
 ## Content
 This engine is going to be small by nature. There is no way I am going to making netcode, at least for the moment. However, I want to create anything that would be
