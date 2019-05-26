@@ -1,7 +1,7 @@
 // Author: David Wong
 // Email: david.wongcascante@digipen.edu
 // Created: 10 May 2019
-// Last Modified: 10 May 2019
+// Last Modified: 14 May 2019
 // File name: particleVS.vs
 
 #version 430 core
@@ -23,13 +23,13 @@ uniform int textureAtlas;
 // Out variables
 out vec4 color;
 out vec2 TexCoords;
-out uint TexAtlas;
+out flat int TextureAtlas;
 
 void main()
 {
 	// Set the in variables for the fragment shader
 	TexCoords = texCoords;
-	TexAtlas = textureAtlas;
+	TextureAtlas = textureAtlas;
 	// Modify the texture coordinates
 	TexCoords.x *= texCoordMods.z;
 	TexCoords.y *= texCoordMods.w;
