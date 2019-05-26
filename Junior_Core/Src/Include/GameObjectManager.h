@@ -22,7 +22,11 @@ namespace Junior
 	{
 	private:
 		// Private Member Variables //
+		// The game objects
 		std::vector<GameObject*> gameObjects_;
+		// The archetypes for these objects
+		std::vector<GameObject*> archetypes_;
+		// The destroyed game objects
 		std::vector<GameObject*> destroyedObjects_;
 		// Default Constructor
 		GameObjectManager();
@@ -32,11 +36,20 @@ namespace Junior
 		// Params:
 		//	object: The object to initialize
 		void AddObject(GameObject* const object);
+		// Adds an archetype to the manager
+		// Params:
+		//	archetype: The archetype we want to initialize
+		void AddArchetype(GameObject* const archetype);
 		// Finds an object by name
 		// Params:
 		//	name: The name of the object we are looking for
 		// Returns: The object with the same name
 		GameObject* FindByName(const std::string& name) const;
+		// Creates an archetype by name
+		// Params:
+		//	name: The name of the object we want to create
+		// Returns: A game object related to the archetype
+		GameObject* CreateFromArchetype(const std::string& name) const;
 		// Updates the game object manager, and updates all of the other objects inside
 		// Params:
 		//	manager: The memory manger used to create all of the objects

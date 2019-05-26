@@ -77,8 +77,8 @@ Junior::ParticleEmitter::ParticleEmitter(const ParticleEmitter& other)
 	: particleSpawnCount_(other.particleSpawnCount_), maxLifeTime_(other.maxLifeTime_), minLifeTime_(other.minLifeTime_),
 	maxParticles_(other.maxParticles_), numParticles_(other.numParticles_), particleSpawnWait_(other.particleSpawnWait_),
 	startSize_(other.startSize_), endingSize_(other.endingSize_), initialVelocity_(other.initialVelocity_),
-	randomVelocityAngle_(0), particleSpawnTimer_(0.0f), loop_(other.loop_), random_(), textureAtlas_(0),
-	startAcceleration_(other.startAcceleration_),
+	randomVelocityAngle_(other.randomVelocityAngle_), particleSpawnTimer_(0.0f), loop_(other.loop_), random_(), textureAtlas_(0),
+	startAcceleration_(other.startAcceleration_), startColor_(other.startColor_), endColor_(other.endColor_),
 	particles_(), colorInterpolate_(other.colorInterpolate_), sizeInterpolate_(other.sizeInterpolate_)
 {
 }

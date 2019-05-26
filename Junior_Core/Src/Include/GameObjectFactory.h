@@ -4,7 +4,7 @@
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
 * Created: 9 Apr 2019
-* Last Modified: 27 Apr 2019
+* Last Modified: 25 May 2019
 */
 
 // Includes

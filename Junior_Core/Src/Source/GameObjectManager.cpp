@@ -4,7 +4,7 @@
 * File name: GameObjectManager.cpp
 * Description: Takes care to initialize, update, and clean up all of the objects
 * Created: 11 Dec 2018
-* Last Modified: 27 Apr 2019
+* Last Modified: 25 May 2019
 */
 
 // Includes
@@ -16,7 +16,7 @@
 namespace Junior
 {
 	GameObjectManager::GameObjectManager()
-		: gameObjects_(), destroyedObjects_()
+		: gameObjects_(), archetypes_(), destroyedObjects_()
 	{
 	}
 
@@ -26,6 +26,12 @@ namespace Junior
 		gameObjects_.push_back(object);
 	}
 
+	void GameObjectManager::AddArchetype(GameObject* const archetype)
+	{
+		archetype->Initialize();
+		archetypes_.push_back(archetype);
+	}
+
 	GameObject* GameObjectManager::FindByName(const std::string& name) const
 	{
 		for (auto begin = gameObjects_.cbegin(); begin != gameObjects_.cend(); ++begin)
@@ -33,6 +39,19 @@ namespace Junior
 			if ((*begin)->GetName() == name)
 			{
 				return *begin;
+			}
+		}
+
+		return nullptr;
+	}
+
+	GameObject* GameObjectManager::CreateFromArchetype(const std::string& name) const
+	{
+		for (auto begin = archetypes_.cbegin(); begin != archetypes_.cend(); ++begin)
+		{
+			if ((*begin)->GetName() == name)
+			{
+				return new GameObject(**begin);
 			}
 		}
 
@@ -81,6 +100,12 @@ namespace Junior
 		{
 			gameObject->Unload();
 			delete gameObject;
+		}
+
+		for (GameObject* archetype : archetypes_)
+		{
+			archetype->Unload();
+			delete archetype;
 		}
 	}
 	

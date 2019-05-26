@@ -5,7 +5,7 @@
 * File name: GameObject.h
 * Description: Define the Game Object functionality to get components, get its name, update, etc...
 * Created: 1 May 2018
-* Last Modified: 4 May 2019
+* Last Modified: 25 May 2019
 */
 
 // Includes //
@@ -20,14 +20,14 @@
 
 // Public Member Functions //
 
-Junior::GameObject::GameObject(const std::string& name, bool rendered)
-	: name_(name), components_(), children_(), parent_(nullptr), destroyed(false)
+Junior::GameObject::GameObject(const std::string& name, bool isArchetype)
+	: name_(name), components_(), children_(), parent_(nullptr), destroyed_(false), isArchetype_(isArchetype)
 {
 	Graphics& graphics = Graphics::GetInstance();
 }
 
 Junior::GameObject::GameObject(const GameObject& other)
-	: name_(other.name_), parent_(other.parent_), destroyed(false)
+	: name_(other.name_), parent_(other.parent_), destroyed_(false), isArchetype_(false)
 {
 	Graphics& graphics = Graphics::GetInstance();
 	// Create a render job if the other did have one
@@ -214,7 +214,7 @@ Junior::ComponentContainer * Junior::GameObject::GetComponent(const std::string&
 
 void Junior::GameObject::Destroy()
 {
-	destroyed = true;
+	destroyed_ = true;
 
 	// Destroy all the children objects as well
 	for (GameObject* child : children_)
@@ -225,5 +225,10 @@ void Junior::GameObject::Destroy()
 
 bool Junior::GameObject::IsDestroyed()
 {
-	return destroyed;
+	return destroyed_;
+}
+
+bool Junior::GameObject::IsArchetype()
+{
+	return isArchetype_;
 }

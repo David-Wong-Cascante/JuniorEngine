@@ -4,7 +4,7 @@
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
 * Created: 9 Apr 2019
-* Last Modified: 4 May 2019
+* Last Modified: 25 May 2019
 */
 
 // Includes
@@ -135,19 +135,45 @@ void Junior::GameObjectFactory::FillLevel(const std::string& levelName) const
 		parser.Skip(levelName);
 		// Skip the openning bracket
 		parser.Skip("{");
+		// Start reading archetypes
+		unsigned numArchetypes;
+		parser.ReadVariable("numArchetypes", numArchetypes);
+		parser.Skip("{");
+		for (unsigned i = 0; i < numArchetypes; ++i)
+		{
+			// Start reading archetypes
+			parser.ReadValue(name);
+			current = new GameObject(name, true);
+			current->Deserialize(parser);
+			// Put the archetype into the object manager
+			GameObjectManager::GetInstance().AddArchetype(current);
+		}
+		parser.Skip("}");
+
 		// Start reading objects
 		unsigned numObjects;
 		parser.ReadVariable("numGameObjects", numObjects);
+		parser.Skip("{");
 		for (unsigned i = 0; i < numObjects; ++i)
 		{
 			// Start reading objects
 			// Read the name of the game object
 			parser.ReadValue(name);
-			current = new GameObject(name);
-			current->Deserialize(parser);
+			// If the name starts with a #, then we attempt to find an archetype with the same name without the octothorp
+			if (name.at(0) == '#')
+			{
+				// Attempt to find an archetype
+				current = GameObjectManager::GetInstance().CreateFromArchetype(name.substr(1));
+			}
+			else
+			{
+				current = new GameObject(name);
+				current->Deserialize(parser);
+			}
 			// Put the game object into the manager
 			GameObjectManager::GetInstance().AddObject(current);
 		}
+		parser.Skip("}");
 	}
 	catch (const ParserException& e)
 	{
