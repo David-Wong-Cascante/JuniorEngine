@@ -118,6 +118,9 @@
     <ClInclude Include="..\Junior_Core\Src\Include\Particle.h">
       <Filter>Graphics\RenderData</Filter>
     </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Physics.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -241,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="..\Junior_Core\Src\Source\Randon.cpp">
       <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Physics.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

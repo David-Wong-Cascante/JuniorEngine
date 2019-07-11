@@ -3,8 +3,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: TestLevel.cpp
 * Description: Test level for object management
-* Created: 20-Dec-2018
-* Last Modified: 26 Apr 2019
+* Created: 20 Dec 2018
+* Last Modified: 7 July 2019
 */
 
 // Includes
@@ -13,17 +13,18 @@
 #ifdef _DEBUG
 #include "MemoryLeakGuard.h"		// Memory Leak Guard
 #endif
-#include "GameObject.h"				// Game Object
-#include "GameObjectManager.h"		// Game Object Manager
-#include "GameObjectFactory.h"		// Game Object Factory
-#include "Time.h"					// Time
-#include "Input.h"					// Input
-#include "Transform.h"				// Transform
-#include "Graphics.h"				// Graphics
-#include "RenderJob.h"				// RenderJob
-#include "Sprite.h"					// Sprite
-#include "Animator.h"				// Animator
-#include "Camera.h"					// Camera
+#include <GameObject.h>				// Game Object
+#include <GameObjectManager.h>		// Game Object Manager
+#include <GameObjectFactory.h>		// Game Object Factory
+#include <Time.h>					// Time
+#include <Input.h>					// Input
+#include <Physics.h>				// Physics
+#include <Transform.h>				// Transform
+#include <Graphics.h>				// Graphics
+#include <RenderJob.h>				// RenderJob
+#include <Sprite.h>					// Sprite
+#include <Animator.h>				// Animator
+#include <Camera.h>					// Camera
 
 Junior::TestLevel::TestLevel()
 	: Level("TestLevel"), cog_(nullptr), cog2_(nullptr), transform_(nullptr), transform2_(nullptr), timer_(0.0), deletedObject2_(false), playerJoystick_(nullptr),
@@ -55,6 +56,8 @@ bool Junior::TestLevel::Initialize()
 	transform2_ = cog2_->GetComponent<Transform>();
 	cameraTransform_ = camera_->GetComponent<Transform>();
 
+	playerPhysics_ = cog_->GetComponent<Physics>();
+
 	return true;
 }
 
@@ -65,22 +68,23 @@ void Junior::TestLevel::Update(double dt)
 	Animator* animator = cog_->GetComponent<Animator>();
 	if (playerJoystick_)
 	{
-		if (playerJoystick_->axes_[0] < -0.2f)
+		if (playerJoystick_->axes_[0] < -0.7f)
 		{
-			transform_->SetLocalTranslation(transform_->GetLocalTranslation() + Vec3(300.0f * playerJoystick_->axes_[0], 0, 0) * static_cast<float>(dt));
+			playerPhysics_->SetVelocity(playerJoystick_->axes_[0] * Vec3(300, 0, 0));
 			transform_->SetLocalScaling({ -128, 128, 1 });
 			if(!animator->IsPlaying())
 				animator->Play(0, 3, 0.15f, true);
 		}
 		else if (playerJoystick_->axes_[0] > 0.7f)
 		{
-			transform_->SetLocalTranslation(transform_->GetLocalTranslation() + Vec3(300.0f* playerJoystick_->axes_[0], 0, 0) * static_cast<float>(dt));
+			playerPhysics_->SetVelocity(playerJoystick_->axes_[0] * Vec3(300, 0, 0));
 			transform_->SetLocalScaling({ 128, 128, 1 });
 			if(!animator->IsPlaying())
 				animator->Play(0, 3, 0.15f, true);
 		}
 		else
 		{
+			playerPhysics_->SetVelocity(Vec3());
 			animator->Stop();
 			animator->SetFrame(0);
 		}
@@ -89,20 +93,21 @@ void Junior::TestLevel::Update(double dt)
 	{
 		if (input.GetKeyState(GLFW_KEY_A))
 		{
-			transform_->SetLocalTranslation(transform_->GetLocalTranslation() + Vec3(-300.0f, 0, 0) * static_cast<float>(dt));
+			playerPhysics_->SetVelocity(Vec3(-300, 0, 0));
 			transform_->SetLocalScaling({ -128, 128, 1 });
 			if (!animator->IsPlaying())
 				animator->Play(0, 3, 0.15f, true);
 		}
 		else if (input.GetKeyState(GLFW_KEY_D))
 		{
-			transform_->SetLocalTranslation(transform_->GetLocalTranslation() + Vec3(300.0f, 0, 0) * static_cast<float>(dt));
+			playerPhysics_->SetVelocity(Vec3(300, 0, 0));
 			transform_->SetLocalScaling({ 128, 128, 1 });
 			if (!animator->IsPlaying())
 				animator->Play(0, 3, 0.15f, true);
 		}
 		else
 		{
+			playerPhysics_->SetVelocity(Vec3());
 			animator->Stop();
 			animator->SetFrame(0);
 		}

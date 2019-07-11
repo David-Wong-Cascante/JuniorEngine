@@ -46,6 +46,7 @@
     <ClInclude Include="..\Junior_Core\Src\Include\ParticleEmitter.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\ParticleMesh.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\ParticleMeshLink.h" />
+    <ClInclude Include="..\Junior_Core\Src\Include\Physics.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\Random.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\RenderJob.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\Resource.h" />
@@ -83,6 +84,7 @@
     <ClCompile Include="..\Junior_Core\Src\Source\ParticleEmitter.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\ParticleMesh.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\ParticleMeshLink.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\Source\Physics.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Randon.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Resource.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\ResourceManager.cpp" />

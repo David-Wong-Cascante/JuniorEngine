@@ -1,6 +1,6 @@
 New_Object
 {
-  numComponents : 4
+  numComponents : 5
   Junior::Transform
   {
 	 localTranslation : [ -82.2441, 0, 0, 1 ]
@@ -10,6 +10,10 @@ New_Object
   Junior::Sprite
   {
 	 texturePath : ..//Assets//Images//GoldenAnim.png
+  }
+  Junior::Physics
+  {
+	mass : 1.0
   }
   Junior::Animator
   {

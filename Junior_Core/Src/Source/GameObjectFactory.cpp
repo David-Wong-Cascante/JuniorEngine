@@ -4,7 +4,7 @@
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
 * Created: 9 Apr 2019
-* Last Modified: 25 May 2019
+* Last Modified: 7 July 2019
 */
 
 // Includes
@@ -22,9 +22,10 @@
 #include "ParticleEmitter.h"
 #include "DefaultMeshLink.h"
 #include "ParticleMeshLink.h"
+#include "Physics.h"
 
 // Defines
-#define NUM_STANDARD_COMPONENTS 7
+#define NUM_STANDARD_COMPONENTS 8
 
 // Private Member Functions
 
@@ -39,6 +40,7 @@ Junior::GameObjectFactory::GameObjectFactory()
 	RegisterComponent<ParticleEmitter>();
 	RegisterComponent<ParticleMeshLink>();
 	RegisterComponent<DefaultMeshLink>();
+	RegisterComponent<Physics>();
 }
 
 Junior::GameObjectFactory::~GameObjectFactory()
