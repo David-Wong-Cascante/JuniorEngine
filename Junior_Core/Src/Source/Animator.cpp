@@ -66,7 +66,8 @@ void Junior::Animator::Update(double dt)
 		{
 			// When the time is up switch frames
 			timer_ -= timePerFrame_;
-			++currentFrame_;
+			// Change the frame to the correct animation
+			SetFrame(currentFrame_ + 1);
 			if (currentFrame_ > end_)
 			{
 				if (loop_)
@@ -80,9 +81,6 @@ void Junior::Animator::Update(double dt)
 			}
 		}
 	}
-
-	// Change the frame to the correct animation
-	SetFrame(currentFrame_);
 }
 
 void Junior::Animator::Unload()
@@ -110,6 +108,7 @@ void Junior::Animator::SetFrame(unsigned frame)
 	float u = startXOffset_ + columnSize_ * static_cast<float>((frame % numColumns_));
 	float v = startYOffset_ + textureYSize_ - rowSize_ * (1 + (frame / numColumns_));
 	sprite_->SetUVModifications(u, v, columnSize_, rowSize_);
+	currentFrame_ = frame;
 }
 
 bool Junior::Animator::IsPlaying() const

@@ -5,7 +5,7 @@
 * File name: GameObjectManager.h
 * Description: Takes care to initialize, update, and clean up all of the objects
 * Created: 11 Dec 2018
-* Last Modified: 27 Apr 2019
+* Last Modified: 18 Jul 2019
 */
 
 // Includes //
@@ -21,13 +21,25 @@ namespace Junior
 	class GameObjectManager
 	{
 	private:
-		// Private Member Variables //
+
+		// Private Member Constants
+
+		// The fixed delta time we are targetting
+		const double fixedDtTarget_;
+
+		// Private Member Variables
+
+		// The fixed delta time accumulator that runs fixed update
+		double fixedDtAccumulator_;
 		// The game objects
 		std::vector<GameObject*> gameObjects_;
 		// The archetypes for these objects
 		std::vector<GameObject*> archetypes_;
 		// The destroyed game objects
 		std::vector<GameObject*> destroyedObjects_;
+
+		// Private Member Functions
+
 		// Default Constructor
 		GameObjectManager();
 	public:

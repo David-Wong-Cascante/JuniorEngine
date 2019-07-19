@@ -51,14 +51,13 @@ void Junior::ParticleEmitter::SpawnParticles()
 									initialVelocity_.y_ * cosf(randVelAngle * static_cast<float>(DEG_TO_RAD)) + 
 														initialVelocity_.x_ * sinf(randVelAngle * static_cast<float>(DEG_TO_RAD))
 								);
-		// TODO: Make the initial properties random
 		// Source: https://stackoverflow.com/questions/686353/random-float-number-generation
 		particle.lifeTime_ = particle.age_ = random_.RandomFloat(minLifeTime_, maxLifeTime_);
 		particle.velocity_ = rotatedVelocity;
 		particle.acceleration_ = startAcceleration_;
 		particle.color_ = startColor_;
 		particle.size_ = startSize_;
-		particle.position_ = transform_->GetLocalTranslation();
+		particle.position_ = transform_->GetGlobalTranslation();
 		++numParticles_;
 	}
 }

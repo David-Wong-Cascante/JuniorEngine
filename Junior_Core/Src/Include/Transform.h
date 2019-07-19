@@ -80,6 +80,13 @@ namespace Junior
 		// Returns: The local rotation
 		const float GetLocalRotation() const;
 
+		// Returns: The global translation of the object
+		Vec3 GetGlobalTranslation() const;
+		// Returns: The global rotation of the object
+		float GetGlobalRotation() const;
+		// Returns: The global scaling of the object
+		Vec3 GetGlobalScaling() const;
+
 		// Returns: The local transformation matrix
 		const Mat3& GetLocalTransformation() const;
 		// Returns: The global transformation matrix

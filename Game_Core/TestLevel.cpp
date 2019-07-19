@@ -49,6 +49,8 @@ bool Junior::TestLevel::Initialize()
 	cog_ = GameObjectManager::GetInstance().FindByName("New_Object");
 	cog2_ = GameObjectManager::GetInstance().FindByName("Second_New_Object");
 
+	cog_->AddChild(GameObjectManager::GetInstance().FindByName("Particle_Effect"));
+
 	Camera* cameraComponent = camera_->GetComponent<Camera>();
 	Graphics::GetInstance().mainCamera_ = cameraComponent;
 
@@ -120,7 +122,7 @@ void Junior::TestLevel::Update(double dt)
 
 	// Slowly move the camera toward the player
 	Vec3 toPlayer = transform_->GetLocalTranslation() - cameraTransform_->GetLocalTranslation();
-	cameraTransform_->SetLocalTranslation(cameraTransform_->GetLocalTranslation() + toPlayer * 0.1f);
+	cameraTransform_->SetLocalTranslation(cameraTransform_->GetLocalTranslation() + toPlayer * 0.05f);
 
 	/*if (!deletedObject2_)
 	{

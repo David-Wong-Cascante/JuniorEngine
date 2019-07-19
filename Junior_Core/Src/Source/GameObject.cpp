@@ -5,7 +5,7 @@
 * File name: GameObject.h
 * Description: Define the Game Object functionality to get components, get its name, update, etc...
 * Created: 1 May 2018
-* Last Modified: 25 May 2019
+* Last Modified: 18 Jul 2019
 */
 
 // Includes //
@@ -58,9 +58,22 @@ void Junior::GameObject::Initialize()
 		component->Initialize();
 	}
 }
-
-// Update all the objects, and ignore all the objects that are not marked for updating
 void Junior::GameObject::Update(double ms)
+{
+	if (components_.size() > 0)
+	{
+		for (ComponentContainer* component : components_)
+		{
+			// Update all the objects, and ignore all the objects that are not marked for updating
+			if (component->IsUpdateable())
+			{
+				component->Update(ms);
+			}
+		}
+	}
+}
+
+void Junior::GameObject::FixedUpdate(double dt)
 {
 	if (components_.size() > 0)
 	{
@@ -68,7 +81,7 @@ void Junior::GameObject::Update(double ms)
 		{
 			if (component->IsUpdateable())
 			{
-				component->Update(ms);
+				component->FixedUpdate(dt);
 			}
 		}
 	}

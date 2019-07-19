@@ -94,6 +94,35 @@ const float Junior::Transform::GetLocalRotation() const
 	return localRot_;
 }
 
+// How to find the global transformations can be found here:
+// https://math.stackexchange.com/questions/237369/given-this-transformation-matrix-how-do-i-decompose-it-into-translation-rotati
+
+
+Junior::Vec3 Junior::Transform::GetGlobalTranslation() const
+{
+	Mat3 globalTransform = GetGlobalTransformation();
+	return Vec3(globalTransform.m03_, globalTransform.m13_, globalTransform.m23_);
+}
+
+float Junior::Transform::GetGlobalRotation() const
+{
+	Mat3 globalTransform = GetGlobalTransformation();
+	float xScale = Length(Vec3(globalTransform.m00_, globalTransform.m11_, globalTransform.m22_, 0));
+	float cosAngle = globalTransform.m00_ / xScale;
+	// Return the angle corresponding to the cosine of it
+	return acosf(cosAngle);
+}
+
+Junior::Vec3 Junior::Transform::GetGlobalScaling() const
+{
+	Mat3 globalTransform = GetGlobalTransformation();
+	float xScale = Length(Vec3(globalTransform.m00_, globalTransform.m01_, globalTransform.m02_, 0));
+	float yScale = Length(Vec3(globalTransform.m10_, globalTransform.m11_, globalTransform.m12_, 0));
+	float zScale = Length(Vec3(globalTransform.m20_, globalTransform.m21_, globalTransform.m22_, 0));
+
+	return Vec3(xScale, yScale, zScale, 0);
+}
+
 const Junior::Mat3& Junior::Transform::GetLocalTransformation() const
 {
 	return localTransformation_;

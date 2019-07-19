@@ -7,7 +7,7 @@ TestLevel
 		  numComponents : 4
 		  Junior::Transform
 		  {
-			 localTranslation : [ 0, 0, 0, 1 ]
+			 localTranslation : [ 0, 0, -5, 1 ]
 			 localRotation : 0
 			 localScaling : [ -64, 64, 1, 1 ]
 		  }

@@ -3,8 +3,8 @@
  * Email: david.wongcascante@digipen.edu
  * File name: Physics.cpp
  * Description: Takes care of any physical motion
- * Created: 7 July 2019
- * Last Modified: 7 July 2019
+ * Created: 7 Jul 2019
+ * Last Modified: 18 Jul 2019
 */
 
 // Includes
@@ -15,13 +15,13 @@
 // Public Member Functions
 
 Junior::Physics::Physics(float mass)
-	: inverseMass_(1.0f / mass), velocity_(0.0f, 0.0f, 0.0f), angularVelocity_(0.0f), acceleration_(0.0f, 0.0f, 0.0f),
+	: inverseMass_(1.0f / mass), forcesSum_(0.0f, 0.0f, 0.0f), velocity_(0.0f, 0.0f, 0.0f), angularVelocity_(0.0f), acceleration_(0.0f, 0.0f, 0.0f),
 	  prevPosition_(0.0f, 0.0f, 0.0f), transform_(nullptr)
 {
 }
 
 Junior::Physics::Physics(const Physics& other)
-	: inverseMass_(other.inverseMass_), velocity_(other.velocity_), angularVelocity_(other.angularVelocity_), acceleration_(other.acceleration_),
+	: inverseMass_(other.inverseMass_), forcesSum_(other.forcesSum_), velocity_(other.velocity_), angularVelocity_(other.angularVelocity_), acceleration_(other.acceleration_),
 	  prevPosition_(other.prevPosition_), transform_(nullptr)
 {
 }
@@ -32,14 +32,15 @@ void Junior::Physics::Initialize()
 	transform_ = owner_->GetComponent<Transform>();
 }
 
-void Junior::Physics::Update(double dt)
+void Junior::Physics::FixedUpdate(double dt)
 {
 	// First, save the object's previous position
 	prevPosition_ = transform_->GetLocalTranslation();
 	Vec3 position = prevPosition_;
 	// Then, perform physics operations on the object
+	acceleration_ = forcesSum_ * inverseMass_;
 	velocity_ += acceleration_ * static_cast<float>(dt);
-	acceleration_ = Vec3(0.0f, 0.0f, 0.0f);
+	forcesSum_ = Vec3(0.0f, 0.0f, 0.0f);
 	position += velocity_ * static_cast<float>(dt);
 	transform_->SetLocalTranslation(position);
 	// Rotate the object accordingly
@@ -82,7 +83,7 @@ void Junior::Physics::SetAngularVelocity(float angular)
 
 void Junior::Physics::AddForce(const Vec3& force)
 {
-	acceleration_ = force * inverseMass_;
+	forcesSum_ += force;
 }
 
 const Junior::Vec3& Junior::Physics::GetVelocity() const

@@ -5,7 +5,7 @@
 * File name: GameObject.h
 * Description: Define what a Game Object looks like
 * Created: 28 Apr 2018
-* Last Modified: 25 May 2019
+* Last Modified: 18 Jul 2019
 */
 
 // Includes //
@@ -58,6 +58,10 @@ namespace Junior
 		// Params:
 		//	ms: The delta time between frames
 		void Update(double ms);
+		// Updates the components of the game object at constant dt
+		// Params:
+		//	ms: The delta time between frames
+		void FixedUpdate(double ms);
 		// Cleans the game object and its components
 		// Params:
 		//	manager: The memory manager used to create the game object

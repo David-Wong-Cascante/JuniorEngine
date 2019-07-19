@@ -4,7 +4,7 @@
 * File name: GameObjectManager.cpp
 * Description: Takes care to initialize, update, and clean up all of the objects
 * Created: 11 Dec 2018
-* Last Modified: 25 May 2019
+* Last Modified: 18 Jul 2019
 */
 
 // Includes
@@ -16,7 +16,7 @@
 namespace Junior
 {
 	GameObjectManager::GameObjectManager()
-		: gameObjects_(), archetypes_(), destroyedObjects_()
+		: fixedDtTarget_(1.0/60.0), fixedDtAccumulator_(0.0f), gameObjects_(), archetypes_(), destroyedObjects_()
 	{
 	}
 
@@ -70,6 +70,17 @@ namespace Junior
 				continue;
 			}
 			gameObject->Update(Time::GetInstance().GetDeltaTime());
+		}
+
+		// Perform a fixed update for every
+		fixedDtAccumulator_ += Time::GetInstance().GetDeltaTime();
+		while (fixedDtAccumulator_ >= fixedDtTarget_)
+		{
+			fixedDtAccumulator_ -= fixedDtTarget_;
+			for (GameObject* gameObject : gameObjects_)
+			{
+				gameObject->FixedUpdate(fixedDtTarget_);
+			}
 		}
 
 		// Check if there are any objects that are destroyed

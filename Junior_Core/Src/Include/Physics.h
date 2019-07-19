@@ -5,7 +5,7 @@
  * File name: Physics.h
  * Description: Takes care of any physical motion
  * Created: 7 July 2019
- * Last Modified: 7 July 2019
+ * Last Modified: 18 July 2019
 */
 
 // Includes
@@ -27,6 +27,8 @@ namespace Junior
 		float inverseMass_;
 		// The rotational velocity the object has
 		float angularVelocity_;
+		// The forces that acclerate this object
+		Vec3 forcesSum_;
 		// The acceleration the object has
 		Vec3 acceleration_;
 		// The velocity the object has
@@ -49,10 +51,8 @@ namespace Junior
 		Physics(const Physics& other);
 		// Initializes the component
 		void Initialize() override;
-		// Updates the component
-		// Params:
-		//	dt: The delta time between frames
-		void Update(double dt) override;
+		// Updates the component at an constant interval
+		void FixedUpdate(double dt) override;
 		// Cleans the component
 		void Unload() override;
 		// Serializes the physics component to a file
