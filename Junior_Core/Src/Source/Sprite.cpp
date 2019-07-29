@@ -4,7 +4,7 @@
  * File Name: Sprite.cpp
  * Description: Defines how Sprite works
  * Created: 13 Feb 2019
- * Last Modified: 4 May 2019
+ * Last Modified: 28 Jul 2019
 */
 
 // Includes
@@ -62,7 +62,7 @@ void Junior::Sprite::Initialize()
 }
 
 Junior::Sprite::Sprite(const Sprite& sprite)
-	: Component("Sprite"), path_(sprite.path_), atlasNode_(nullptr)
+	: path_(sprite.path_), atlasNode_(nullptr)
 {
 	if (path_ != "")
 	{

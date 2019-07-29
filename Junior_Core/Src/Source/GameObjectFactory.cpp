@@ -4,7 +4,7 @@
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
 * Created: 9 Apr 2019
-* Last Modified: 7 July 2019
+* Last Modified: 28 Jul 2019
 */
 
 // Includes
@@ -145,8 +145,16 @@ void Junior::GameObjectFactory::FillLevel(const std::string& levelName) const
 		{
 			// Start reading archetypes
 			parser.ReadValue(name);
-			current = new GameObject(name, true);
-			current->Deserialize(parser);
+			// Check if the first character of the name is a octothorp, if so then check the file with the same name
+			if (name[0] == '#')
+			{
+				current = CreateObject(name.substr(1));
+			}
+			else
+			{
+				current = new GameObject(name, true);
+				current->Deserialize(parser);
+			}
 			// Put the archetype into the object manager
 			GameObjectManager::GetInstance().AddArchetype(current);
 		}

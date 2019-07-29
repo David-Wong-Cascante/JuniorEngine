@@ -7,6 +7,7 @@ This engine is going to be small by nature. There is no way I am going to making
 essential to a game engine. The topic I am most interested in working on is graphics. As a result, the graphics engine is pretty complex but anything else will
 be simple.
 Things I am planning to create in the future:
+- [ ] An event system
 - [ ] Simple homemade physics engine
 - [ ] Sound engine
 - [ ] Minimliastic level editor
@@ -14,3 +15,5 @@ as time moves on, I will be adding more and more features to the engine.
 ## Development Branches
 Master Branch - All features are at a usable state, they may need some more progress but they are usable
 Developmental Branch - Some features are being put into the engine which have not been tested
+## Known Bugs
+- Particle Effects have "ghost particles" showing static non-existant particles

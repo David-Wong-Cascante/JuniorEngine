@@ -4,7 +4,7 @@
 * File name: Graphics.cpp
 * Description: Write the functionality of the window and the renderer under the same class
 * Created: 20 Apr 2018
-* Last Modified: 18 Feb 2019
+* Last Modified: 28 Jul 2019
 */
 
 
@@ -156,7 +156,7 @@ bool Junior::Graphics::Load()
 	delete[] pixels;
 	
 	// Generate the texture array
-	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, false, GL_RGBA, GL_RGB8, MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 2);
+	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, false, GL_RGBA, GL_RGBA8, MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 2);
 	textureBank_->AppendToArray2D(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, atlas_->GetPixels());
 
 	return true;

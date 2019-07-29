@@ -1,93 +1,14 @@
 TestLevel
 {
-    numArchetypes : 2
+    numArchetypes : 3
 	{   
-	   Particle_Effect
-	   {
-		  numComponents : 4
-		  Junior::Transform
-		  {
-			 localTranslation : [ 0, 0, -5, 1 ]
-			 localRotation : 0
-			 localScaling : [ -64, 64, 1, 1 ]
-		  }
-		  Junior::Sprite
-		  {
-			 texturePath : ..//Assets//Images//WideTestImage1.png
-		  }
-		  Junior::ParticleEmitter
-		  {
-			 maxLifetime : 5
-			 minLifetime : 1
-			 maxParticles : 500
-			 particleSpawnCount : 5
-			 particleSpawnWait : 0.05
-			 startColor : [ 0, 1, 0, 1 ]
-			 endColor : [ 0, 0, 0.3, 0 ]
-			 startSize : 25
-			 endingSize : 1
-			 initialVelocity : [ 0, 100, 0, 1 ]
-			 randomVelocityAngle : 260
-			 startAcceleration : [ 0, -50, 0, 1 ]
-			 loop : 1
-		  }
-		  Junior::ParticleMeshLink
-		  {
-		  }
-	   }
-	   Second_New_Object
-	   {
-		  numComponents : 3
-		  Junior::Transform
-		  {
-			 localTranslation : [ -9.48899, -300, -0.9995, 1 ]
-			 localRotation : 0
-			 localScaling : [ 256, 128, 1, 1 ]
-		  }
-		  Junior::Sprite
-		  {
-			 texturePath : ..//Assets//Images//WideTestImage1.png
-		  }
-		  Junior::DefaultMeshLink
-		  {
-		  }
-	   }
+	   #Player
+	   #Particle_Effect
+	   #Second_New_Object
 	}
    
    numGameObjects : 4
    {
-      New_Object
-	  {
-		  numComponents : 5
-		  Junior::Transform
-		  {
-			 localTranslation : [ -82.2441, 0, 0, 1 ]
-			 localRotation : 0
-			 localScaling : [ -128, 128, 1, 1 ]
-		  }
-		  Junior::Sprite
-		  {
-			 texturePath : ..//Assets//Images//GoldenAnim.png
-		  }
-		  Junior::Physics
-		  {
-			mass : 1.0
-		  }
-		  Junior::Animator
-		  {
-			 currentFrame : 2
-			 playing : 0
-			 loop : 1
-			 animStart : 0
-			 animEnd : 3
-			 numColumns : 2
-			 numRows : 4
-			 timePerFrame : 0.15
-		  }
-		  Junior::DefaultMeshLink
-		  {
-		  }
-	  }
 	  Camera
 	  {
 	     numComponents : 2
@@ -107,6 +28,7 @@ TestLevel
 	     }
 	  }
 	  
+      #Player
 	  #Second_New_Object
 	  #Particle_Effect
    }

@@ -4,7 +4,7 @@
 * File name: TestLevel.h
 * Description: Test level for object management
 * Created: 20 Dec 2018
-* Last Modified: 7 July 2019
+* Last Modified: 28 Jul 2019
 */
 
 // Includes
@@ -18,8 +18,11 @@ namespace Junior
 	class Physics;
 	class GameObject;
 	struct JoystickData;
+}
 
-	class TestLevel : public Level
+namespace JuniorGame
+{
+	class TestLevel : public Junior::Level
 	{
 	private:
 		// Keeping track of time
@@ -27,15 +30,13 @@ namespace Junior
 		// Whether we deleted the second object
 		bool deletedObject2_;
 		// Lerping the joystick position
-		Vec3 lerpJoystickPosition;
+		Junior::Vec3 lerpJoystickPosition;
 		// The transforms of the game objects
-		Transform *transform_, *transform2_, *cameraTransform_;
+		Junior::Transform *transform_, *transform2_, *cameraTransform_;
 		// The player's physics
-		Physics* playerPhysics_;
+		Junior::Physics* playerPhysics_;
 		// The spawned game objects
-		GameObject *cog_, *cog2_, *camera_;
-		// The joystick data
-		const JoystickData* playerJoystick_;
+		Junior::GameObject *cog_, *cog2_, *camera_;
 	public:
 		// Constructor
 		TestLevel();
