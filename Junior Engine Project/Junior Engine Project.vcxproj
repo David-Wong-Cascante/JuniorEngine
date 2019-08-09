@@ -28,6 +28,8 @@
     <ClInclude Include="..\Junior_Core\Src\Include\DefaultMesh.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\DefaultMeshLink.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\DrawProgram.h" />
+    <ClInclude Include="..\Junior_Core\Src\Include\Event.h" />
+    <ClInclude Include="..\Junior_Core\Src\Include\EventManager.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\GameObject.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\GameObjectFactory.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\GameObjectManager.h" />
@@ -69,6 +71,7 @@
     <ClCompile Include="..\Junior_Core\Src\Source\DefaultMesh.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\DefaultMeshLink.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\DrawProgram.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\Source\EventManager.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\GameObject.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\GameObjectFactory.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\GameObjectManager.cpp" />

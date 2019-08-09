@@ -1,10 +1,11 @@
+#pragma once
 /*
 * Author: David Wong
 * Email: david.wongcascante@digipen.edu
 * File name: EventManager.h
 * Description: Dispatches events to objects throughout the game
 * Created: 7 Aug 2019
-* Last Modified: 7 Aug 2019
+* Last Modified: 8 Aug 2019
 */
 
 // Includes 
@@ -25,7 +26,7 @@ namespace Junior
 	// Params:
 	//	object: The object hooked to this callback function
 	//	calledEvent: The event that fired this callback function
-	typedef void (*EventCallback)(void* object, Event* calledEvent);
+	typedef void (*EventCallback)(void* object, const Event* calledEvent);
 	// The list that connects a single function pointer to multiple objects
 	typedef std::unordered_map<EventCallback, std::vector<void*>> CallbackDispatcher;
 
@@ -35,30 +36,30 @@ namespace Junior
 		// Private Member Variables
 
 		// The map storing event names to the objects listening to the that event data
-		std::unordered_map<std::string, CallbackDispatcher> callbackMap_;
+		std::unordered_map<std::string, CallbackDispatcher*> callbackMap_;
 		// The events we need to process
-		std::list<Event*> unprocessedEvents_;
+		std::list<const Event*> unprocessedEvents_;
 		// How many events do we process per frame
 		// If the amount is zero, then we process all events in the current frame
-		unsigned eventProcessingCap_;
+		int eventProcessingCap_;
 
 		// Private Member Functions
 
 		// Private Constructor
 		EventManager();
-		// Creates a new map slot for an event
+		// Finds a slot for an event callback, creating a new one if it doesn't find one
 		// Params:
 		//	name: The name of the event we want to create a slot for
 		// Returns: The callback dispatcher created as a result of creating the slot for the event
-		CallbackDispatcher& CreateEventMapSlot(const std::string& name);
+		CallbackDispatcher& FindEventMapSlot(const std::string& name);
 		// Fires the dispatched callback function with the incoming event
 		// Params:
 		//	event: The sent event we are trying to dispatch the callback for
-		void DispatchEvent(Event* event);
+		void DispatchEvent(const Event* event);
 
 	public:
 		// Public Static Functions
-		EventManager& GetInstance() const;
+		static EventManager& GetInstance();
 
 		// Public Member Functions
 
@@ -95,7 +96,7 @@ namespace Junior
 		// Params:
 		//	event: The event that is send to the event manager to dispatch across all objects in the manager
 		//		   WARNING: The manager will try to delete this event after it is done with it
-		void SendEvent(const Event* event);
+		void SendEvent(Event* event);
 		// Sets the event processing cap
 		// Params:
 		//	processingCap: How many events are processed per frame

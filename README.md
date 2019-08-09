@@ -7,7 +7,7 @@ This engine is going to be small by nature. There is no way I am going to making
 essential to a game engine. The topic I am most interested in working on is graphics. As a result, the graphics engine is pretty complex but anything else will
 be simple.
 Things I am planning to create in the future:
-- [ ] An event system
+- [X] An event system
 - [ ] Simple homemade physics engine
 - [ ] Sound engine
 - [ ] Minimliastic level editor

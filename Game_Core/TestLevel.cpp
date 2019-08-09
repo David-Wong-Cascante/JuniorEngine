@@ -4,7 +4,7 @@
 * File name: TestLevel.cpp
 * Description: Test level for object management
 * Created: 20 Dec 2018
-* Last Modified: 28 Jul 2019
+* Last Modified: 8 Aug 2019
 */
 
 // Includes
@@ -13,9 +13,11 @@
 #ifdef _DEBUG
 #include "MemoryLeakGuard.h"		// Memory Leak Guard
 #endif
-#include <GameObject.h>				// Game Object
+
+#include <EventManager.h>			// Event Manager
 #include <GameObjectManager.h>		// Game Object Manager
 #include <GameObjectFactory.h>		// Game Object Factory
+#include <GameObject.h>				// Game Object
 #include <Time.h>					// Time
 #include <Input.h>					// Input
 #include <Physics.h>				// Physics
@@ -25,6 +27,11 @@
 #include <Sprite.h>					// Sprite
 #include <Animator.h>				// Animator
 #include <Camera.h>					// Camera
+
+#include <Debug.h>		// Debug
+
+// Testing event calling
+void WindowResizeCallback(void* object, const Junior::Event* event);
 
 JuniorGame::TestLevel::TestLevel()
 	: Level("TestLevel"), cog_(nullptr), cog2_(nullptr), transform_(nullptr), transform2_(nullptr), timer_(0.0), deletedObject2_(false)
@@ -59,6 +66,9 @@ bool JuniorGame::TestLevel::Initialize()
 
 	playerPhysics_ = cog_->GetComponent<Junior::Physics>();
 
+	Junior::EventManager& manager = Junior::EventManager::GetInstance();
+	manager.Subscribe(Junior::WindowResizeEvent::WindowResizeEventName, this, WindowResizeCallback);
+
 	return true;
 }
 
@@ -77,8 +87,24 @@ void JuniorGame::TestLevel::Update(double dt)
 
 void JuniorGame::TestLevel::Shutdown()
 {
+	Junior::EventManager& manager = Junior::EventManager::GetInstance();
+	manager.Unsubscribe(Junior::WindowResizeEvent::WindowResizeEventName, this, WindowResizeCallback);
 }
 
 void JuniorGame::TestLevel::Unload()
 {
+}
+
+// Testing the event system
+// Params:
+//	object: The object hooked to this callback (should be an instance of TestLevel)
+//	event: The event that fired this callback
+void WindowResizeCallback(void* object, const Junior::Event* event)
+{
+	const Junior::WindowResizeEvent* windowEvent = reinterpret_cast<const Junior::WindowResizeEvent*>(event);
+	Junior::Debug::GetInstance().Print("New Window Dimensions: [");
+	Junior::Debug::GetInstance().Print(windowEvent->newWidth_);
+	Junior::Debug::GetInstance().Print(", ");
+	Junior::Debug::GetInstance().Print(windowEvent->newHeight_);
+	Junior::Debug::GetInstance().PrintLn("]");
 }

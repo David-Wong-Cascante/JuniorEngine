@@ -4,12 +4,14 @@
 * Email: david.wongcascante@digipen.edu
 * File name: Input.h
 * Description: Declare the way our engine will handle user input
-* Created: 20-Apr-2018
-* Last Modified: 18-Feb-2019
+* Created: 20 Apr 2018
+* Last Modified: 8 Aug 2019
 */
 
 // Includes //
 #include "GameSystem.h"				// Game System
+#include "EventManager.h"			// Event Manager
+#include "Event.h"					// Event
 #include <map>						// std::map
 #include <vector>					// std::vector
 
@@ -33,6 +35,30 @@ namespace Junior
 		unsigned id_;
 		// Button States
 		const unsigned char* buttons_;
+	};
+
+	// Event Structs for the Event Manager
+	struct KeyEvent : public Event
+	{
+		// Public Member Variables
+
+		// The key we are changing
+		int key_;
+		// How the key is being changed
+		int action_;
+
+		// Public Member Functions
+
+		// Constructor
+		KeyEvent()
+			: Event(KeyEventName)
+		{
+		}
+
+		// Public Static Variables
+
+		// The name of the Key Down Event
+		static std::string KeyEventName;
 	};
 
 	class Input : public GameSystem

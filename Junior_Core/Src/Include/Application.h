@@ -4,8 +4,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: Application.h
 * Description: Encapsulates all of the engines components under one class
-* Created: 27-Mar-2019
-* Last Modified: 18 Apr 2019
+* Created: 27 Mar 2019
+* Last Modified: 8 Aug 2019
 */
 
 // Includes
@@ -25,14 +25,16 @@ namespace Junior
 	private:
 		// Private Member Variables
 
+		// Whether we should quit the application
+		bool quit_;
 		// The current space our world is in
 		Space* currentSpace_;
 		// The current level
 		Level* currentLevel_;
-		// The application's memory manager
-		MemoryManager manager;
 		// All the game systems
 		std::vector<GameSystem*> gameSystems_;
+		// The application's memory manager
+		MemoryManager manager;
 		// Private Member Functions
 
 		// Updates the application
@@ -56,6 +58,9 @@ namespace Junior
 		void Shutdown();
 		// Unloads the application
 		void Unload();
+
+		// Quits the application
+		void Quit();
 
 		template <class T>
 		// Adds a game system to the application

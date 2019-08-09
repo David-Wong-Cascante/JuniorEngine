@@ -121,6 +121,12 @@
     <ClInclude Include="..\Junior_Core\Src\Include\Physics.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\EventManager.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Event.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -247,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="..\Junior_Core\Src\Source\Physics.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\EventManager.cpp">
+      <Filter>Game Systems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

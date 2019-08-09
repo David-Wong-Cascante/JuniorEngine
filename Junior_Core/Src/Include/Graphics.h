@@ -5,7 +5,7 @@
  * File name: Graphics.h
  * Description: Declare the functionality of the window and the renderer under the same class
  * Created: 20 Apr 2018
- * Last Modified: 18 Feb 2019
+ * Last Modified: 8 Aug 2019
 */
 
 // Includes //
@@ -19,6 +19,8 @@
 #include "DrawProgram.h"	// The Drawing Programs
 #include "ResourceManager.h"// Resource Manager
 
+#include "Event.h"			// Event
+
 // Forward Declarations
 struct GLFWwindow;
 
@@ -30,6 +32,53 @@ namespace Junior
 	class Texture;
 	class TextureAtlas;
 	class Input;
+
+	// Event Structs
+
+	struct WindowResizeEvent : public Event
+	{
+		// Public Member Variables
+
+		// The old width of the window
+		int oldWidth_;
+		// The new
+		int newWidth_;
+		// The old height of the window
+		int oldHeight_;
+		// The new height of the window
+		int newHeight_;
+
+		// Public Member Functions
+
+		// Constructor
+		WindowResizeEvent()
+			: Event(WindowResizeEventName)
+		{
+		}
+
+		// Public Static Variables
+
+		// The name of the window event
+		static std::string WindowResizeEventName;
+	};
+
+	struct WindowQuitEvent : public Event
+	{
+		// Public Member Functions
+
+		WindowQuitEvent()
+			: Event(WindowQuitEventName)
+		{
+		}
+
+		// Public Static Variables
+
+		// The name of the window quit event
+		static std::string WindowQuitEventName;
+	};
+
+
+	// Classes
 
 	class Graphics : public GameSystem
 	{
@@ -134,20 +183,19 @@ namespace Junior
 	//	width: The new width of the window
 	//	height: The new height of the window
 	void WindowResizeCallback(GLFWwindow* window, int width, int height);
-
+	// The function callback that quits the application
+	void WindowQuitCallback(GLFWwindow* window);
 	// OpenGL error identifying function
 	// Params:
 	//	id: The error id
 	// Returns: The name of the error
 	const char* IdentifyGLError(unsigned id);
-
 	// OpenGL error identifying function
 	// Params:
 	//	severity: The enum for the severity
 	//Returns: The name of the severity
 	const char* IdentifyGLSeverity(unsigned severity);
-
-	// Callbacak function when GL fires an error
+	// Callback function when GL fires an error
 	// Params:
 	//	source: The source of the error
 	//	type: The type of error produced

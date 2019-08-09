@@ -3,27 +3,35 @@
 * Email: david.wongcascante@digipen.edu
 * File name: Input.cpp
 * Description: Write the way our engine will handle user input
-* Created: 20-Apr-2018
-* Last Modified: 18-Feb-2018
+* Created: 20 Apr 2018
+* Last Modified: 8 Aug 2019
 */
 
 // Includes //
 #include "Input.h"
 
-#include <iostream>
-#include <string>
+#include <iostream>				// IO Stream
+#include <string>				// Strings
+#include <Debug.h>				// Debug
+#include <EventManager.h>		// Event Manager
 
-#include "OpenGLBundle.h"
+#include "OpenGLBundle.h"		// GLFW Bindings
 
 // Forward Declarations
+
 void Junior::JoystickConnectionCallback(int joystick, int state);
+
+// Public Static Declarations
+
+std::string Junior::KeyEvent::KeyEventName = "KeyEvent";
 
 Junior::Input::Input()
 	: GameSystem("Input"), keys(), mouseButtons(), joystickData(), cursorXPos(0.0), cursorYPos(0.0), scrollXOffset(0.0), scrollYOffset(0.0)
 {
 }
 
-// Public Member Functions //
+// Public Member Functions
+
 int Junior::Input::GetKeyState(int key)
 {
 	std::map<int, int>::iterator keyFound = Input::keys.find(key);
@@ -121,7 +129,8 @@ Junior::Input& Junior::Input::GetInstance()
 	return input;
 }
 
-// Global Functions //
+// Global Functions
+
 void Junior::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	// Check to see if the key exists in the map
@@ -133,6 +142,12 @@ void Junior::KeyCallback(GLFWwindow* window, int key, int scancode, int action, 
 		searchedKey = input.keys.begin();
 		input.keys.insert(searchedKey, std::pair<int, int>(key, action));
 	}
+
+	// Send the event to the event manager
+	KeyEvent* keyEvent = new KeyEvent;
+	keyEvent->key_ = key;
+	keyEvent->action_ = action;
+	EventManager::GetInstance().SendEvent(keyEvent);
 
 	// Update the key's state
 	input.keys[key] = action;
@@ -171,6 +186,8 @@ void Junior::MouseScrollCallback(GLFWwindow* window, double xOffset, double yOff
 void Junior::JoystickConnectionCallback(int joystick, int event)
 {
 	Input& input = Input::GetInstance();
+	Debug& debug = Debug::GetInstance();
+
 	switch (event)
 	{
 		// If the joystick got connected, then we need to create a new joystick struct and fit it inside the joystick list
@@ -185,7 +202,11 @@ void Junior::JoystickConnectionCallback(int joystick, int event)
 		input.joystickData.push_back(data);
 		// Debug print
 #ifdef _DEBUG
-		std::cout << "Connnected Joystick: " << data->name_ << "(" << joystick << ")" << std::endl;
+		debug.Print("Connected Joystick ");
+		debug.Print(data->name_);
+		debug.Print(" (");
+		debug.Print(joystick);
+		debug.PrintLn(")");
 #endif
 		break;
 	}
@@ -199,7 +220,8 @@ void Junior::JoystickConnectionCallback(int joystick, int event)
 			{
 				// Debug print the disconnected
 #ifdef _DEBUG
-				std::cout << "Disconnected Joystick: " << joystick << std::endl;
+				debug.Print("Disconnected Joystick: ");
+				debug.PrintLn(joystick);
 #endif
 				// Delete it
 				delete *begin;
