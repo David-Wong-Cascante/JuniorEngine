@@ -44,6 +44,9 @@ namespace Junior
 		virtual void FixedUpdate(double ms) override
 		{
 		}
+		virtual void Shutdown() override
+		{
+		}
 		virtual void Unload() override
 		{
 		}

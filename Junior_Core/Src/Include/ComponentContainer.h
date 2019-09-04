@@ -45,6 +45,8 @@ namespace Junior
 		// Params:
 		//	ms: The delta time between frames
 		virtual void Update(double ms) {};
+		// Shuts down the component
+		virtual void Shutdown() {};
 		// Unloads the component
 		virtual void Unload() {};
 		// Serializes the component

@@ -4,7 +4,7 @@
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
 * Created: 9 Apr 2019
-* Last Modified: 28 Jul 2019
+* Last Modified: 3 Sep 2019
 */
 
 // Includes
@@ -69,13 +69,13 @@ Junior::ComponentContainer* Junior::GameObjectFactory::CreateComponent(const std
 	return nullptr;
 }
 
-Junior::GameObject* Junior::GameObjectFactory::CreateObject(const std::string& name) const
+Junior::GameObject* Junior::GameObjectFactory::CreateObject(const std::string& name, bool asArchetype) const
 {
 	// Find the name of the game object first
 	std::string objectName;
 	Parser parser(filePath_ + name + objectFileExtension_, std::ios_base::in);
 	parser.ReadValue(objectName);
-	GameObject* gameObject = new GameObject(objectName);
+	GameObject* gameObject = new GameObject(objectName, asArchetype);
 	try
 	{
 		gameObject->Deserialize(parser);
@@ -148,7 +148,7 @@ void Junior::GameObjectFactory::FillLevel(const std::string& levelName) const
 			// Check if the first character of the name is a octothorp, if so then check the file with the same name
 			if (name[0] == '#')
 			{
-				current = CreateObject(name.substr(1));
+				current = CreateObject(name.substr(1), true);
 			}
 			else
 			{

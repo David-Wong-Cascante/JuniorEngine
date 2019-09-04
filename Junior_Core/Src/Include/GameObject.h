@@ -62,6 +62,8 @@ namespace Junior
 		// Params:
 		//	ms: The delta time between frames
 		void FixedUpdate(double ms);
+		// Shutsdown the game object
+		void Shutdown();
 		// Cleans the game object and its components
 		// Params:
 		//	manager: The memory manager used to create the game object

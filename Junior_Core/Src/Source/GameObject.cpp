@@ -93,6 +93,21 @@ void Junior::GameObject::AddChild(GameObject* child)
 	children_.push_back(child);
 }
 
+void Junior::GameObject::Shutdown()
+{
+	if (components_.size() > 0)
+	{
+		for (ComponentContainer* component : components_)
+		{
+			// If the component exists, then clean it up and delete it
+			if (component)
+			{
+				component->Shutdown();
+			}
+		}
+	}
+}
+
 void Junior::GameObject::Unload()
 {
 	if (components_.size() > 0)

@@ -98,6 +98,7 @@ namespace Junior
 				}
 
 				// Clean up the destroyed object
+				object->Shutdown();
 				object->Unload();
 				delete object;
 			}
@@ -109,12 +110,14 @@ namespace Junior
 	{
 		for (GameObject* gameObject : gameObjects_)
 		{
+			gameObject->Shutdown();
 			gameObject->Unload();
 			delete gameObject;
 		}
 
 		for (GameObject* archetype : archetypes_)
 		{
+			archetype->Shutdown();
 			archetype->Unload();
 			delete archetype;
 		}

@@ -82,7 +82,7 @@ void JuniorGame::TestLevel::Update(double dt)
 
 	// Slowly move the camera toward the player
 	Junior::Vec3 toPlayer = transform_->GetLocalTranslation() - cameraTransform_->GetLocalTranslation();
-	cameraTransform_->SetLocalTranslation(cameraTransform_->GetLocalTranslation() + toPlayer * 0.05f);
+	cameraTransform_->SetLocalTranslation(cameraTransform_->GetLocalTranslation() + toPlayer * 0.01f);
 }
 
 void JuniorGame::TestLevel::Shutdown()
