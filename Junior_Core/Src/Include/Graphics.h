@@ -5,7 +5,7 @@
  * File name: Graphics.h
  * Description: Declare the functionality of the window and the renderer under the same class
  * Created: 20 Apr 2018
- * Last Modified: 8 Aug 2019
+ * Last Modified: 10 Sep 2019
 */
 
 // Includes //
@@ -52,7 +52,7 @@ namespace Junior
 
 		// Constructor
 		WindowResizeEvent()
-			: Event(WindowResizeEventName)
+			: Event(WindowResizeEventName), oldWidth_(0), newWidth_(0), oldHeight_(0), newHeight_(0)
 		{
 		}
 

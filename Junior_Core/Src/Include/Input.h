@@ -5,7 +5,7 @@
 * File name: Input.h
 * Description: Declare the way our engine will handle user input
 * Created: 20 Apr 2018
-* Last Modified: 8 Aug 2019
+* Last Modified: 10 Sep 2019
 */
 
 // Includes //
@@ -51,13 +51,13 @@ namespace Junior
 
 		// Constructor
 		KeyEvent()
-			: Event(KeyEventName)
+			: Event(KeyEventName), key_(0), action_(0)
 		{
 		}
 
 		// Public Static Variables
 
-		// The name of the Key Down Event
+		// The name of the Key Event
 		static std::string KeyEventName;
 	};
 

@@ -5,7 +5,7 @@
 * File name: GameObject.h
 * Description: Define the Game Object functionality to get components, get its name, update, etc...
 * Created: 1 May 2018
-* Last Modified: 18 Jul 2019
+* Last Modified: 10 Sep 2019
 */
 
 // Includes //
@@ -14,7 +14,6 @@
 #include "RenderJob.h"			// Render Job
 #include "Component.h"			// Component
 #include "Graphics.h"			// Graphics
-#include "MemoryManager.h"		// Memory Manager
 #include "GameObjectFactory.h"	// Game Object Factory
 #include "Debug.h"				// Debug
 

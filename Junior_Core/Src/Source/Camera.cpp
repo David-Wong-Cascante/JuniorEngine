@@ -4,13 +4,12 @@
 * File name: Camera.h
 * Description: Describes how the camera works
 * Created: 18 Feb 2019
-* Last Modified: 26 Apr 2019
+* Last Modified: 10 Sep 2019
 */
 
 // Includes
 #include "Camera.h"				// Camera
 #include "Graphics.h"			// Graphics
-#include "MemoryManager.h"		// Memory Manager
 #include "LinearMath.h"			// Linear Math Operations
 #include "Parser.h"
 
@@ -40,7 +39,7 @@ Junior::Camera::Camera(Junior::ProjectionMode mode, float cameraWidth, float cam
 
 Junior::Camera::Camera(const Camera& other)
 	: Component(), mode_(other.mode_), cameraWidth_(other.cameraWidth_), cameraHeight_(other.cameraHeight_), nearPlane_(other.nearPlane_),
-	farPlane_(other.farPlane_)
+	farPlane_(other.farPlane_), view_(), projection_()
 {
 }
 

@@ -4,7 +4,7 @@
 * File name: TestLevel.cpp
 * Description: Test level for object management
 * Created: 20 Dec 2018
-* Last Modified: 8 Aug 2019
+* Last Modified: 10 Sep 2019
 */
 
 // Includes
@@ -17,6 +17,7 @@
 #include <EventManager.h>			// Event Manager
 #include <GameObjectManager.h>		// Game Object Manager
 #include <GameObjectFactory.h>		// Game Object Factory
+#include <Space.h>					// Space
 #include <GameObject.h>				// Game Object
 #include <Time.h>					// Time
 #include <Input.h>					// Input
@@ -31,10 +32,14 @@
 #include <Debug.h>		// Debug
 
 // Testing event calling
+// Params:
+//	object: The TestLevel instance
+//	event: The event data for the resize
 void WindowResizeCallback(void* object, const Junior::Event* event);
 
 JuniorGame::TestLevel::TestLevel()
-	: Level("TestLevel"), cog_(nullptr), cog2_(nullptr), transform_(nullptr), transform2_(nullptr), timer_(0.0), deletedObject2_(false)
+	: Level("TestLevel"), cog_(nullptr), cog2_(nullptr), transform_(nullptr), transform2_(nullptr), timer_(0.0), deletedObject2_(false),
+	  cameraTransform_(nullptr), camera_(nullptr), playerPhysics_(nullptr)
 {
 }
 

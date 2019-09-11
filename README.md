@@ -16,4 +16,4 @@ as time moves on, I will be adding more and more features to the engine.
 Master Branch - All features are at a usable state, they may need some more progress but they are usable
 Developmental Branch - Some features are being put into the engine which have not been tested
 ## Known Bugs
-- Particle Effects have "ghost particles" showing static non-existant particles
+- Not really a bug, but there is no way to switch levels after the main one is loaded

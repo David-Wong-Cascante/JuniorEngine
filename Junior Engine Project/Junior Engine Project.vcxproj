@@ -40,7 +40,6 @@
     <ClInclude Include="..\Junior_Core\Src\Include\LinearMath.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\Mat3.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\MemoryLeakGuard.h" />
-    <ClInclude Include="..\Junior_Core\Src\Include\MemoryManager.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\Mesh.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\OpenGLBundle.h" />
     <ClInclude Include="..\Junior_Core\Src\Include\Parser.h" />
@@ -81,14 +80,13 @@
     <ClCompile Include="..\Junior_Core\Src\Source\Level.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\LinearMath.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Mat3.cpp" />
-    <ClCompile Include="..\Junior_Core\Src\Source\MemoryManager.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Mesh.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Parser.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\ParticleEmitter.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\ParticleMesh.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\ParticleMeshLink.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Physics.cpp" />
-    <ClCompile Include="..\Junior_Core\Src\Source\Randon.cpp" />
+    <ClCompile Include="..\Junior_Core\Src\Source\Random.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Resource.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\ResourceManager.cpp" />
     <ClCompile Include="..\Junior_Core\Src\Source\Space.cpp" />

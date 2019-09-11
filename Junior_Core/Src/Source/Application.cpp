@@ -4,7 +4,7 @@
 * File name: Application.cpp
 * Description: Encapsulates all of the engines components under one class
 * Created: 27 Mar 2019
-* Last Modified: 8 Aug 2019
+* Last Modified: 10 Sep 2019
 */
 
 // Includes
@@ -41,17 +41,18 @@ void QuitViaEvent(void* object, const Junior::Event* event);
 // Public Member Functions
 
 Junior::Application::Application(Junior::Level* startingLevel)
-	: currentLevel_(startingLevel), manager(), gameSystems_(), quit_(false)
+	: currentLevel_(startingLevel), gameSystems_(), quit_(false)
 {
 	// Pregister all the game systems need in this application
 	gameSystems_.reserve(NUM_DEFAULT_SYSTEMS);
 	// Time always goes first because it doesn't matter what dt it updates to while
 	// the rest of the systems do care what the dt is
 	AddGameSystem<Time>();
-	AddGameSystem<Graphics>();
 	AddGameSystem<Input>();
 	AddGameSystem<ResourceManager>();
 	AddGameSystem<EventManager>();
+	AddGameSystem<GameObjectManager>();
+	AddGameSystem<Graphics>();
 }
 
 Junior::Application::~Application()
@@ -155,7 +156,6 @@ void Junior::Application::Shutdown()
 
 void Junior::Application::Unload()
 {
-	GameObjectManager::GetInstance().CleanUp(&manager);
 	currentSpace_->Unload();
 	delete currentSpace_;
 

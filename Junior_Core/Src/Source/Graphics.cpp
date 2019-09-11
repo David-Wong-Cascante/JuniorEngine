@@ -49,7 +49,7 @@ std::string Junior::WindowQuitEvent::WindowQuitEventName = "WindowQuit";
 // Private Member Functions
 Junior::Graphics::Graphics()
 	: GameSystem("Graphics"), windowWidth_(0), windowHeight_(0), openGLVersionMajor_(0), openGLVersionMinor_(0),
-							  windowHandle_(nullptr)
+							  windowHandle_(nullptr), mainCamera_(nullptr), orthographicMatrix_()
 {
 }
 
@@ -274,6 +274,7 @@ void Junior::Graphics::Unload()
 		(*citer)->CleanUp();
 		delete (*citer);
 	}
+	programs_.clear();
 	// Delete the texture atlas
 	delete atlas_;
 	//manager_->DeAllocate(defaultProgram_);

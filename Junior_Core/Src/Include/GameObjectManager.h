@@ -5,12 +5,13 @@
 * File name: GameObjectManager.h
 * Description: Takes care to initialize, update, and clean up all of the objects
 * Created: 11 Dec 2018
-* Last Modified: 18 Jul 2019
+* Last Modified: 10 Sep 2019
 */
 
 // Includes //
-#include <vector>
-#include <string>
+#include <vector>				// Vector
+#include <string>				// String
+#include "GameSystem.h"			// Game System
 
 namespace Junior
 {
@@ -18,7 +19,7 @@ namespace Junior
 	class GameObject;
 	class MemoryManager;
 
-	class GameObjectManager
+	class GameObjectManager : public GameSystem
 	{
 	private:
 
@@ -43,6 +44,24 @@ namespace Junior
 		// Default Constructor
 		GameObjectManager();
 	public:
+		// Loads the game object manager
+		// Returns: Whether the game object manager succeded in loading
+		bool Load() override;
+		// Initializes the game object manager
+		// Returns: Whether the game object manager succeded in initializing
+		bool Initialize() override;
+		// Renders the game object manager
+		void Render() override;
+		// Updates the game object manager, and updates all of the other objects inside
+		// Params:
+		// dt: The delta time between frames
+		void Update(double dt) override;
+		// Shutsdown the game object manager
+		void Shutdown() override;
+		// Cleans up all of the objects and deletes them
+		// Params:
+		//	manager: The memory manager used to create all of these objects
+		void Unload() override;
 		// Public Member Functions
 		// Adds the game object to the manager and initializes it
 		// Params:
@@ -62,14 +81,6 @@ namespace Junior
 		//	name: The name of the object we want to create
 		// Returns: A game object related to the archetype
 		GameObject* CreateFromArchetype(const std::string& name) const;
-		// Updates the game object manager, and updates all of the other objects inside
-		// Params:
-		//	manager: The memory manger used to create all of the objects
-		void Update(MemoryManager* manager);
-		// Cleans up all of the objects and deletes them
-		// Params:
-		//	manager: The memory manager used to create all of these objects
-		void CleanUp(MemoryManager* manager);
 		// Returns: All of the objects in the manager
 		const std::vector<GameObject*>& GetAllObjects() const;
 

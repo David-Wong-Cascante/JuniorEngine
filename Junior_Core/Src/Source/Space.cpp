@@ -39,8 +39,6 @@ namespace Junior
 			return;
 		}
 
-		// Update the object manager
-		GameObjectManager::GetInstance().Update(nullptr);
 		// Update the current level
 		currentLevel_->Update(dt);
 	}

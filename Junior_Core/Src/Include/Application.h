@@ -5,12 +5,11 @@
 * File name: Application.h
 * Description: Encapsulates all of the engines components under one class
 * Created: 27 Mar 2019
-* Last Modified: 8 Aug 2019
+* Last Modified: 10 Sep 2019
 */
 
 // Includes
 #include "GameSystem.h"			// Game System
-#include "MemoryManager.h"		// Memory Manager
 #include <vector>				// vector
 
 namespace Junior
@@ -33,8 +32,6 @@ namespace Junior
 		Level* currentLevel_;
 		// All the game systems
 		std::vector<GameSystem*> gameSystems_;
-		// The application's memory manager
-		MemoryManager manager;
 		// Private Member Functions
 
 		// Updates the application

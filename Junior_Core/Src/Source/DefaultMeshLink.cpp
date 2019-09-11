@@ -18,7 +18,7 @@
 // Public Member Functions
 
 Junior::DefaultMeshLink::DefaultMeshLink(bool loadMeshData)
-	: defaultProgramDir("..//Assets//Shaders//starter"), renderJob_(nullptr)
+	: defaultProgramDir("..//Assets//Shaders//starter"), renderJob_(nullptr), sprite_(nullptr)
 {
 	// Get a new render job
 	if (loadMeshData)
