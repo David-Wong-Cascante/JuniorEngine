@@ -1,100 +1,35 @@
 TestLevel
 {
+    numArchetypes : 3
+	{   
+	   #Player
+	   #Particle_Effect
+	   #Second_New_Object
+	}
+   
    numGameObjects : 4
-   New_Object
    {
-      numComponents : 4
-      Junior::Transform
-      {
-         localTranslation : [ 178.936, 0, 0, 1 ]
-         localRotation : 0
-         localScaling : [ 128, 128, 1, 1 ]
-      }
-      Junior::Sprite
-      {
-         texturePath : ..//Assets//Images//GoldenAnim.png
-      }
-      Junior::Animator
-      {
-         currentFrame : 1
-         playing : 0
-         loop : 1
-         animStart : 0
-         animEnd : 3
-         numColumns : 2
-         numRows : 4
-         timePerFrame : 0.15
-      }
-      Junior::DefaultMeshLink
-      {
-      }
-   }
-   Second_New_Object
-   {
-      numComponents : 3
-      Junior::Transform
-      {
-         localTranslation : [ -9.48899, -300, -0.9995, 1 ]
-         localRotation : 0
-         localScaling : [ 256, 128, 1, 1 ]
-      }
-      Junior::Sprite
-      {
-         texturePath : ..//Assets//Images//WideTestImage1.png
-      }
-      Junior::DefaultMeshLink
-      {
-      }
-   }
-   Camera
-   {
-      numComponents : 2
-      Junior::Camera
-      {
-         projectionMode : Orthographic
-         cameraWidth : 1920
-         cameraHeight : 1017
-         nearPlane : -5
-         farPlane : 5
-      }
-      Junior::Transform
-      {
-         localTranslation : [ 178.936, 0, 0, 1 ]
-         localRotation : 0
-         localScaling : [ 1, 1, 1, 0 ]
-      }
-   }
-   Particle_Effect
-   {
-      numComponents : 4
-      Junior::Transform
-      {
-         localTranslation : [ 0, 0, 0, 1 ]
-         localRotation : 0
-         localScaling : [ -64, 64, 1, 1 ]
-      }
-      Junior::Sprite
-      {
-         texturePath : ..//Assets//Images//WideTestImage1.png
-      }
-      Junior::ParticleEmitter
-      {
-         maxLifetime : 5
-         minLifetime : 1
-         maxParticles : 1000
-         particleSpawnCount : 20
-         particleSpawnWait : 0.05
-         startColor : [ 0, 1, 0, 1 ]
-         endColor : [ 0, 0, 0.3, 0 ]
-         startSize : 25
-         endingSize : 1
-         initialVelocity : [ 0, 100, 0, 1 ]
-         randomVelocityAngle : 260
-         startAcceleration : [ 0, -50, 0, 1 ]
-         loop : 1
-      }
-      Junior::ParticleMeshLink
-      {
-      }
+	  Camera
+	  {
+	     numComponents : 2
+	     Junior::Camera
+	     {
+		    projectionMode : Orthographic
+		    cameraWidth : 1920
+		    cameraHeight : 1017
+		    nearPlane : -5
+		    farPlane : 5
+	     }
+	     Junior::Transform
+	     {
+		    localTranslation : [ 178.936, 0, 0, 1 ]
+		    localRotation : 0
+		    localScaling : [ 1, 1, 1, 0 ]
+	     }
+	  }
+	  
+      #Player
+	  #Second_New_Object
+	  #Particle_Effect
    }
 }

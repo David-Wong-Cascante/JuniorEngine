@@ -4,7 +4,7 @@
  * File Name: Sprite.cpp
  * Description: Defines how Sprite works
  * Created: 13 Feb 2019
- * Last Modified: 4 May 2019
+ * Last Modified: 10 Sep 2019
 */
 
 // Includes
@@ -14,7 +14,6 @@
 #include "Texture.h"			// Texture
 #include "RenderJob.h"			// Render Job
 #include "GameObject.h"			// Game Object
-#include "MemoryManager.h"		// Memory Manager
 #include "Debug.h"				// Debug
 
 #include <iostream>				// IO STREAM
@@ -62,7 +61,7 @@ void Junior::Sprite::Initialize()
 }
 
 Junior::Sprite::Sprite(const Sprite& sprite)
-	: Component("Sprite"), path_(sprite.path_), atlasNode_(nullptr)
+	: path_(sprite.path_), atlasNode_(nullptr), atlas_(nullptr), isOnAtlas_(false)
 {
 	if (path_ != "")
 	{

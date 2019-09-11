@@ -4,7 +4,7 @@
 * File name: Application.cpp
 * Description: Encapsulates all of the engines components under one class
 * Created: 27 Mar 2019
-* Last Modified: 19 Apr 2019
+* Last Modified: 10 Sep 2019
 */
 
 // Includes
@@ -18,6 +18,8 @@
 #include "Time.h"					// Time
 #include "ResourceManager.h"		// Resource Manager
 #include "GameObjectManager.h"		// Game Object Manager
+#include "EventManager.h"			// Event Manager
+#include "Event.h"					// Event
 
 #include "Space.h"					// Space
 #include "Level.h"					// Level
@@ -27,19 +29,30 @@
 // Defines
 #define NUM_DEFAULT_SYSTEMS 4
 
+// Global Function Declaration
+
+// Quits the application
+// Params:
+//	object: The application we are quitting
+//	event: The event that triggered the quit
+void QuitViaEvent(void* object, const Junior::Event* event);
+
+
 // Public Member Functions
 
 Junior::Application::Application(Junior::Level* startingLevel)
-	: currentLevel_(startingLevel), manager(), gameSystems_()
+	: currentLevel_(startingLevel), gameSystems_(), quit_(false)
 {
 	// Pregister all the game systems need in this application
 	gameSystems_.reserve(NUM_DEFAULT_SYSTEMS);
 	// Time always goes first because it doesn't matter what dt it updates to while
 	// the rest of the systems do care what the dt is
 	AddGameSystem<Time>();
-	AddGameSystem<Graphics>();
 	AddGameSystem<Input>();
 	AddGameSystem<ResourceManager>();
+	AddGameSystem<EventManager>();
+	AddGameSystem<GameObjectManager>();
+	AddGameSystem<Graphics>();
 }
 
 Junior::Application::~Application()
@@ -89,18 +102,18 @@ bool Junior::Application::Initialize()
 	// Load the space with the level
 	currentSpace_ = new Space("CurrentSpace");
 	currentSpace_->NextLevel(currentLevel_);
+
+	// Subscribe to a event
+	EventManager& eventManager = EventManager::GetInstance();
+	eventManager.Subscribe(KeyEvent::KeyEventName, this, QuitViaEvent);
+	eventManager.Subscribe(WindowQuitEvent::WindowQuitEventName, this, QuitViaEvent);
 	return true;
 }
 
 void Junior::Application::Start()
 {
-	while (!Graphics::GetInstance().WindowRequestClosed())
+	while (!quit_)
 	{
-		if (Input::GetInstance().GetKeyState(GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		{
-			break;
-		}
-
 		Update();
 	}
 }
@@ -134,11 +147,15 @@ void Junior::Application::Shutdown()
 	{
 		(*begin)->Shutdown();
 	}
+
+	// Unsubscribe to quit via event
+	EventManager& eventManager = EventManager::GetInstance();
+	eventManager.Unsubscribe(KeyEvent::KeyEventName, this, QuitViaEvent);
+	eventManager.Unsubscribe(WindowQuitEvent::WindowQuitEventName, this, QuitViaEvent);
 }
 
 void Junior::Application::Unload()
 {
-	GameObjectManager::GetInstance().CleanUp(&manager);
 	currentSpace_->Unload();
 	delete currentSpace_;
 
@@ -146,5 +163,35 @@ void Junior::Application::Unload()
 	for (auto begin = gameSystems_.begin(); begin != gameSystems_.end(); ++begin)
 	{
 		(*begin)->Unload();
+	}
+}
+
+void Junior::Application::Quit()
+{
+	quit_ = true;
+}
+
+void QuitViaEvent(void* object, const Junior::Event* event)
+{
+	// Get the object as the application
+	Junior::Application* app = reinterpret_cast<Junior::Application*>(object);
+	if (event->name_ == Junior::KeyEvent::KeyEventName)
+	{
+		// The user pressed a button, check if it is escape, then quit
+		const Junior::KeyEvent* keyEvent = reinterpret_cast<const Junior::KeyEvent*>(event);
+		if (keyEvent->key_ == GLFW_KEY_ESCAPE && keyEvent->action_ == GLFW_PRESS)
+		{
+			if (app)
+			{
+				app->Quit();
+			}
+		}
+	}
+	else if (event->name_ == Junior::WindowQuitEvent::WindowQuitEventName)
+	{
+		if (app)
+		{
+			app->Quit();
+		}
 	}
 }

@@ -1,7 +1,7 @@
 // Author: David Wong
 // Email: david.wongcascante@digipen.edu
-// Created: May 10 2019
-// Last Modified: May 10 2019
+// Created: 10 May 2019
+// Last Modified: 14 May 2019
 // File name: particleFS.fs
 
 #version 430 core
@@ -9,7 +9,7 @@
 // In Variables
 in vec2 TexCoords;
 in vec4 color;
-in flat uint TextureAtlas;
+in flat int TextureAtlas;
 
 // Uniforms
 uniform sampler2DArray diffuse;

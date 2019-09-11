@@ -4,7 +4,7 @@
 * File name: Graphics.cpp
 * Description: Write the functionality of the window and the renderer under the same class
 * Created: 20 Apr 2018
-* Last Modified: 18 Feb 2019
+* Last Modified: 8 Aug 2019
 */
 
 
@@ -28,6 +28,7 @@
 #include "TextureAtlas.h"			// Texture Atlas Tree
 #include "Camera.h"					// Camera
 #include "Debug.h"					// Debug
+#include "EventManager.h"			// Event Manager
 
 // Defines
 #define MAX_ATLAS_SIZE 512
@@ -40,10 +41,15 @@ void Junior::MouseCursorCallback(GLFWwindow* window, double xPos, double yPos);
 void Junior::MouseScrollCallback(GLFWwindow* window, double xOffset, double yOffset);
 void Junior::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
+// Initializing static names
+
+std::string Junior::WindowResizeEvent::WindowResizeEventName = "WindowResize";
+std::string Junior::WindowQuitEvent::WindowQuitEventName = "WindowQuit";
+
 // Private Member Functions
 Junior::Graphics::Graphics()
 	: GameSystem("Graphics"), windowWidth_(0), windowHeight_(0), openGLVersionMajor_(0), openGLVersionMinor_(0),
-							  windowHandle_(nullptr)
+							  windowHandle_(nullptr), mainCamera_(nullptr), orthographicMatrix_()
 {
 }
 
@@ -52,6 +58,7 @@ bool Junior::Graphics::Load()
 {
 	// Debug print information
 	Debug& debug = Debug::GetInstance();
+
 	// Load the window and the context
 	// Set the default window width and height
 	windowWidth_ = 1920;
@@ -108,6 +115,7 @@ bool Junior::Graphics::Load()
 	glfwSetScrollCallback(windowHandle_, Junior::MouseScrollCallback);
 	glfwSetJoystickCallback(Junior::JoystickConnectionCallback);
 	glfwSetWindowSizeCallback(windowHandle_, WindowResizeCallback);
+	glfwSetWindowCloseCallback(windowHandle_, WindowQuitCallback);
 
 	// Set the back buffer's clear color
 	glClearColor(0.2f, 0.4f, 0.6f, 1);
@@ -156,7 +164,7 @@ bool Junior::Graphics::Load()
 	delete[] pixels;
 	
 	// Generate the texture array
-	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, false, GL_RGBA, GL_RGB8, MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 2);
+	textureBank_ = new Texture(GL_TEXTURE_2D_ARRAY, false, GL_RGBA, GL_RGBA8, MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 2);
 	textureBank_->AppendToArray2D(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, atlas_->GetPixels());
 
 	return true;
@@ -266,6 +274,7 @@ void Junior::Graphics::Unload()
 		(*citer)->CleanUp();
 		delete (*citer);
 	}
+	programs_.clear();
 	// Delete the texture atlas
 	delete atlas_;
 	//manager_->DeAllocate(defaultProgram_);
@@ -305,9 +314,31 @@ Junior::Graphics& Junior::Graphics::GetInstance()
 
 void Junior::WindowResizeCallback(GLFWwindow* window, int width, int height)
 {
+	// Get the event manager
+	EventManager& eventManager = EventManager::GetInstance();
 	// Change the dimensions of the window via the pointer
+	// Send a new window event
 	Graphics* g = (Graphics*) glfwGetWindowUserPointer(window);
+
+	int oldWidth = g->GetWindowWidth();
+	int oldHeight = g->GetWindowHeight();
+	// Send a window resize event to the event manager
+	WindowResizeEvent* windowEvent = new WindowResizeEvent;
+	windowEvent->oldWidth_ = oldWidth;
+	windowEvent->oldHeight_ = oldHeight;
+	windowEvent->newWidth_ = width;
+	windowEvent->newHeight_ = height;
+	eventManager.SendEvent(windowEvent);
+
 	g->SetDimensions(width, height);
+}
+
+void Junior::WindowQuitCallback(GLFWwindow* window)
+{
+	// Get the event manager
+	EventManager& eventManager = EventManager::GetInstance();
+	// Send a window quit event
+	eventManager.SendEvent(new WindowQuitEvent);
 }
 
 const char* Junior::IdentifyGLError(unsigned id)

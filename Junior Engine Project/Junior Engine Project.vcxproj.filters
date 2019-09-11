@@ -40,9 +40,6 @@
     <ClInclude Include="..\Junior_Core\Src\Include\MemoryLeakGuard.h">
       <Filter>Game Systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\Junior_Core\Src\Include\MemoryManager.h">
-      <Filter>Game Systems</Filter>
-    </ClInclude>
     <ClInclude Include="..\Junior_Core\Src\Include\ResourceManager.h">
       <Filter>Game Systems</Filter>
     </ClInclude>
@@ -118,6 +115,15 @@
     <ClInclude Include="..\Junior_Core\Src\Include\Particle.h">
       <Filter>Graphics\RenderData</Filter>
     </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Physics.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\EventManager.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Junior_Core\Src\Include\Event.h">
+      <Filter>Game Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -185,9 +191,6 @@
     <ClCompile Include="..\Junior_Core\Src\Source\Level.cpp">
       <Filter>Game Systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Source\MemoryManager.cpp">
-      <Filter>Game Systems</Filter>
-    </ClCompile>
     <ClCompile Include="..\Junior_Core\Src\Source\ResourceManager.cpp">
       <Filter>Game Systems</Filter>
     </ClCompile>
@@ -239,7 +242,13 @@
     <ClCompile Include="..\Junior_Core\Src\Source\ParticleMesh.cpp">
       <Filter>Graphics\Meshes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Junior_Core\Src\Source\Randon.cpp">
+    <ClCompile Include="..\Junior_Core\Src\Source\Physics.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\EventManager.cpp">
+      <Filter>Game Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Junior_Core\Src\Source\Random.cpp">
       <Filter>Game Systems</Filter>
     </ClCompile>
   </ItemGroup>

@@ -5,7 +5,7 @@
 * File name: Component.h
 * Description: Define the general component class for the rest of the others
 * Created: 28 Apr 2018
-* Last Modified: 26 Apr 2019
+* Last Modified: 18 Jul 2019
 */
 
 // Includes
@@ -38,8 +38,18 @@ namespace Junior
 		}
 		// Classes inheriting from Component should define this function
 		virtual void Initialize() override = 0;
-		virtual void Update(double ms) override = 0;
-		virtual void Unload() override = 0;
+		virtual void Update(double ms)
+		{
+		}
+		virtual void FixedUpdate(double ms) override
+		{
+		}
+		virtual void Shutdown() override
+		{
+		}
+		virtual void Unload() override
+		{
+		}
 		virtual void Serialize(Parser& parser) const override
 		{
 		}

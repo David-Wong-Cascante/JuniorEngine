@@ -4,7 +4,7 @@
  * File name: ParticleMeshLink.cpp
  * Description: The mesh link used to send rendering data to the particle mesh
  * Created: 10 May 2019
- * Last Modified: 10 May 2019
+ * Last Modified: 25 May 2019
 */
 
 // Incldudes
@@ -29,7 +29,7 @@ Junior::ParticleMeshLink::ParticleMeshLink(const ParticleMeshLink& other)
 
 void Junior::ParticleMeshLink::Initialize()
 {
-	if (owner_)
+	if (owner_ && !owner_->IsArchetype())
 	{
 		// Get the game object's particle emitter
 		emitter_ = owner_->GetComponent<ParticleEmitter>();
@@ -45,6 +45,8 @@ void Junior::ParticleMeshLink::Initialize()
 
 void Junior::ParticleMeshLink::Update(double dt)
 {
+	if (!owner_ && owner_->IsArchetype())
+		return;
 	// Update all of the particle's uv and scale
 	std::vector<Particle>& particles = emitter_->GetParticleList();
 	for (auto iter = particles.begin(); iter != particles.end(); ++iter)

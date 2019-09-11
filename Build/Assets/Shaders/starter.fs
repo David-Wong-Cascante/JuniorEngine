@@ -1,8 +1,8 @@
 // Author: David Wong
 // Email: david.wongcascante@digipen.edu
-// Created: 27-Apr-2018
-// Last Modified: Jan-22-2019
-// File name: starterFS.glsl
+// Created: 27 Apr 2018
+// Last Modified: Jan 22 2019
+// File name: starterFS.vs
 
 #version 430 core
 out vec4 color;

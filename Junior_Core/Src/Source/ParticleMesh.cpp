@@ -4,7 +4,7 @@
  * File name: ParticleMesh.cpp
  * Description: The mesh we are using to render the particles
  * Created: 10 May 2019
- * Last Modified: 10 May 2019
+ * Last Modified: 3 Sep 2019
 */
 
 // Includes
@@ -86,7 +86,7 @@ void Junior::ParticleMesh::Draw(unsigned shaderID)
 		GLuint atlasID = glGetUniformLocation(shaderID, "textureAtlas");
 		glUniform1i(atlasID, (*currEmitter)->textureAtlas_);
 		// And DRAW
-		glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, static_cast<GLsizei>(particleData.size()));
+		glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, static_cast<GLsizei>((*currEmitter)->GetNumParticlesAlive()));
 	}
 
 	// Disable the vertex buffers' attributes

@@ -51,14 +51,13 @@ void Junior::ParticleEmitter::SpawnParticles()
 									initialVelocity_.y_ * cosf(randVelAngle * static_cast<float>(DEG_TO_RAD)) + 
 														initialVelocity_.x_ * sinf(randVelAngle * static_cast<float>(DEG_TO_RAD))
 								);
-		// TODO: Make the initial properties random
 		// Source: https://stackoverflow.com/questions/686353/random-float-number-generation
 		particle.lifeTime_ = particle.age_ = random_.RandomFloat(minLifeTime_, maxLifeTime_);
 		particle.velocity_ = rotatedVelocity;
 		particle.acceleration_ = startAcceleration_;
 		particle.color_ = startColor_;
 		particle.size_ = startSize_;
-		particle.position_ = transform_->GetLocalTranslation();
+		particle.position_ = transform_->GetGlobalTranslation();
 		++numParticles_;
 	}
 }
@@ -77,8 +76,8 @@ Junior::ParticleEmitter::ParticleEmitter(const ParticleEmitter& other)
 	: particleSpawnCount_(other.particleSpawnCount_), maxLifeTime_(other.maxLifeTime_), minLifeTime_(other.minLifeTime_),
 	maxParticles_(other.maxParticles_), numParticles_(other.numParticles_), particleSpawnWait_(other.particleSpawnWait_),
 	startSize_(other.startSize_), endingSize_(other.endingSize_), initialVelocity_(other.initialVelocity_),
-	randomVelocityAngle_(0), particleSpawnTimer_(0.0f), loop_(other.loop_), random_(), textureAtlas_(0),
-	startAcceleration_(other.startAcceleration_),
+	randomVelocityAngle_(other.randomVelocityAngle_), particleSpawnTimer_(0.0f), loop_(other.loop_), random_(), textureAtlas_(0),
+	startAcceleration_(other.startAcceleration_), startColor_(other.startColor_), endColor_(other.endColor_),
 	particles_(), colorInterpolate_(other.colorInterpolate_), sizeInterpolate_(other.sizeInterpolate_)
 {
 }

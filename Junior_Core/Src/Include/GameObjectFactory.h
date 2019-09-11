@@ -4,7 +4,7 @@
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
 * Created: 9 Apr 2019
-* Last Modified: 27 Apr 2019
+* Last Modified: 3 Sep 2019
 */
 
 // Includes
@@ -56,8 +56,9 @@ namespace Junior
 		// Creates a new object based on the parser
 		// Params:
 		//	name: The name of the object we want to create
+		//	asArchetype: Create the object as archetype
 		// Returns: The object created
-		GameObject* CreateObject(const std::string& name) const;
+		GameObject* CreateObject(const std::string& name, bool asArchetype = false) const;
 		// Saves an object to a file
 		// Params:
 		//	archetype: The object we are saving

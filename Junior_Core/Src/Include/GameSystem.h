@@ -4,8 +4,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: GameSystem.h
 * Description: Defines a general manner to organize all the systems
-* Created: 18-Dec-2018
-* Last Modified: 18-Dec-2018
+* Created: 18 Dec 2018
+* Last Modified: 18 Dec 2018
 */
 
 namespace Junior

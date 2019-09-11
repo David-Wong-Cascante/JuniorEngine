@@ -5,7 +5,7 @@
 * File name: GameObject.h
 * Description: Define what a Game Object looks like
 * Created: 28 Apr 2018
-* Last Modified: 4 May 2019
+* Last Modified: 18 Jul 2019
 */
 
 // Includes //
@@ -31,7 +31,9 @@ namespace Junior
 		// The parent of this game bject
 		GameObject* parent_;
 		// If this game object is destroyed or not
-		bool destroyed;
+		bool destroyed_;
+		// Whether this game object is being used as an archetype
+		bool isArchetype_;
 		// The components of this game object
 		std::vector<ComponentContainer*> components_;
 		// The children of this game object
@@ -41,8 +43,9 @@ namespace Junior
 		// Constructor
 		// Params:
 		//	name: The name of the game object
-		//	rendered: Whether the object is going to be rendered or not
-		GameObject(const std::string& name = "Object", bool rendered = true);
+		//	isArchetype: Whether the object is an archetype or not
+		//	This field is used to determine whether rendering links should be used or not
+		GameObject(const std::string& name = "Object", bool isArchetype = false);
 		// Copy Constructor - Copies the game object and its components
 		// Params:
 		//	other: The other game object we are copying from
@@ -55,6 +58,12 @@ namespace Junior
 		// Params:
 		//	ms: The delta time between frames
 		void Update(double ms);
+		// Updates the components of the game object at constant dt
+		// Params:
+		//	ms: The delta time between frames
+		void FixedUpdate(double ms);
+		// Shutsdown the game object
+		void Shutdown();
 		// Cleans the game object and its components
 		// Params:
 		//	manager: The memory manager used to create the game object
@@ -85,20 +94,17 @@ namespace Junior
 		// Params:
 		//	name: The new name of the game object
 		void SetName(const std::string& name);
-
 		// Returns: The name of the game object
 		std::string GetName() const;
 		// Returns: The parent of this game object
 		GameObject* GetParent() const;
 		// Returns: The children in a list
 		const std::vector<GameObject*>& GetChildren() const;
-
 		// Gives a pointer to a selected component
 		// Params:
 		//	type: The type of component we are looking for
 		// Returns: The first component in the list of components with the desired component type
 		ComponentContainer* GetComponent(const std::string& name) const;
-		
 		// Gives a pointer to a selected component
 		template <class T>
 		T* GetComponent()
@@ -115,12 +121,11 @@ namespace Junior
 
 			return nullptr;
 		}
-
 		// Destroys the game object
 		void Destroy();
-
-		// Shows if the object is being destroye or not
 		// Returns: Whether the object is destroyed
 		bool IsDestroyed();
+		// Returns: Whether this object is an archetype or not
+		bool IsArchetype();
 	};
 }

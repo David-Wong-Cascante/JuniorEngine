@@ -1,8 +1,8 @@
 // Author: David Wong
 // Email: david.wongcascante@digipen.edu
-// Created: 27-Apr-2018
-// Last Modified: 14-Feb-2019
-// File name: starterVS.glsl
+// Created: 27 Apr 2018
+// Last Modified: 14 Feb 2019
+// File name: starterVS.vs
 
 #version 430 core
 layout (location = 0) in vec3 pos;

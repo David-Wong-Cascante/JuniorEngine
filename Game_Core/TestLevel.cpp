@@ -3,8 +3,8 @@
 * Email: david.wongcascante@digipen.edu
 * File name: TestLevel.cpp
 * Description: Test level for object management
-* Created: 20-Dec-2018
-* Last Modified: 26 Apr 2019
+* Created: 20 Dec 2018
+* Last Modified: 10 Sep 2019
 */
 
 // Includes
@@ -13,126 +13,103 @@
 #ifdef _DEBUG
 #include "MemoryLeakGuard.h"		// Memory Leak Guard
 #endif
-#include "GameObject.h"				// Game Object
-#include "GameObjectManager.h"		// Game Object Manager
-#include "GameObjectFactory.h"		// Game Object Factory
-#include "Time.h"					// Time
-#include "Input.h"					// Input
-#include "Transform.h"				// Transform
-#include "Graphics.h"				// Graphics
-#include "RenderJob.h"				// RenderJob
-#include "Sprite.h"					// Sprite
-#include "Animator.h"				// Animator
-#include "Camera.h"					// Camera
 
-Junior::TestLevel::TestLevel()
-	: Level("TestLevel"), cog_(nullptr), cog2_(nullptr), transform_(nullptr), transform2_(nullptr), timer_(0.0), deletedObject2_(false), playerJoystick_(nullptr),
-	lerpJoystickPosition(0, 0, 0)
+#include <EventManager.h>			// Event Manager
+#include <GameObjectManager.h>		// Game Object Manager
+#include <GameObjectFactory.h>		// Game Object Factory
+#include <Space.h>					// Space
+#include <GameObject.h>				// Game Object
+#include <Time.h>					// Time
+#include <Input.h>					// Input
+#include <Physics.h>				// Physics
+#include <Transform.h>				// Transform
+#include <Graphics.h>				// Graphics
+#include <RenderJob.h>				// RenderJob
+#include <Sprite.h>					// Sprite
+#include <Animator.h>				// Animator
+#include <Camera.h>					// Camera
+
+#include <Debug.h>		// Debug
+
+// Testing event calling
+// Params:
+//	object: The TestLevel instance
+//	event: The event data for the resize
+void WindowResizeCallback(void* object, const Junior::Event* event);
+
+JuniorGame::TestLevel::TestLevel()
+	: Level("TestLevel"), cog_(nullptr), cog2_(nullptr), transform_(nullptr), transform2_(nullptr), timer_(0.0), deletedObject2_(false),
+	  cameraTransform_(nullptr), camera_(nullptr), playerPhysics_(nullptr)
 {
 }
 
-bool Junior::TestLevel::Load()
+bool JuniorGame::TestLevel::Load()
 {
 	return true;
 }
 
-bool Junior::TestLevel::Initialize()
+bool JuniorGame::TestLevel::Initialize()
 {
-	GameObjectFactory::GetInstance().FillLevel("TestLevel");
+	Junior::GameObjectFactory::GetInstance().FillLevel("TestLevel");
 
 	/*camera_ = GameObjectFactory::GetInstance().CreateObject("Camera");
 	cog_ = GameObjectFactory::GetInstance().CreateObject("New Object");
 	cog2_ = GameObjectFactory::GetInstance().CreateObject("Second New Object");*/
 
-	camera_ = GameObjectManager::GetInstance().FindByName("Camera");
-	cog_ = GameObjectManager::GetInstance().FindByName("New_Object");
-	cog2_ = GameObjectManager::GetInstance().FindByName("Second_New_Object");
+	camera_ = Junior::GameObjectManager::GetInstance().FindByName("Camera");
+	cog_ = Junior::GameObjectManager::GetInstance().FindByName("Player");
+	cog2_ = Junior::GameObjectManager::GetInstance().FindByName("Second_New_Object");
 
-	Camera* cameraComponent = camera_->GetComponent<Camera>();
-	Graphics::GetInstance().mainCamera_ = cameraComponent;
+	cog_->AddChild(Junior::GameObjectManager::GetInstance().FindByName("Particle_Effect"));
 
-	transform_ = cog_->GetComponent<Transform>();
-	transform2_ = cog2_->GetComponent<Transform>();
-	cameraTransform_ = camera_->GetComponent<Transform>();
+	Junior::Camera* cameraComponent = camera_->GetComponent<Junior::Camera>();
+	Junior::Graphics::GetInstance().mainCamera_ = cameraComponent;
+
+	transform_ = cog_->GetComponent<Junior::Transform>();
+	transform2_ = cog2_->GetComponent<Junior::Transform>();
+	cameraTransform_ = camera_->GetComponent<Junior::Transform>();
+
+	playerPhysics_ = cog_->GetComponent<Junior::Physics>();
+
+	Junior::EventManager& manager = Junior::EventManager::GetInstance();
+	manager.Subscribe(Junior::WindowResizeEvent::WindowResizeEventName, this, WindowResizeCallback);
 
 	return true;
 }
 
-void Junior::TestLevel::Update(double dt)
+void JuniorGame::TestLevel::Update(double dt)
 {
-	Input& input = Input::GetInstance();
-	playerJoystick_ = input.GetJoystickState(GLFW_JOYSTICK_1);
-	Animator* animator = cog_->GetComponent<Animator>();
-	if (playerJoystick_)
-	{
-		if (playerJoystick_->axes_[0] < -0.2f)
-		{
-			transform_->SetLocalTranslation(transform_->GetLocalTranslation() + Vec3(300.0f * playerJoystick_->axes_[0], 0, 0) * static_cast<float>(dt));
-			transform_->SetLocalScaling({ -128, 128, 1 });
-			if(!animator->IsPlaying())
-				animator->Play(0, 3, 0.15f, true);
-		}
-		else if (playerJoystick_->axes_[0] > 0.7f)
-		{
-			transform_->SetLocalTranslation(transform_->GetLocalTranslation() + Vec3(300.0f* playerJoystick_->axes_[0], 0, 0) * static_cast<float>(dt));
-			transform_->SetLocalScaling({ 128, 128, 1 });
-			if(!animator->IsPlaying())
-				animator->Play(0, 3, 0.15f, true);
-		}
-		else
-		{
-			animator->Stop();
-			animator->SetFrame(0);
-		}
-	}
-	else
-	{
-		if (input.GetKeyState(GLFW_KEY_A))
-		{
-			transform_->SetLocalTranslation(transform_->GetLocalTranslation() + Vec3(-300.0f, 0, 0) * static_cast<float>(dt));
-			transform_->SetLocalScaling({ -128, 128, 1 });
-			if (!animator->IsPlaying())
-				animator->Play(0, 3, 0.15f, true);
-		}
-		else if (input.GetKeyState(GLFW_KEY_D))
-		{
-			transform_->SetLocalTranslation(transform_->GetLocalTranslation() + Vec3(300.0f, 0, 0) * static_cast<float>(dt));
-			transform_->SetLocalScaling({ 128, 128, 1 });
-			if (!animator->IsPlaying())
-				animator->Play(0, 3, 0.15f, true);
-		}
-		else
-		{
-			animator->Stop();
-			animator->SetFrame(0);
-		}
-	}
-
 	//transform_->SetLocalRotation(transform_->GetLocalRotation() + static_cast<float>(dt));
 	transform2_->SetLocalTranslation(
-		Junior::Vec3(300.0f * cosf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())), -300.0f , sinf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())))
+		Junior::Vec3(300.0f * cosf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())), -300.0f ,
+					sinf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())))
 	);
 
 	// Slowly move the camera toward the player
-	Vec3 toPlayer = transform_->GetLocalTranslation() - cameraTransform_->GetLocalTranslation();
-	cameraTransform_->SetLocalTranslation(cameraTransform_->GetLocalTranslation() + toPlayer * 0.1f);
-
-	/*if (!deletedObject2_)
-	{
-		timer_ += dt;
-		if (timer_ >= 3.0)
-		{
-			deletedObject2_ = true;
-			cog2_->Destroy();
-		}
-	}*/
+	Junior::Vec3 toPlayer = transform_->GetLocalTranslation() - cameraTransform_->GetLocalTranslation();
+	cameraTransform_->SetLocalTranslation(cameraTransform_->GetLocalTranslation() + toPlayer * 0.01f);
 }
 
-void Junior::TestLevel::Shutdown()
+void JuniorGame::TestLevel::Shutdown()
 {
-	//GameObjectFactory::GetInstance().SaveLevel(this);
+	Junior::EventManager& manager = Junior::EventManager::GetInstance();
+	manager.Unsubscribe(Junior::WindowResizeEvent::WindowResizeEventName, this, WindowResizeCallback);
 }
 
-void Junior::TestLevel::Unload()
+void JuniorGame::TestLevel::Unload()
 {
+}
+
+// Testing the event system
+// Params:
+//	object: The object hooked to this callback (should be an instance of TestLevel)
+//	event: The event that fired this callback
+void WindowResizeCallback(void* object, const Junior::Event* event)
+{
+	const Junior::WindowResizeEvent* windowEvent = reinterpret_cast<const Junior::WindowResizeEvent*>(event);
+	Junior::Debug::GetInstance().Print("New Window Dimensions: [");
+	Junior::Debug::GetInstance().Print(windowEvent->newWidth_);
+	Junior::Debug::GetInstance().Print(", ");
+	Junior::Debug::GetInstance().Print(windowEvent->newHeight_);
+	Junior::Debug::GetInstance().PrintLn("]");
 }

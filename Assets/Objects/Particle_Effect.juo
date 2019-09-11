@@ -3,30 +3,30 @@ Particle_Effect
 	numComponents : 4
 	Junior::Transform
 	{
-		localTranslation : [ -80, 0, 0, 1 ]
+		localTranslation : [ 0, 0, -5, 1 ]
 		localRotation : 0
 		localScaling : [ -64, 64, 1, 1 ]
 	}
-	
 	Junior::Sprite
 	{
-		texturePath : ..//Assets//Images//GoldenAnim.png
+		texturePath : ..//Assets//Images//WideTestImage1.png
 	}
-	
 	Junior::ParticleEmitter
 	{
-		maxLifetime : 2
+		maxLifetime : 5
 		minLifetime : 1
-		maxParticles : 20
-		particleSpawnCount : 1
-		particleSpawnWait : 0.2
-		startColor : [ 1, 1, 1, 1 ]
-		endColor : [ 0, 0, 0, 1 ]
-		startSize : 100
-		endingSize : 50
+		maxParticles : 500
+		particleSpawnCount : 5
+		particleSpawnWait : 0.05
+		startColor : [ 0, 1, 0, 1 ]
+		endColor : [ 0, 0, 0.3, 0 ]
+		startSize : 25
+		endingSize : 1
+		initialVelocity : [ 0, 100, 0, 1 ]
+		randomVelocityAngle : 260
+		startAcceleration : [ 0, -50, 0, 1 ]
 		loop : 1
 	}
-	
 	Junior::ParticleMeshLink
 	{
 	}

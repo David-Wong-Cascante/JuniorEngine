@@ -12,9 +12,15 @@
     <ClCompile Include="..\Game_Core\TestLevel.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game_Core\PlayerController.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Game_Core\TestLevel.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game_Core\PlayerController.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

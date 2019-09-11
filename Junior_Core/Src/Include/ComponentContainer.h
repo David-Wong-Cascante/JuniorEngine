@@ -5,7 +5,7 @@
 * File name: ComponentContainer.h
 * Description: Wraps around a component
 * Created: 8 Apr 2019
-* Last Modified: 26 Apr 2019
+* Last Modified: 18 Jul 2019
 */
 
 // Includes
@@ -32,22 +32,34 @@ namespace Junior
 
 		// Virtual Destructor
 		virtual ~ComponentContainer();
-		// Classes inheriting from Component Container should define these functions
 
-		// Loads the component
+		// Classes inheriting from Component Container should define these functions
 
 		// Initializes the component
 		virtual void Initialize() {};
+		// Updates the component at a fixed rate
+		// Params:
+		//	ms: The fixed delta time between frames
+		virtual void FixedUpdate(double ms) {}
 		// Update the component
 		// Params:
 		//	ms: The delta time between frames
 		virtual void Update(double ms) {};
+		// Shuts down the component
+		virtual void Shutdown() {};
 		// Unloads the component
 		virtual void Unload() {};
+		// Serializes the component
+		// Params:
+		//	parser: The parser we are using to write the component
 		virtual void Serialize(Parser& parser) const override;
+		// Deserializes the component
+		// Params:
+		//	parser: The parser we are using to read the component
 		virtual void Deserialize(Parser& parser) override;
+		// Clones the component
+		// Returns: A clone of the component
 		virtual ComponentContainer* Clone() const = 0;
-
 		// Sets the component's owner
 		// Parmas:
 		//	cog: The parent we want to set this component to

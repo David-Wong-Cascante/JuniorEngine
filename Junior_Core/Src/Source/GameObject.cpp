@@ -5,7 +5,7 @@
 * File name: GameObject.h
 * Description: Define the Game Object functionality to get components, get its name, update, etc...
 * Created: 1 May 2018
-* Last Modified: 4 May 2019
+* Last Modified: 10 Sep 2019
 */
 
 // Includes //
@@ -14,20 +14,19 @@
 #include "RenderJob.h"			// Render Job
 #include "Component.h"			// Component
 #include "Graphics.h"			// Graphics
-#include "MemoryManager.h"		// Memory Manager
 #include "GameObjectFactory.h"	// Game Object Factory
 #include "Debug.h"				// Debug
 
 // Public Member Functions //
 
-Junior::GameObject::GameObject(const std::string& name, bool rendered)
-	: name_(name), components_(), children_(), parent_(nullptr), destroyed(false)
+Junior::GameObject::GameObject(const std::string& name, bool isArchetype)
+	: name_(name), components_(), children_(), parent_(nullptr), destroyed_(false), isArchetype_(isArchetype)
 {
 	Graphics& graphics = Graphics::GetInstance();
 }
 
 Junior::GameObject::GameObject(const GameObject& other)
-	: name_(other.name_), parent_(other.parent_), destroyed(false)
+	: name_(other.name_), parent_(other.parent_), destroyed_(false), isArchetype_(false)
 {
 	Graphics& graphics = Graphics::GetInstance();
 	// Create a render job if the other did have one
@@ -58,9 +57,22 @@ void Junior::GameObject::Initialize()
 		component->Initialize();
 	}
 }
-
-// Update all the objects, and ignore all the objects that are not marked for updating
 void Junior::GameObject::Update(double ms)
+{
+	if (components_.size() > 0)
+	{
+		for (ComponentContainer* component : components_)
+		{
+			// Update all the objects, and ignore all the objects that are not marked for updating
+			if (component->IsUpdateable())
+			{
+				component->Update(ms);
+			}
+		}
+	}
+}
+
+void Junior::GameObject::FixedUpdate(double dt)
 {
 	if (components_.size() > 0)
 	{
@@ -68,7 +80,7 @@ void Junior::GameObject::Update(double ms)
 		{
 			if (component->IsUpdateable())
 			{
-				component->Update(ms);
+				component->FixedUpdate(dt);
 			}
 		}
 	}
@@ -78,6 +90,21 @@ void Junior::GameObject::AddChild(GameObject* child)
 {
 	child->parent_ = this;
 	children_.push_back(child);
+}
+
+void Junior::GameObject::Shutdown()
+{
+	if (components_.size() > 0)
+	{
+		for (ComponentContainer* component : components_)
+		{
+			// If the component exists, then clean it up and delete it
+			if (component)
+			{
+				component->Shutdown();
+			}
+		}
+	}
 }
 
 void Junior::GameObject::Unload()
@@ -214,7 +241,7 @@ Junior::ComponentContainer * Junior::GameObject::GetComponent(const std::string&
 
 void Junior::GameObject::Destroy()
 {
-	destroyed = true;
+	destroyed_ = true;
 
 	// Destroy all the children objects as well
 	for (GameObject* child : children_)
@@ -225,5 +252,10 @@ void Junior::GameObject::Destroy()
 
 bool Junior::GameObject::IsDestroyed()
 {
-	return destroyed;
+	return destroyed_;
+}
+
+bool Junior::GameObject::IsArchetype()
+{
+	return isArchetype_;
 }

@@ -3,7 +3,7 @@ Second_New_Object
   numComponents : 3
   Junior::Transform
   {
-	 localTranslation : [ -181.831, -300, -0.795386, 1 ]
+	 localTranslation : [ -9.48899, -300, -0.9995, 1 ]
 	 localRotation : 0
 	 localScaling : [ 256, 128, 1, 1 ]
   }
