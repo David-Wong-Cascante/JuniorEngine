@@ -88,6 +88,11 @@ void JuniorGame::TestLevel::Update(double dt)
 	// Slowly move the camera toward the player
 	Junior::Vec3 toPlayer = transform_->GetLocalTranslation() - cameraTransform_->GetLocalTranslation();
 	cameraTransform_->SetLocalTranslation(cameraTransform_->GetLocalTranslation() + toPlayer * 0.01f);
+
+	if (Junior::Input::GetInstance().GetKeyState(GLFW_KEY_F5))
+	{
+		owner_->RestartLevel();
+	}
 }
 
 void JuniorGame::TestLevel::Shutdown()

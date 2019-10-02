@@ -86,12 +86,25 @@ namespace Junior
 
 	void Space::NextLevel(Level* level)
 	{
+		if (nextLevel_)
+		{
+			nextLevel_->SetOwner(nullptr);
+		}
+
 		nextLevel_ = level;
+		nextLevel_->SetOwner(this);
 	}
 
 	void Space::RestartLevel()
 	{
 		currentLevel_->Shutdown();
+		currentLevel_->Unload();
+		// Unload all the objects from the game manager
+		GameObjectManager::GetInstance().Shutdown();
+		GameObjectManager::GetInstance().Unload();
+		GameObjectManager::GetInstance().Load();
+		GameObjectManager::GetInstance().Initialize();
+		GameSystemAssert(currentLevel_->Load(), "Current level failed to load!");
 		GameSystemAssert(currentLevel_->Initialize(), "Current level failed to initialize!");
 	}
 

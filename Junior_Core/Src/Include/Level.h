@@ -4,7 +4,7 @@
 * File name: Level.h
 * Description: Defines what a level is, with game objects and everything
 * Created: 18 Dec 2018
-* Last Modified: 26 Dec 2018
+* Last Modified: 26 Sep 2019
 */
 
 // Includes
@@ -13,9 +13,18 @@
 
 namespace Junior
 {
+	// Public Declarations
+	class Space;
+
 	class Level : public GameSystem, public Serializable
 	{
+	protected:
+		// Protected Member Variables
+		// The space that manages and owns this level
+		Space* owner_;
+
 	public:
+		// Public Member Functions
 		// Constructor
 		// Params:
 		//	name: The name of the level
@@ -40,5 +49,9 @@ namespace Junior
 		// Params:
 		//	parser: The parser that is loading the file
 		void Deserialize(Parser& parser) override;
+		// Sets which space owns this level
+		// Params:
+		//	space: The space that owns this level
+		void SetOwner(Space* space);
 };
 }

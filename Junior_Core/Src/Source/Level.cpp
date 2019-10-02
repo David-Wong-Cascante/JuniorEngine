@@ -4,16 +4,17 @@
 * File name: Level.cpp
 * Description: Defines what a level is, with game objects and everything
 * Created: 20 Dec 2018
-* Last Modified: 26 Apr 2019
+* Last Modified: 26 Sep 2019
 */
 
 // Includes
 #include "Level.h"
 #include "GameObjectManager.h"			// Game Object Manager
 #include "GameObject.h"					// Game Object
+#include "Space.h"						// Space
 
 Junior::Level::Level(const char* name)
-	: GameSystem(name)
+	: GameSystem(name), owner_(nullptr)
 {
 
 }
@@ -45,4 +46,9 @@ void Junior::Level::Serialize(Parser& parser) const
 void Junior::Level::Deserialize(Parser& parser)
 {
 
+}
+
+void Junior::Level::SetOwner(Junior::Space* space)
+{
+	owner_ = space;
 }
