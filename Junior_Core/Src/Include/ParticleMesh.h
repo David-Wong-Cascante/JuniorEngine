@@ -5,7 +5,7 @@
  * File name: ParticleMesh.h
  * Description: The mesh we are using to render the particles
  * Created: 10 May 2019
- * Last Modified: 10 May 2019
+ * Last Modified: 2 Oct 2019
 */
 
 // Includes
@@ -47,5 +47,9 @@ namespace Junior
 		// Params:
 		//	emitterList: The particles we want to add to this list
 		void AddList(ParticleEmitter* emitterList);
+		// Removes an emitter from the list
+		// Params:
+		//	emitterList: The emitter we are trying to remove
+		void RemoveList(ParticleEmitter* emitterList);
 	};
 }

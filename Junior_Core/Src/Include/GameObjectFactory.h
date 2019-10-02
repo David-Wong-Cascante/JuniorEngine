@@ -4,7 +4,7 @@
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
 * Created: 9 Apr 2019
-* Last Modified: 3 Sep 2019
+* Last Modified: 2 Oct 2019
 */
 
 // Includes
@@ -70,7 +70,8 @@ namespace Junior
 		// Fill a level with game objects
 		// Params:
 		//	name: The name of the level we are filling
-		void FillLevel(const std::string& name) const;
+		//	level: The level we are filling
+		void FillLevel(const std::string& name, Level* level) const;
 		// Returns: The instance of the game object factory
 		static GameObjectFactory& GetInstance();
 	};

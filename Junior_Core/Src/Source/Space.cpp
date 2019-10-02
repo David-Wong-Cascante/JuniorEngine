@@ -3,35 +3,53 @@
 * Email: david.wongcascante@digipen.edu
 * File name: Space.cpp
 * Description: Manages the levels inside the space
-* Created: 18-Dec-2018
-* Last Modified: 20-Dec-2018
+* Created: 18 Dec 2018
+* Last Modified: 2 Oct 2019
 */
 
 // Includes 
 #include "Space.h"
 
 #include "Level.h"						// Level
-#include "GameObjectManager.h"			// Object Manager
 
 namespace Junior
 {
 	// Public Member Functions
 	Space::Space(const char* name)
-		: GameSystem(name), currentLevel_(nullptr), nextLevel_(nullptr)
+		: GameSystem(name), markedForRestart_(false), currentLevel_(nullptr), nextLevel_(nullptr)
 	{}
 
 	bool Space::Load()
 	{
+		manager_.Load();
 		return true;
 	}
 
 	bool Space::Initialize()
 	{
+		manager_.Initialize();
 		return true;
 	}
 
 	void Space::Update(double dt)
 	{
+		// Restart the levels if needed
+		if (markedForRestart_)
+		{
+			currentLevel_->Shutdown();
+			currentLevel_->Unload();
+			// Clear all of the objects in the manager
+			manager_.Shutdown();
+			manager_.Unload();
+			manager_.Load();
+			manager_.Initialize();
+
+			GameSystemAssert(currentLevel_->Load(), "Current level failed to load!");
+			GameSystemAssert(currentLevel_->Initialize(), "Current level failed to initialize!");
+
+			markedForRestart_ = false;
+		}
+		
 		// If the next level exists, then move on the next level
 		if (nextLevel_)
 		{
@@ -41,15 +59,19 @@ namespace Junior
 
 		// Update the current level
 		currentLevel_->Update(dt);
+		// Update the objects within the space
+		manager_.Update(dt);
 	}
 
 	void Space::Render()
 	{
-		
+		manager_.Render();
 	}
 
 	void Space::Shutdown()
 	{
+		// Shutdown the objects before the spaces themselves
+		manager_.Shutdown();
 		// Shutdown both levels
 		if (currentLevel_)
 		{
@@ -65,6 +87,7 @@ namespace Junior
 	void Space::Unload()
 	{
 		// Delete both levels
+		manager_.Unload();
 		if (currentLevel_)
 		{
 			currentLevel_->Unload();
@@ -84,6 +107,11 @@ namespace Junior
 		}
 	}
 
+	Junior::GameObjectManager* Space::GetObjectManager()
+	{
+		return &manager_;
+	}
+
 	void Space::NextLevel(Level* level)
 	{
 		if (nextLevel_)
@@ -97,15 +125,7 @@ namespace Junior
 
 	void Space::RestartLevel()
 	{
-		currentLevel_->Shutdown();
-		currentLevel_->Unload();
-		// Unload all the objects from the game manager
-		GameObjectManager::GetInstance().Shutdown();
-		GameObjectManager::GetInstance().Unload();
-		GameObjectManager::GetInstance().Load();
-		GameObjectManager::GetInstance().Initialize();
-		GameSystemAssert(currentLevel_->Load(), "Current level failed to load!");
-		GameSystemAssert(currentLevel_->Initialize(), "Current level failed to initialize!");
+		markedForRestart_ = true;
 	}
 
 	// Private Member Functions
@@ -114,6 +134,12 @@ namespace Junior
 		// If the past level exists, then shutdown and unload the previous level
 		if (currentLevel_)
 		{
+			// Clear all of the objects in the manager
+			manager_.Shutdown();
+			manager_.Unload();
+			manager_.Load();
+			manager_.Initialize();
+
 			currentLevel_->Shutdown();
 			currentLevel_->Unload();
 			delete currentLevel_;

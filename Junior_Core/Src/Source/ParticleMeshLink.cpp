@@ -4,7 +4,7 @@
  * File name: ParticleMeshLink.cpp
  * Description: The mesh link used to send rendering data to the particle mesh
  * Created: 10 May 2019
- * Last Modified: 25 May 2019
+ * Last Modified: 2 Oct 2019
 */
 
 // Incldudes
@@ -18,34 +18,36 @@
 // Public Member Functions
 
 Junior::ParticleMeshLink::ParticleMeshLink()
-	: emitter_(nullptr), shaderDir_("..//Assets//Shaders//particle")
+	: emitter_(nullptr), sprite_(nullptr), shaderDir_("..//Assets//Shaders//particle")
 {
 }
 
 Junior::ParticleMeshLink::ParticleMeshLink(const ParticleMeshLink& other)
-	: emitter_(nullptr), shaderDir_("..//Assets//Shaders//particle")
+	: emitter_(nullptr), sprite_(nullptr), shaderDir_("..//Assets//Shaders//particle")
 {
 }
 
 void Junior::ParticleMeshLink::Initialize()
 {
-	if (owner_ && !owner_->IsArchetype())
-	{
-		// Get the game object's particle emitter
-		emitter_ = owner_->GetComponent<ParticleEmitter>();
-		// Get the game object's sprite
-		sprite_ = owner_->GetComponent<Sprite>();
-		// Set the correct texture atlas
-		emitter_->textureAtlas_ = sprite_->GetAtlasID();
-		// Send the data to the Particle Mesh
-		ParticleMesh* particleMesh = Graphics::GetInstance().GetMesh<ParticleMesh>(shaderDir_);
-		particleMesh->AddList(emitter_);
-	}
+	// Don't bother adding this link to the meshes if it won't exist in the world
+	if (!owner_ || owner_->IsArchetype())
+		return;
+
+	// Get the game object's particle emitter
+	emitter_ = owner_->GetComponent<ParticleEmitter>();
+	// Get the game object's sprite
+	sprite_ = owner_->GetComponent<Sprite>();
+	// Set the correct texture atlas
+	emitter_->textureAtlas_ = sprite_->GetAtlasID();
+	// Send the data to the Particle Mesh
+	ParticleMesh* particleMesh = Graphics::GetInstance().GetMesh<ParticleMesh>(shaderDir_);
+	particleMesh->AddList(emitter_);
+	
 }
 
 void Junior::ParticleMeshLink::Update(double dt)
 {
-	if (!owner_ && owner_->IsArchetype())
+	if (!owner_ || owner_->IsArchetype())
 		return;
 	// Update all of the particle's uv and scale
 	std::vector<Particle>& particles = emitter_->GetParticleList();
@@ -64,6 +66,11 @@ void Junior::ParticleMeshLink::Update(double dt)
 	}
 }
 
-void Junior::ParticleMeshLink::Unload()
+void Junior::ParticleMeshLink::Shutdown()
 {
+	if (!owner_ || owner_->IsArchetype())
+		return;
+
+	ParticleMesh* particleMesh = Graphics::GetInstance().GetMesh<ParticleMesh>(shaderDir_);
+	particleMesh->RemoveList(emitter_);
 }

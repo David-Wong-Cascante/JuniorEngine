@@ -5,7 +5,7 @@
 * File name: ParticleEmitter.h
 * Description: Emits the particles
 * Created: 6 May 2018
-* Last Modified: 6 May 2019
+* Last Modified: 2 Oct 2019
 */
 
 // Includes
@@ -75,6 +75,8 @@ namespace Junior
 		InterpolateVec3Ptr colorInterpolate_;
 		// The function pointer for interpolating each particle's size
 		InterpolateFloatPtr sizeInterpolate_;
+		// The offset position of the particles
+		Vec3 offsetPos_;
 		// The starting color of the particles
 		Vec3 startColor_;
 		// The ending color of the particles

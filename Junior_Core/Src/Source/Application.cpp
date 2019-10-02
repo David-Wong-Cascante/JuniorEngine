@@ -17,7 +17,6 @@
 #include "Input.h"					// Input
 #include "Time.h"					// Time
 #include "ResourceManager.h"		// Resource Manager
-#include "GameObjectManager.h"		// Game Object Manager
 #include "EventManager.h"			// Event Manager
 #include "Event.h"					// Event
 
@@ -51,7 +50,6 @@ Junior::Application::Application(Junior::Level* startingLevel)
 	AddGameSystem<Input>();
 	AddGameSystem<ResourceManager>();
 	AddGameSystem<EventManager>();
-	AddGameSystem<GameObjectManager>();
 	AddGameSystem<Graphics>();
 }
 

@@ -5,7 +5,7 @@
  * File name: ParticleMeshLink.h
  * Description: The mesh link used to send rendering data to the particle mesh
  * Created: 10 May 2019
- * Last Modified: 10 May 2019
+ * Last Modified: 2 Oct 2019
 */
 
 // Includes
@@ -44,12 +44,12 @@ namespace Junior
 		//	other: The othehr particle mesh we are copying from
 		ParticleMeshLink(const ParticleMeshLink& other);
 		// Initializes the component
-		void Initialize();
+		void Initialize() override;
 		// Updates the component
 		// Params:
 		//	dt: The delta time between the rendered frames
-		void Update(double dt);
+		void Update(double dt) override;
 		// Unloads the component
-		void Unload();
+		void Shutdown() override;
 	};
 }

@@ -13,18 +13,19 @@ Particle_Effect
 	}
 	Junior::ParticleEmitter
 	{
-		maxLifetime : 5
-		minLifetime : 1
-		maxParticles : 500
+		maxLifetime : 0.5
+		minLifetime : 0.5
+		maxParticles : 30
 		particleSpawnCount : 5
 		particleSpawnWait : 0.05
-		startColor : [ 0, 1, 0, 1 ]
+		offsetPos : [ 0, -64, 0, 0 ]
+		startColor : [ 1, 1, 1, 1 ]
 		endColor : [ 0, 0, 0.3, 0 ]
 		startSize : 25
 		endingSize : 1
-		initialVelocity : [ 0, 100, 0, 1 ]
-		randomVelocityAngle : 260
-		startAcceleration : [ 0, -50, 0, 1 ]
+		initialVelocity : [ 300, 300, 0, 1 ]
+		randomVelocityAngle : 30
+		startAcceleration : [ 0, -500, 0, 1 ]
 		loop : 1
 	}
 	Junior::ParticleMeshLink

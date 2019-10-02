@@ -4,7 +4,7 @@
 * File name: ParticleEmitter.cpp
 * Description: Emits the particles
 * Created: 6 May 2018
-* Last Modified: 10 May 2019
+* Last Modified: 2 Oct 2019
 */
 
 // Includes
@@ -57,7 +57,7 @@ void Junior::ParticleEmitter::SpawnParticles()
 		particle.acceleration_ = startAcceleration_;
 		particle.color_ = startColor_;
 		particle.size_ = startSize_;
-		particle.position_ = transform_->GetGlobalTranslation();
+		particle.position_ = transform_->GetGlobalTranslation() + offsetPos_;
 		++numParticles_;
 	}
 }
@@ -65,20 +65,20 @@ void Junior::ParticleEmitter::SpawnParticles()
 // Public Member Functions
 
 Junior::ParticleEmitter::ParticleEmitter()
-	: particleSpawnTimer_(0.0f), maxLifeTime_(0), minLifeTime_(0), initialVelocity_(0, 0, 0), randomVelocityAngle_(0),
+	: transform_(nullptr), particleSpawnTimer_(0.0f), maxLifeTime_(0), minLifeTime_(0), initialVelocity_(0, 0, 0), randomVelocityAngle_(0),
 	  maxParticles_(0), numParticles_(0), particleSpawnCount_(0), particleSpawnWait_(0), loop_(false), particles_(),
-	  startAcceleration_(0, 0, 0),
+	  startAcceleration_(0, 0, 0), offsetPos_(0, 0, 0),
 	  startSize_(20), endingSize_(50), colorInterpolate_(Lerp), sizeInterpolate_(Lerp), random_(), textureAtlas_(0)
 {
 }
 
 Junior::ParticleEmitter::ParticleEmitter(const ParticleEmitter& other)
-	: particleSpawnCount_(other.particleSpawnCount_), maxLifeTime_(other.maxLifeTime_), minLifeTime_(other.minLifeTime_),
+	: transform_(nullptr), particleSpawnCount_(other.particleSpawnCount_), maxLifeTime_(other.maxLifeTime_), minLifeTime_(other.minLifeTime_),
 	maxParticles_(other.maxParticles_), numParticles_(other.numParticles_), particleSpawnWait_(other.particleSpawnWait_),
 	startSize_(other.startSize_), endingSize_(other.endingSize_), initialVelocity_(other.initialVelocity_),
 	randomVelocityAngle_(other.randomVelocityAngle_), particleSpawnTimer_(0.0f), loop_(other.loop_), random_(), textureAtlas_(0),
 	startAcceleration_(other.startAcceleration_), startColor_(other.startColor_), endColor_(other.endColor_),
-	particles_(), colorInterpolate_(other.colorInterpolate_), sizeInterpolate_(other.sizeInterpolate_)
+	particles_(), colorInterpolate_(other.colorInterpolate_), sizeInterpolate_(other.sizeInterpolate_), offsetPos_(other.offsetPos_)
 {
 }
 
@@ -159,6 +159,7 @@ void Junior::ParticleEmitter::Serialize(Parser& parser) const
 	parser.WriteVariable("maxParticles", maxParticles_);
 	parser.WriteVariable("particleSpawnCount", particleSpawnCount_);
 	parser.WriteVariable("particleSpawnWait", particleSpawnWait_);
+	parser.WriteVariable("offsetPos", offsetPos_);
 	parser.WriteVariable("startColor", startColor_);
 	parser.WriteVariable("endColor", endColor_);
 	parser.WriteVariable("startSize", startSize_);
@@ -176,6 +177,7 @@ void Junior::ParticleEmitter::Deserialize(Parser& parser)
 	parser.ReadVariable("maxParticles", maxParticles_);
 	parser.ReadVariable("particleSpawnCount", particleSpawnCount_);
 	parser.ReadVariable("particleSpawnWait", particleSpawnWait_);
+	parser.ReadVariable("offsetPos", offsetPos_);
 	parser.ReadVariable("startColor", startColor_);
 	parser.ReadVariable("endColor", endColor_);
 	parser.ReadVariable("startSize", startSize_);

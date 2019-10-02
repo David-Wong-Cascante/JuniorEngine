@@ -5,7 +5,7 @@
 * File name: GameObjectManager.h
 * Description: Takes care to initialize, update, and clean up all of the objects
 * Created: 11 Dec 2018
-* Last Modified: 10 Sep 2019
+* Last Modified: 2 Oct 2019
 */
 
 // Includes //
@@ -19,7 +19,7 @@ namespace Junior
 	class GameObject;
 	class MemoryManager;
 
-	class GameObjectManager : public GameSystem
+	class GameObjectManager
 	{
 	private:
 
@@ -39,29 +39,28 @@ namespace Junior
 		// The destroyed game objects
 		std::vector<GameObject*> destroyedObjects_;
 
-		// Private Member Functions
-
+	public:
+		// Public Member Functions
 		// Default Constructor
 		GameObjectManager();
-	public:
 		// Loads the game object manager
 		// Returns: Whether the game object manager succeded in loading
-		bool Load() override;
+		bool Load();
 		// Initializes the game object manager
 		// Returns: Whether the game object manager succeded in initializing
-		bool Initialize() override;
+		bool Initialize();
 		// Renders the game object manager
-		void Render() override;
+		void Render();
 		// Updates the game object manager, and updates all of the other objects inside
 		// Params:
 		// dt: The delta time between frames
-		void Update(double dt) override;
+		void Update(double dt);
 		// Shutsdown the game object manager
-		void Shutdown() override;
+		void Shutdown();
 		// Cleans up all of the objects and deletes them
 		// Params:
 		//	manager: The memory manager used to create all of these objects
-		void Unload() override;
+		void Unload();
 		// Public Member Functions
 		// Adds the game object to the manager and initializes it
 		// Params:
@@ -83,9 +82,5 @@ namespace Junior
 		GameObject* CreateFromArchetype(const std::string& name) const;
 		// Returns: All of the objects in the manager
 		const std::vector<GameObject*>& GetAllObjects() const;
-
-		// Gets the classes' singleton
-		// Returns: The classes' singleton
-		static GameObjectManager& GetInstance();
 	};
 }

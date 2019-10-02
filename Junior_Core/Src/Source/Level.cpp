@@ -4,7 +4,7 @@
 * File name: Level.cpp
 * Description: Defines what a level is, with game objects and everything
 * Created: 20 Dec 2018
-* Last Modified: 26 Sep 2019
+* Last Modified: 2 Oct 2019
 */
 
 // Includes
@@ -32,7 +32,7 @@ void Junior::Level::Serialize(Parser& parser) const
 	parser.WriteValue(GetName());
 	parser.StarScope();
 	// Then write the number of game objects present in the scene
-	const std::vector<GameObject*>& objects = GameObjectManager::GetInstance().GetAllObjects();
+	const std::vector<GameObject*>& objects = owner_->GetObjectManager()->GetAllObjects();
 	parser.WriteVariable("numGameObjects", objects.size());
 	// Then serialize every object independently
 	auto cend = objects.cend();
@@ -51,4 +51,9 @@ void Junior::Level::Deserialize(Parser& parser)
 void Junior::Level::SetOwner(Junior::Space* space)
 {
 	owner_ = space;
+}
+
+Junior::Space* Junior::Level::GetOwner()
+{
+	return owner_;
 }

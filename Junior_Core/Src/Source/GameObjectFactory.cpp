@@ -4,7 +4,7 @@
 * File name: GameObjectFactory.cpp
 * Description: Constructs game objects and components from files
 * Created: 9 Apr 2019
-* Last Modified: 3 Sep 2019
+* Last Modified: 2 Oct 2019
 */
 
 // Includes
@@ -13,6 +13,7 @@
 #include "ComponentContainer.h"			// Component Container
 #include "GameObject.h"					// Game Object
 #include "Level.h"						// Level
+#include "Space.h"						// Space
 #include "Debug.h"						// Debug
 // Includes for all the standard components
 #include "Transform.h"
@@ -125,7 +126,7 @@ void Junior::GameObjectFactory::SaveLevel(const Level* level) const
 	}
 }
 
-void Junior::GameObjectFactory::FillLevel(const std::string& levelName) const
+void Junior::GameObjectFactory::FillLevel(const std::string& levelName, Level* level) const
 {
 	Parser parser(filePath_ + levelName + levelFileExtenion_, std::ios_base::in);
 	// When we start reading objects, keep track of the current one we are reading so that we can release it in case things go wrong
@@ -156,7 +157,7 @@ void Junior::GameObjectFactory::FillLevel(const std::string& levelName) const
 				current->Deserialize(parser);
 			}
 			// Put the archetype into the object manager
-			GameObjectManager::GetInstance().AddArchetype(current);
+			level->GetOwner()->GetObjectManager()->AddArchetype(current);
 		}
 		parser.Skip("}");
 
@@ -173,7 +174,7 @@ void Junior::GameObjectFactory::FillLevel(const std::string& levelName) const
 			if (name.at(0) == '#')
 			{
 				// Attempt to find an archetype
-				current = GameObjectManager::GetInstance().CreateFromArchetype(name.substr(1));
+				current = level->GetOwner()->GetObjectManager()->CreateFromArchetype(name.substr(1));
 			}
 			else
 			{
@@ -181,7 +182,7 @@ void Junior::GameObjectFactory::FillLevel(const std::string& levelName) const
 				current->Deserialize(parser);
 			}
 			// Put the game object into the manager
-			GameObjectManager::GetInstance().AddObject(current);
+			level->GetOwner()->GetObjectManager()->AddObject(current);
 		}
 		parser.Skip("}");
 	}

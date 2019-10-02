@@ -4,7 +4,7 @@
  * File name: ParticleMesh.cpp
  * Description: The mesh we are using to render the particles
  * Created: 10 May 2019
- * Last Modified: 3 Sep 2019
+ * Last Modified: 2 Oct 2019
 */
 
 // Includes
@@ -104,4 +104,19 @@ void Junior::ParticleMesh::AddList(ParticleEmitter* emitter)
 {
 	// Add the emitter to the list
 	emitterParticleList_.push_back(emitter);
+}
+
+void Junior::ParticleMesh::RemoveList(ParticleEmitter* emitter)
+{
+	if (!emitter)
+		return;
+
+	for (auto iter = emitterParticleList_.cbegin(); iter != emitterParticleList_.cend(); ++iter)
+	{
+		if ((*iter) == emitter)
+		{
+			emitterParticleList_.erase(iter);
+			return;
+		}
+	}
 }

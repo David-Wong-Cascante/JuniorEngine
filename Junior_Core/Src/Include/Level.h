@@ -4,7 +4,7 @@
 * File name: Level.h
 * Description: Defines what a level is, with game objects and everything
 * Created: 18 Dec 2018
-* Last Modified: 26 Sep 2019
+* Last Modified: 2 Oct 2019
 */
 
 // Includes
@@ -53,5 +53,8 @@ namespace Junior
 		// Params:
 		//	space: The space that owns this level
 		void SetOwner(Space* space);
+		// Gets the space that owns the level
+		// Returns: The space that owns this level
+		Space* GetOwner();
 };
 }

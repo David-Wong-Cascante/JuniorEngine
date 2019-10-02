@@ -4,7 +4,7 @@
 * File name: GameObjectManager.cpp
 * Description: Takes care to initialize, update, and clean up all of the objects
 * Created: 11 Dec 2018
-* Last Modified: 10 Sep 2019
+* Last Modified: 2 Oct 2019
 */
 
 // Includes
@@ -14,7 +14,7 @@
 
 
 Junior::GameObjectManager::GameObjectManager()
-	: GameSystem("GameObjectManager"), fixedDtTarget_(1.0/60.0), fixedDtAccumulator_(0.0f), gameObjects_(), archetypes_(), destroyedObjects_()
+	: fixedDtTarget_(1.0/60.0), fixedDtAccumulator_(0.0f), gameObjects_(), archetypes_(), destroyedObjects_()
 {
 }
 
@@ -154,10 +154,4 @@ Junior::GameObject* Junior::GameObjectManager::CreateFromArchetype(const std::st
 const std::vector<Junior::GameObject*>& Junior::GameObjectManager::GetAllObjects() const
 {
 	return gameObjects_;
-}
-
-Junior::GameObjectManager& Junior::GameObjectManager::GetInstance()
-{
-	static GameObjectManager singleton_;
-	return singleton_;
 }

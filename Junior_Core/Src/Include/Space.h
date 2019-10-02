@@ -4,11 +4,12 @@
 * Email: david.wongcascante@digipen.edu
 * File name: Space.h
 * Description: The class where all levels reside
-* Created: 18-Dec-2018
-* Last Modified: 19 Apr 2019
+* Created: 18 Dec 2018
+* Last Modified: 2 Oct 2019
 */
 
 #include "GameSystem.h"
+#include "GameObjectManager.h"			// Game Object Manager
 
 namespace Junior
 {
@@ -19,8 +20,14 @@ namespace Junior
 	{
 	private:
 		// Private Variables
+		// Whether this space is marked for a restart
+		bool markedForRestart_;
+		// The current level that is playing
 		Level* currentLevel_;
+		// The previous level
 		Level* nextLevel_;
+		// The object manager for this space
+		GameObjectManager manager_;
 
 		// Moves from one level to another
 		void MoveLevels();
@@ -43,11 +50,13 @@ namespace Junior
 		void Shutdown() override;
 		// Unloads the space
 		void Unload() override;
+		// Gets the object manager for this space
+		// Returns: The game object manager for this space
+		GameObjectManager* GetObjectManager();
 		// Change the level inside the space
 		// Params:
 		//	level: The next level we want to load
 		void NextLevel(Level* level);
-		
 		// Restarts the current level
 		void RestartLevel();
 	};

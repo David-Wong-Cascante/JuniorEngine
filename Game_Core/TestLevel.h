@@ -37,6 +37,8 @@ namespace JuniorGame
 		Junior::Physics* playerPhysics_;
 		// The spawned game objects
 		Junior::GameObject *cog_, *cog2_, *camera_;
+		// Whether the test level is marked for a restart or not
+		bool restart_;
 	public:
 		// Constructor
 		TestLevel();
