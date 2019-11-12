@@ -21,12 +21,12 @@
 
 // Public Member Functions
 Junior::Sprite::Sprite()
-	: Component(), path_(), texture_(nullptr), atlasNode_(nullptr), atlas_(nullptr)
+	: Component(), path_(), texture_(nullptr), atlasNode_(nullptr), atlas_(nullptr), isOnAtlas_(false)
 {
 }
 
 Junior::Sprite::Sprite(const std::string& path)
-	: Component(), path_(path), texture_(nullptr), atlasNode_(nullptr), atlas_(nullptr)
+	: Component(), path_(path), texture_(nullptr), atlasNode_(nullptr), atlas_(nullptr), isOnAtlas_(false)
 {
 	texture_ = ResourceManager::GetInstance().GetResource<Texture>("path");
 }
@@ -52,16 +52,19 @@ void Junior::Sprite::Initialize()
 			atlas_->UpdateNodePixels(atlasNode_, texture_->GetPixels());
 			graphics.UpdateTextureAtlas();
 		}
+
 		// X offset, Y offset and uniform scale
-		atlasScale_.x_ = static_cast<float>(atlasNode_->width_) / static_cast<float>(atlas_->GetWidth());
-		atlasScale_.y_ = static_cast<float>(atlasNode_->height_) / static_cast<float>(atlas_->GetHeight());
-		atlasOffset_.x_ = static_cast<float>(atlasNode_->xPos_) / static_cast<float>(atlas_->GetWidth());
-		atlasOffset_.y_ = static_cast<float>(atlasNode_->yPos_) / static_cast<float>(atlas_->GetHeight());
+		SetUVModifications(
+			static_cast<float>(atlasNode_->xPos_) / static_cast<float>(atlas_->GetWidth()),
+			static_cast<float>(atlasNode_->yPos_) / static_cast<float>(atlas_->GetHeight()),
+			static_cast<float>(atlasNode_->width_) / static_cast<float>(atlas_->GetWidth()),
+			static_cast<float>(atlasNode_->height_) / static_cast<float>(atlas_->GetHeight())
+		);
 	}
 }
 
 Junior::Sprite::Sprite(const Sprite& sprite)
-	: path_(sprite.path_), atlasNode_(nullptr), atlas_(nullptr), isOnAtlas_(false)
+	: path_(sprite.path_), atlasNode_(nullptr), atlas_(nullptr), isOnAtlas_(false), texture_(nullptr)
 {
 	if (path_ != "")
 	{
@@ -90,8 +93,8 @@ void Junior::Sprite::SetUVModifications(float xOffset, float yOffset)
 
 void Junior::Sprite::SetUVModifications(float xOffset, float yOffset, float xScale, float yScale)
 {
-	atlasScale_ = Vec3(xScale, yScale);
-	atlasOffset_ = Vec3(xOffset, yOffset);
+	atlasScale_ = Vec3(xScale, yScale) - Vec3(2.0f / (float)atlas_->GetWidth(), 2.0f / (float)atlas_->GetHeight());
+	atlasOffset_ = Vec3(xOffset, yOffset) + Vec3(0.5f / (float)atlas_->GetWidth(), 0.5f / (float)atlas_->GetHeight());
 }
 
 void Junior::Sprite::LoadFromDisk(const std::string& path)

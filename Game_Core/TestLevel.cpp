@@ -81,7 +81,6 @@ bool JuniorGame::TestLevel::Initialize()
 
 void JuniorGame::TestLevel::Update(double dt)
 {
-	//transform_->SetLocalRotation(transform_->GetLocalRotation() + static_cast<float>(dt));
 	transform2_->SetLocalTranslation(
 		Junior::Vec3(300.0f * cosf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())), -300.0f,
 					sinf(static_cast<float>(Junior::Time::GetInstance().GetTimeRan())))
@@ -93,8 +92,7 @@ void JuniorGame::TestLevel::Update(double dt)
 
 	if (restart_)
 	{
-		//owner_->RestartLevel();
-		owner_->NextLevel(new TestLevel);
+		owner_->RestartLevel();
 	}
 }
 
@@ -122,7 +120,10 @@ void WindowResizeCallback(void* object, const Junior::Event* event)
 	Junior::Debug::GetInstance().Print(windowEvent->newHeight_);
 	Junior::Debug::GetInstance().PrintLn("]");
 }
-
+// Reset the level when pressing the F5 key
+// Params:
+//	object: A TestLevel instance
+//	event: The event data for the key input
 void ResetTestLevel(void* object, const Junior::Event* event)
 {
 	const Junior::KeyEvent* keyEvent = reinterpret_cast<const Junior::KeyEvent*>(event);

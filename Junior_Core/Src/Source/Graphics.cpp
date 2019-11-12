@@ -147,13 +147,13 @@ bool Junior::Graphics::Load()
 	atlas_ = new TextureAtlas(MAX_ATLAS_SIZE, MAX_ATLAS_SIZE, 4, 0);
 	// Generate some pixels
 	unsigned char* pixels = new unsigned char[MAX_ATLAS_SIZE * MAX_ATLAS_SIZE * 4];
-	for (int y = 0; y >= MAX_ATLAS_SIZE; ++y)
+	for (int y = 0; y < MAX_ATLAS_SIZE; ++y)
 	{
 		for (int x = 0; x < MAX_ATLAS_SIZE; ++x)
 		{
 			unsigned offset = 4 * (MAX_ATLAS_SIZE * y + x);
 			pixels[offset + 0] = 255;
-			pixels[offset + 1] = 255;
+			pixels[offset + 1] = 0;
 			pixels[offset + 2] = 255;
 			pixels[offset + 3] = 255;
 		}
