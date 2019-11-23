@@ -9,7 +9,7 @@ Player
 	}
 	Junior::Sprite
 	{
-		texturePath : ..//Assets//Images//GoldenAnim.png
+		texturePath : Assets//Images//GoldenAnim.png
 	}
 	Junior::Physics
 	{

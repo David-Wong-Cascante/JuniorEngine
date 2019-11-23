@@ -72,12 +72,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)Junior_Core\Src\Include;$(SolutionDir)Junior_Core\Inc;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Junior_Core/JuniorLib;$(SolutionDir)Junior_Core/Libs;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)\Build\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)Junior_Core\Src\Include;$(SolutionDir)Junior_Core\Inc;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Junior_Core/JuniorLib;$(SolutionDir)Junior_Core/Libs;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)\Build\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -93,6 +97,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>JuniorEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)Assets\*" "$(OutDir)..\Assets\" /s /r /y /q</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,6 +119,9 @@
     <Link>
       <AdditionalDependencies>JuniorEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)Assets\*" "$(OutDir)..\Assets\" /s /r /y /q</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

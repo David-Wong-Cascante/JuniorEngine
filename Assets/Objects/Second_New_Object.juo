@@ -9,7 +9,7 @@ Second_New_Object
   }
   Junior::Sprite
   {
-	 texturePath : ..//Assets//Images//WideTestImage1.png
+	 texturePath : Assets//Images//WideTestImage1.png
   }
   Junior::DefaultMeshLink
   {

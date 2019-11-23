@@ -18,7 +18,7 @@
 // Public Member Functions
 
 Junior::DefaultMeshLink::DefaultMeshLink(bool loadMeshData)
-	: defaultProgramDir("..//Assets//Shaders//starter"), renderJob_(nullptr), sprite_(nullptr)
+	: defaultProgramDir("Assets//Shaders//starter"), renderJob_(nullptr), sprite_(nullptr)
 {
 	// Get a new render job
 	if (loadMeshData)
@@ -29,7 +29,7 @@ Junior::DefaultMeshLink::DefaultMeshLink(bool loadMeshData)
 }
 
 Junior::DefaultMeshLink::DefaultMeshLink(const DefaultMeshLink& other)
-	: defaultProgramDir("..//Assets//Shaders//starter"), renderJob_(nullptr), transform_(nullptr), sprite_(nullptr)
+	: defaultProgramDir("Assets//Shaders//starter"), renderJob_(nullptr), transform_(nullptr), sprite_(nullptr)
 {
 	// Get a new render job
 	Graphics& graphics = Graphics::GetInstance();

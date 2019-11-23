@@ -20,10 +20,12 @@
 // Public Member Functions
 
 JuniorGame::PlayerController::PlayerController()
+	: animator_(nullptr), joystickData_(nullptr), physics_(nullptr), transform_(nullptr)
 {
 }
 
 JuniorGame::PlayerController::PlayerController(const JuniorGame::PlayerController& other)
+	: animator_(nullptr), joystickData_(nullptr), physics_(nullptr), transform_(nullptr)
 {
 }
 
@@ -40,14 +42,14 @@ void JuniorGame::PlayerController::Update(double dt)
 	joystickData_ = input.GetJoystickState(GLFW_JOYSTICK_1);
 	if (joystickData_)
 	{
-		if (joystickData_->axes_[0] < -0.7f)
+		if (joystickData_->axes_[0] < -0.5f)
 		{
 			physics_->SetVelocity(joystickData_->axes_[0] * Junior::Vec3(300, 0, 0));
 			transform_->SetLocalScaling({ -128, 128, 1 });
 			if (!animator_->IsPlaying())
 				animator_->Play(0, 3, 0.15f, true);
 		}
-		else if (joystickData_->axes_[0] > 0.7f)
+		else if (joystickData_->axes_[0] > 0.5f)
 		{
 			physics_->SetVelocity(joystickData_->axes_[0] * Junior::Vec3(300, 0, 0));
 			transform_->SetLocalScaling({ 128, 128, 1 });
@@ -63,26 +65,36 @@ void JuniorGame::PlayerController::Update(double dt)
 	}
 	else
 	{
+		Junior::Vec3 vel;
 		if (input.GetKeyState(GLFW_KEY_A))
 		{
-			physics_->SetVelocity(Junior::Vec3(-300, 0, 0));
-			transform_->SetLocalScaling({ -128, 128, 1 });
+			vel -= Junior::Vec3(300, 0, 0);
+		}
+		
+		if (input.GetKeyState(GLFW_KEY_D))
+		{
+			vel += Junior::Vec3(300, 0, 0);
+		}
+
+		if (vel.x_ == 300)
+		{
+			transform_->SetLocalScaling({ 128, 128, 1 });
 			if (!animator_->IsPlaying())
 				animator_->Play(0, 3, 0.15f, true);
 		}
-		else if (input.GetKeyState(GLFW_KEY_D))
+		else if (vel.x_ == -300)
 		{
-			physics_->SetVelocity(Junior::Vec3(300, 0, 0));
-			transform_->SetLocalScaling({ 128, 128, 1 });
+			transform_->SetLocalScaling({ -128, 128, 1 });
 			if (!animator_->IsPlaying())
 				animator_->Play(0, 3, 0.15f, true);
 		}
 		else
 		{
-			physics_->SetVelocity(Junior::Vec3());
 			animator_->Stop();
 			animator_->SetFrame(0);
 		}
+
+		physics_->SetVelocity(vel);
 	}
 }
 

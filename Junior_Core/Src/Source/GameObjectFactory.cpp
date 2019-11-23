@@ -31,7 +31,7 @@
 // Private Member Functions
 
 Junior::GameObjectFactory::GameObjectFactory()
-	: filePath_("..//Assets//Objects//"), objectFileExtension_(".juo"), levelFileExtenion_(".jlv")
+	: filePath_("Assets//Objects//"), objectFileExtension_(".juo"), levelFileExtenion_(".jlv")
 {
 	preparedComponents_.reserve(NUM_STANDARD_COMPONENTS);
 	RegisterComponent<Transform>();

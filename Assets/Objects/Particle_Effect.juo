@@ -9,7 +9,7 @@ Particle_Effect
 	}
 	Junior::Sprite
 	{
-		texturePath : ..//Assets//Images//WideTestImage1.png
+		texturePath : Assets//Images//WideTestImage1.png
 	}
 	Junior::ParticleEmitter
 	{

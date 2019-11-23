@@ -18,12 +18,12 @@
 // Public Member Functions
 
 Junior::ParticleMeshLink::ParticleMeshLink()
-	: emitter_(nullptr), sprite_(nullptr), shaderDir_("..//Assets//Shaders//particle")
+	: emitter_(nullptr), sprite_(nullptr), shaderDir_("Assets//Shaders//particle")
 {
 }
 
 Junior::ParticleMeshLink::ParticleMeshLink(const ParticleMeshLink& other)
-	: emitter_(nullptr), sprite_(nullptr), shaderDir_("..//Assets//Shaders//particle")
+	: emitter_(nullptr), sprite_(nullptr), shaderDir_("Assets//Shaders//particle")
 {
 }
 
