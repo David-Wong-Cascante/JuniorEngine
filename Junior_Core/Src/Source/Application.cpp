@@ -47,10 +47,10 @@ Junior::Application::Application(Junior::Level* startingLevel)
 	// Time always goes first because it doesn't matter what dt it updates to while
 	// the rest of the systems do care what the dt is
 	AddGameSystem<Time>();
-	AddGameSystem<Input>();
 	AddGameSystem<ResourceManager>();
 	AddGameSystem<EventManager>();
 	AddGameSystem<Graphics>();
+	AddGameSystem<Input>();
 }
 
 Junior::Application::~Application()
