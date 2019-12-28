@@ -10,7 +10,6 @@
 
 // Includes
 #include <Component.h>			// Component
-#include <Vec3.h>				// Vec3
 
 namespace Junior
 {
@@ -18,7 +17,6 @@ namespace Junior
 	class Transform;
 	class Physics;
 	class Animator;
-	class Sprite;
 	struct JoystickData;
 }
 
@@ -30,24 +28,12 @@ namespace JuniorGame
 	private:
 		// Private Member Variables
 
-		// The player's ground level
-		const float groundLevel_;
-		// Whether the player is grounded
-		bool grounded_;
-		// The sprite's half-height
-		float spriteHalfHeight_;
-		// Gravity
-		const Junior::Vec3 gravity_;
-		// The jump power
-		const Junior::Vec3 jumpPower_;
 		// The object's transform
 		Junior::Transform* transform_;
 		// The object's physics
 		Junior::Physics* physics_;
 		// The object's animator
 		Junior::Animator* animator_;
-		// The object's sprite
-		Junior::Sprite* sprite_;
 		// The player's joystick data
 		const Junior::JoystickData* joystickData_;
 

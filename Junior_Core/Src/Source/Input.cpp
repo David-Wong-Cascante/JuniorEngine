@@ -64,12 +64,9 @@ const Junior::JoystickData* Junior::Input::GetJoystickState(int id)
 	{
 		// Update the joystick
 		JoystickData* data = *begin;
-		if (data->id_ == id)
-		{
-			data->axes_ = glfwGetJoystickAxes(data->id_, &data->axesCount_);
-			data->buttons_ = glfwGetJoystickButtons(data->id_, &data->buttonCount_);
-			return data;
-		}
+		data->axes_ = glfwGetJoystickAxes(data->id_, &data->axesCount_);
+		data->buttons_ = glfwGetJoystickButtons(data->id_, &data->buttonCount_);
+		return data;
 	}
 
 	return nullptr;
@@ -89,7 +86,7 @@ bool Junior::Input::Load()
 		else
 		{
 			// There are no more joysticks to look for, quit early
-			break;
+			return true;
 		}
 	}
 
